@@ -4,7 +4,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 
-class NutrientAnalysis(BaseModel):
+class TissueAnalysis(BaseModel):
     """
     A nested model to contain the specific chemical analysis results of a soil sample.
     Units are generally in parts per million (ppm) unless otherwise specified.
@@ -81,7 +81,6 @@ class NutrientAnalysis(BaseModel):
         le=100000,
         description="Copper (Cu) concentration in parts per million."
     )
-
     boron_ppm: Optional[float] = Field(
         None,
         alias="boronPpm",
@@ -89,7 +88,6 @@ class NutrientAnalysis(BaseModel):
         le=100000,
         description="Boron (B) concentration in parts per million."
     )
-
     molybdenum_ppm: Optional[float] = Field(
         None,
         alias="molybdenumPpm",
@@ -97,7 +95,6 @@ class NutrientAnalysis(BaseModel):
         le=100000,
         description="Molybdenum (Mo) concentration in parts per million."
     )
-
     protein_pct: Optional[float] = Field(
         None,
         alias="proteinPct",
@@ -203,16 +200,21 @@ class TissueSample(BaseModel):
         description="The number of plants that were sampled from."
     )
 
-    analysis_results: NutrientAnalysis = Field(
+    analysis_results: TissueAnalysis = Field(
         ...,
         alias="analysisResults",
         description="The results of the nutrient analysis for the sample."
     )
 
-    class Config:
-        validate_by_name = True
+    notes: list[str] = Field(
+        ...,
+        alias="notes",
+        description="Notes associated with eh sample."
+    )
 
-        # Generates an example in the OpenAPI schema for documentation
+    class Config:
+        extra = "forbid"
+        validate_by_name = True
         json_schema_extra = {
             "example": {
                 "sampleId": "TS-2025-FZ-001",
@@ -240,6 +242,7 @@ class TissueSample(BaseModel):
                     "proteinPct": 20.0,
                     "starchPct": 58.0,
                     "adfPct": 26.0,
-                }
+                },
+                "notes": ['thjs is a test', 'this is a test too']
             }
         }

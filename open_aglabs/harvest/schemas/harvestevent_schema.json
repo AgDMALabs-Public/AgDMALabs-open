@@ -1,0 +1,106 @@
+{
+    "additionalProperties": false,
+    "description": "Represents a single tillage event for a field.",
+    "example": {
+        "crop_yield": 200,
+        "crop_yield_units": "bu/acre",
+        "eventId": "TILL-2025-FIELD-A-003",
+        "harvestType": "destructive",
+        "harvest_method": "machine",
+        "notes": "The first and only harvest of the season.",
+        "timestamp": "2025-03-10T14:00:00Z"
+    },
+    "properties": {
+        "eventId": {
+            "description": "Unique identifier for this specific harvest event.",
+            "examples": [
+                "TILL-2025-FIELD-A-003"
+            ],
+            "title": "Eventid",
+            "type": "string"
+        },
+        "timestamp": {
+            "description": "The date and time the harvest occurred.",
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+        },
+        "harvestType": {
+            "description": "The type of harvest performed (Destructive, selective).",
+            "examples": [
+                "Destructive"
+            ],
+            "title": "Harvesttype",
+            "type": "string"
+        },
+        "implementUsed": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The specific implement used for harvest.",
+            "examples": [
+                "Hand"
+            ],
+            "title": "Implementused"
+        },
+        "cropYield": {
+            "anyOf": [
+                {
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "the average crop harvest for the harvest event",
+            "examples": [
+                20.0
+            ],
+            "title": "Cropyield"
+        },
+        "cropYieldUnits": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The units for the crop harvest.",
+            "examples": [
+                "bu/acre"
+            ],
+            "title": "Cropyieldunits"
+        },
+        "notes": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Any additional notes about the harvest event.",
+            "title": "Notes"
+        }
+    },
+    "required": [
+        "eventId",
+        "timestamp",
+        "harvestType"
+    ],
+    "title": "HarvestEvent",
+    "type": "object"
+}

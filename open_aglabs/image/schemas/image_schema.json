@@ -1,0 +1,923 @@
+{
+    "$defs": {
+        "AcquisitionProperties": {
+            "additionalProperties": false,
+            "description": "All the approved values to be captured about Images of Ag Data.",
+            "properties": {
+                "date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The date the image was taken",
+                    "title": "Date"
+                },
+                "time": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The time the image was taken",
+                    "title": "Time"
+                },
+                "camera_height_m": {
+                    "anyOf": [
+                        {
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The height of the camera in meters",
+                    "title": "Camera Height M"
+                },
+                "camera_angle_deg": {
+                    "anyOf": [
+                        {
+                            "maximum": 180,
+                            "minimum": -180,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The angle of the camera when the photo was taken",
+                    "title": "Camera Angle Deg"
+                },
+                "object_resolution": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Image Level / Collection Level depending on variance.",
+                    "title": "Object Resolution"
+                },
+                "object_resolution_ml": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/MLOutput"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The resolution of the object in the image predicted by a ML model."
+                },
+                "light_source": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What light source was used to collect the image.",
+                    "title": "Light Source"
+                },
+                "lighting_lux": {
+                    "anyOf": [
+                        {
+                            "maximum": 100000,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Image Level / Collection Level depending on variance.",
+                    "title": "Lighting Lux"
+                },
+                "setting": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Where was the image taken",
+                    "title": "Setting"
+                }
+            },
+            "title": "AcquisitionProperties",
+            "type": "object"
+        },
+        "AgronomicProperties": {
+            "additionalProperties": false,
+            "description": "Pydantic model representing approved values to be captured about images of agricultural data.",
+            "properties": {
+                "crop_type": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "barley",
+                                "maize",
+                                "pearl_millet",
+                                "finger_millet",
+                                "rice",
+                                "sorghum",
+                                "wheat",
+                                "bush_bean",
+                                "climbing_bean",
+                                "chickpea",
+                                "cowpea",
+                                "faba_bean",
+                                "grass_pea",
+                                "ground_nut",
+                                "lentil",
+                                "pigeonpea",
+                                "soybean",
+                                "banana",
+                                "cassava",
+                                "potato",
+                                "sweet_potato",
+                                "yam",
+                                "taro",
+                                "corn",
+                                "sugarcane"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The type of crop present in the image.",
+                    "title": "Crop Type"
+                },
+                "growth_stage": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The growth stage of the crop, if a crop is present",
+                    "title": "Growth Stage"
+                },
+                "soil_color": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "light",
+                                "dark",
+                                "red"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The predominant color of the soil in the image.",
+                    "title": "Soil Color"
+                },
+                "weed_pressure": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "high",
+                                "high-medium",
+                                "medium",
+                                "medium-low",
+                                "low"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The level of weed presence in the image.",
+                    "title": "Weed Pressure"
+                },
+                "irrigation_level": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "high",
+                                "standard",
+                                "low",
+                                "none"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The observed irrigation level.",
+                    "title": "Irrigation Level"
+                },
+                "tillage_type": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "conventional",
+                                "reduced",
+                                "no-till"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The type of tillage observed.",
+                    "title": "Tillage Type"
+                },
+                "fertilizer_level": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "high",
+                                "standard",
+                                "low"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The observed fertilizer level.",
+                    "title": "Fertilizer Level"
+                }
+            },
+            "title": "AgronomicProperties",
+            "type": "object"
+        },
+        "CameraProperties": {
+            "description": "Values to support the proper documentation of camera, if you add information to this json please update this doc. https://docs.google.com/spreadsheets/d/1zljGA5xtwtLNXqjohfXeJzh6SFwdObAjmb5gHflQfIA/edit?gid=1769639569#gid=1769639569",
+            "properties": {
+                "make": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The make (manufacturer) of the camera, represented as a number.",
+                    "title": "Make"
+                },
+                "model": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The model of the camera.",
+                    "title": "Model"
+                },
+                "iso": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The iso setting of the camera.",
+                    "title": "Iso"
+                },
+                "magnification": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The magnification setting of the camera.",
+                    "title": "Magnification"
+                }
+            },
+            "title": "CameraProperties",
+            "type": "object"
+        },
+        "ImageProtocol": {
+            "description": "Pydantic model to store data about an image of agricultural materials.",
+            "properties": {
+                "name": {
+                    "description": "The Name of the protocol used to capture the image.",
+                    "title": "Name",
+                    "type": "string"
+                },
+                "sample_type": {
+                    "description": "What is being imaged (e.g., 'corn field', 'soil', 'tomato fruit').",
+                    "title": "Sample Type",
+                    "type": "string"
+                },
+                "camera_height_mm": {
+                    "description": "Height of the camera from the sample in millimeters.",
+                    "exclusiveMinimum": 0,
+                    "title": "Camera Height Mm",
+                    "type": "number"
+                },
+                "camera_angle": {
+                    "description": "The angle that the camera is at relative to vertical. eg: top down is 0",
+                    "title": "Camera Angle",
+                    "type": "number"
+                },
+                "magnification": {
+                    "description": "Magnification level used for the image capture.",
+                    "exclusiveMinimum": 0,
+                    "title": "Magnification",
+                    "type": "number"
+                },
+                "lighting_conditions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Description of the lighting conditions (e.g., 'natural sunlight', 'LED array', 'dark field').",
+                    "title": "Lighting Conditions"
+                },
+                "notes": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Any additional relevant notes or observations.",
+                    "title": "Notes"
+                }
+            },
+            "required": [
+                "name",
+                "sample_type",
+                "camera_height_mm",
+                "camera_angle",
+                "magnification"
+            ],
+            "title": "ImageProtocol",
+            "type": "object"
+        },
+        "ImageQuality": {
+            "additionalProperties": false,
+            "description": "The properties associated with Image Quality",
+            "properties": {
+                "exposure": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 1,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The amount the image was exposed.",
+                    "title": "Exposure"
+                },
+                "aperture": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The Aperture of the camera when the image was taken.",
+                    "title": "Aperture"
+                },
+                "iso": {
+                    "anyOf": [
+                        {
+                            "maximum": 100000,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The ISO value when the image was taken",
+                    "title": "Iso"
+                },
+                "height": {
+                    "anyOf": [
+                        {
+                            "maximum": 10000,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The height of the image.",
+                    "title": "Height"
+                },
+                "width": {
+                    "anyOf": [
+                        {
+                            "maximum": 10000,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The width of the image",
+                    "title": "Width"
+                },
+                "channels": {
+                    "anyOf": [
+                        {
+                            "minimum": 1,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The number of channels in the image.",
+                    "title": "Channels"
+                },
+                "blur_score": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/MLOutput"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                },
+                "pct_pixel_over_saturation": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The percentage of pixels that were over saturated.",
+                    "title": "Pct Pixel Over Saturation"
+                },
+                "pct_pixel_under_saturation": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The percentage of pixels that were under saturated.",
+                    "title": "Pct Pixel Under Saturation"
+                }
+            },
+            "title": "ImageQuality",
+            "type": "object"
+        },
+        "Location": {
+            "additionalProperties": false,
+            "description": "Values to support the proper documentation of location information",
+            "properties": {
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 180.0,
+                            "minimum": -180.0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The latitude of where the data was taken",
+                    "title": "Latitude"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 180.0,
+                            "minimum": -180.0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The longitude of where the data was taken",
+                    "title": "Longitude"
+                },
+                "elevation_m": {
+                    "anyOf": [
+                        {
+                            "maximum": 10000,
+                            "minimum": -100,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The elevation of where the data came from",
+                    "title": "Elevation M"
+                },
+                "crs": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The crs of the GPS data",
+                    "title": "Crs"
+                },
+                "geometry": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The Geometry in WKT format",
+                    "title": "Geometry"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The country that the data came from.",
+                    "title": "Country"
+                },
+                "state": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What state did the data come from",
+                    "title": "State"
+                },
+                "county": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What County did the data come from",
+                    "title": "County"
+                },
+                "district": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What District did the data come from",
+                    "title": "District"
+                },
+                "village": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What Village did the data come from",
+                    "title": "Village"
+                },
+                "site": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What is the site the data came from",
+                    "title": "Site"
+                },
+                "field": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What is the site the data came from",
+                    "title": "Field"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "the location (by BrApi Def) of there the data came from",
+                    "title": "Location"
+                }
+            },
+            "title": "Location",
+            "type": "object"
+        },
+        "MLOutput": {
+            "properties": {
+                "pred": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Pred"
+                },
+                "model_version": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Model Version"
+                }
+            },
+            "title": "MLOutput",
+            "type": "object"
+        }
+    },
+    "additionalProperties": false,
+    "description": "All the approved values to be captured about Images of Ag Data.",
+    "example": {
+        "acquisition_properties": {
+            "camera_angle_deg": 0.0,
+            "camera_height_m": 50.0,
+            "date": "2025-09-30",
+            "light_source": "sunlight",
+            "lighting_lux": 50000.0,
+            "object_resolution": "high",
+            "object_resolution_ml": {
+                "model_version": "v1.0",
+                "pred": 0.05
+            },
+            "setting": "outdoor",
+            "time": "10:30:00"
+        },
+        "agronomic_properties": {
+            "crop_type": "corn",
+            "fertilizer_level": "standard",
+            "growth_stage": "V6",
+            "irrigation_level": "standard",
+            "soil_color": "dark",
+            "tillage_type": "no-till",
+            "weed_pressure": "low"
+        },
+        "camera_properties": {
+            "iso": 100.0,
+            "magnification": 1.0,
+            "make": 1.0,
+            "model": "DJI Mavic 2 Pro"
+        },
+        "device": "drone",
+        "id": "4d922e05-4764-4cc8-84d8-b2557825adc4",
+        "image_quality": {
+            "aperture": "f/2.8",
+            "blur_score": {
+                "model": "blur_detector_v1",
+                "pred": 2.5
+            },
+            "channels": 3,
+            "exposure": 50.0,
+            "height": 4000.0,
+            "iso": 100.0,
+            "pct_pixel_over_saturation": 1.2,
+            "pct_pixel_under_saturation": 0.5,
+            "width": 6000.0
+        },
+        "location_properties": {
+            "country": "USA",
+            "county": "Los Angeles",
+            "crs": "EPSG:4326",
+            "elevation_m": 100.5,
+            "latitude": 34.0522,
+            "longitude": -118.2437,
+            "state": "California"
+        },
+        "path": "/images/field_A/row_1/image_001.jpg",
+        "protocol_properties": {
+            "camera_angle": 0.0,
+            "camera_height_mm": 50000.0,
+            "lighting_conditions": "clear sky",
+            "magnification": 1.0,
+            "name": "Drone Survey v1.0",
+            "notes": "Standard flight path",
+            "sample_type": "corn field"
+        }
+    },
+    "properties": {
+        "path": {
+            "description": "The path to the image",
+            "title": "Path",
+            "type": "string"
+        },
+        "id": {
+            "description": "The Unique ID of the image, should be the image name, by default UUID4.",
+            "title": "Id",
+            "type": "string"
+        },
+        "device": {
+            "description": "The type of device that is collecting the images, mobile, auxillery, or drone.",
+            "title": "Device",
+            "type": "string"
+        },
+        "camera_properties": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/CameraProperties"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null
+        },
+        "location_properties": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/Location"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null
+        },
+        "protocol_properties": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/ImageProtocol"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null
+        },
+        "acquisition_properties": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/AcquisitionProperties"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null
+        },
+        "image_quality": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/ImageQuality"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null
+        },
+        "agronomic_properties": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/AgronomicProperties"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null
+        }
+    },
+    "required": [
+        "path",
+        "id",
+        "device"
+    ],
+    "title": "Image",
+    "type": "object"
+}

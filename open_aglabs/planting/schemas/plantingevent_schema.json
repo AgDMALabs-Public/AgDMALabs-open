@@ -1,0 +1,109 @@
+{
+    "additionalProperties": false,
+    "description": "Represents a single planting event for a field.",
+    "example": {
+        "cropType": "Corn",
+        "depthCm": 5.5,
+        "eventId": "PLANT-2025-FIELD-A-001",
+        "notes": "Field A planted with corn, good soil moisture.",
+        "seedingRate": 34500,
+        "seedingUnit": "seeds/acre",
+        "timestamp": "2025-04-20T08:00:00Z",
+        "variety": "Pioneer P1197AM"
+    },
+    "properties": {
+        "eventId": {
+            "description": "Unique identifier for this specific planting event.",
+            "examples": [
+                "PLANT-2025-FIELD-A-001"
+            ],
+            "title": "Eventid",
+            "type": "string"
+        },
+        "timestamp": {
+            "description": "The date and time the planting occurred.",
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+        },
+        "cropType": {
+            "description": "The type of crop planted (e.g., 'Corn', 'Soybeans', 'Wheat').",
+            "examples": [
+                "Corn"
+            ],
+            "title": "Croptype",
+            "type": "string"
+        },
+        "variety": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Specific variety or hybrid of the crop.",
+            "examples": [
+                "Dekalb DKC67-44RIB"
+            ],
+            "title": "Variety"
+        },
+        "seedingRate": {
+            "description": "The rate at which seeds were planted.",
+            "examples": [
+                34000
+            ],
+            "title": "Seedingrate",
+            "type": "number"
+        },
+        "seedingUnit": {
+            "description": "The unit for the seeding rate (e.g., 'seeds/acre', 'seeds/ha').",
+            "examples": [
+                "seeds/acre"
+            ],
+            "title": "Seedingunit",
+            "type": "string"
+        },
+        "depthCm": {
+            "anyOf": [
+                {
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Planting depth in centimeters.",
+            "examples": [
+                5.0
+            ],
+            "title": "Depthcm"
+        },
+        "notes": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Any additional notes about the planting event.",
+            "title": "Notes"
+        }
+    },
+    "required": [
+        "eventId",
+        "timestamp",
+        "cropType",
+        "seedingRate",
+        "seedingUnit"
+    ],
+    "title": "PlantingEvent",
+    "type": "object"
+}

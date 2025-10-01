@@ -1,0 +1,48 @@
+{
+    "additionalProperties": false,
+    "description": "All the approved values to be captured about Images of Ag Data.",
+    "properties": {
+        "parent_img_id": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The UUID of the original Image",
+            "title": "Parent Img Id"
+        },
+        "resize": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The details bout how the image was resized.",
+            "title": "Resize"
+        },
+        "cropped": {
+            "anyOf": [
+                {
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The height of the camera in meters",
+            "title": "Cropped"
+        }
+    },
+    "title": "ImageTransformations",
+    "type": "object"
+}

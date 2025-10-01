@@ -1,0 +1,171 @@
+{
+    "$defs": {
+        "MLOutput": {
+            "properties": {
+                "pred": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Pred"
+                },
+                "model_version": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Model Version"
+                }
+            },
+            "title": "MLOutput",
+            "type": "object"
+        }
+    },
+    "additionalProperties": false,
+    "description": "The properties associated with Image Quality",
+    "properties": {
+        "exposure": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The amount the image was exposed.",
+            "title": "Exposure"
+        },
+        "aperture": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The Aperture of the camera when the image was taken.",
+            "title": "Aperture"
+        },
+        "iso": {
+            "anyOf": [
+                {
+                    "maximum": 100000,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The ISO value when the image was taken",
+            "title": "Iso"
+        },
+        "height": {
+            "anyOf": [
+                {
+                    "maximum": 10000,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The height of the image.",
+            "title": "Height"
+        },
+        "width": {
+            "anyOf": [
+                {
+                    "maximum": 10000,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The width of the image",
+            "title": "Width"
+        },
+        "channels": {
+            "anyOf": [
+                {
+                    "minimum": 1,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The number of channels in the image.",
+            "title": "Channels"
+        },
+        "blur_score": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/MLOutput"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null
+        },
+        "pct_pixel_over_saturation": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The percentage of pixels that were over saturated.",
+            "title": "Pct Pixel Over Saturation"
+        },
+        "pct_pixel_under_saturation": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The percentage of pixels that were under saturated.",
+            "title": "Pct Pixel Under Saturation"
+        }
+    },
+    "title": "ImageQuality",
+    "type": "object"
+}

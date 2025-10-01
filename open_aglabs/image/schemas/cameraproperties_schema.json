@@ -1,0 +1,59 @@
+{
+    "description": "Values to support the proper documentation of camera, if you add information to this json please update this doc. https://docs.google.com/spreadsheets/d/1zljGA5xtwtLNXqjohfXeJzh6SFwdObAjmb5gHflQfIA/edit?gid=1769639569#gid=1769639569",
+    "properties": {
+        "make": {
+            "anyOf": [
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The make (manufacturer) of the camera, represented as a number.",
+            "title": "Make"
+        },
+        "model": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The model of the camera.",
+            "title": "Model"
+        },
+        "iso": {
+            "anyOf": [
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The iso setting of the camera.",
+            "title": "Iso"
+        },
+        "magnification": {
+            "anyOf": [
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The magnification setting of the camera.",
+            "title": "Magnification"
+        }
+    },
+    "title": "CameraProperties",
+    "type": "object"
+}

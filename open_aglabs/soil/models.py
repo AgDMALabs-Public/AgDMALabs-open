@@ -3,8 +3,9 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
+from open_aglabs.core.base_models import Location
 
-class NutrientAnalysis(BaseModel):
+class SoilAnalysis(BaseModel):
     """
     A nested model to contain the specific chemical analysis results of a soil sample.
     Units are generally in parts per million (ppm) unless otherwise specified.
@@ -37,7 +38,22 @@ class NutrientAnalysis(BaseModel):
         alias="potassiumPpm",
         description="Potassium (K) concentration in parts per million."
     )
-
+    sulfur_ppm: float = Field(
+        ...,
+        alias="potassiumPpm",
+        description="Potassium (K) concentration in parts per million."
+    )
+    calcium_ppm: float = Field(
+        ...,
+        alias="calciumPpm",
+        description="Calcium (Ca) concentration in parts per million."
+    )
+    magnesium_ppm: Optional[float] = Field(
+        None,
+        alias="magnesiumPct",
+        ge=0,
+        description="Magnesium (Mg) concentration in parts per million."
+    )
     zinc_ppm: Optional[float] = Field(
         None,
         alias="zincPpm",
@@ -61,9 +77,15 @@ class NutrientAnalysis(BaseModel):
     boron_ppm: Optional[float] = Field(
         None,
         alias="boronPpm",
+        ge=0,
         description="Boron (B) concentration in parts per million."
     )
-
+    molybdenum_ppm: Optional[float] = Field(
+        None,
+        alias="molybdenumPpm",
+        ge=0,
+        description="Molybdenum (Mo) concentration in parts per million."
+    )
     cation_exchange_capacity: Optional[float] = Field(
         None,
         alias="cationExchangeCapacity",
@@ -91,18 +113,6 @@ class SoilSample(BaseModel):
     timestamp: datetime = Field(
         ...,
         description="The date and time the sample was collected."
-    )
-    latitude: float = Field(
-        ...,
-        ge=-90,
-        le=90,
-        description="Latitude of the sample location in WGS 84 coordinates."
-    )
-    longitude: float = Field(
-        ...,
-        ge=-180,
-        le=180,
-        description="Longitude of the sample location in WGS 84 coordinates."
     )
     lab_id: Optional[str] = Field(
         None,
@@ -132,19 +142,27 @@ class SoilSample(BaseModel):
         alias="extractionType",
         description="The extraction method used to in the test."
     )
-    analysis_results: NutrientAnalysis = Field(
+    location: Location = Field(
+        ...,
+        alias="location",
+        description="The location of the sample defined by the Location model."
+    )
+    analysis_results: SoilAnalysis = Field(
         ...,
         alias="analysisResults",
         description="The results of the nutrient analysis for the sample."
     )
 
-    class Config:
-        # Allows you to create a model instance using either the field name or its alias
-        # e.g., SoilSample(sampleId="id1") or SoilSample(sample_id="id1")
-        allow_population_by_field_name = True
+    notes: list[str] = Field(
+        ...,
+        alias="notes",
+        description="Notes associated with eh sample."
+    )
 
-        # Generates an example in the OpenAPI schema for documentation
-        schema_extra = {
+    class Config:
+        extra = "forbid"
+        validate_by_name = True
+        json_schema_extra = {
             "example": {
                 "sampleId": "SS-2025-FZ-001",
                 "timestamp": "2025-08-21T10:30:00Z",
@@ -160,6 +178,7 @@ class SoilSample(BaseModel):
                     "phosphorusPpm": 55.0,
                     "potassiumPpm": 150.0,
                     "zincPpm": 2.1,
-                }
+                },
+                "notes": ['thjs is a test', 'this is a test too']
             }
         }

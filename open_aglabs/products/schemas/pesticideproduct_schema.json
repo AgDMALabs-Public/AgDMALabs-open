@@ -1,0 +1,59 @@
+{
+    "$defs": {
+        "IngredientModel": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "percentage": {
+                    "title": "Percentage",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "name",
+                "percentage"
+            ],
+            "title": "IngredientModel",
+            "type": "object"
+        }
+    },
+    "properties": {
+        "name": {
+            "title": "Name",
+            "type": "string"
+        },
+        "regId": {
+            "title": "Regid",
+            "type": "string"
+        },
+        "company": {
+            "title": "Company",
+            "type": "string"
+        },
+        "active_ingredient": {
+            "items": {
+                "$ref": "#/$defs/IngredientModel"
+            },
+            "title": "Active Ingredient",
+            "type": "array"
+        },
+        "approved_crop": {
+            "items": {
+                "type": "string"
+            },
+            "title": "Approved Crop",
+            "type": "array"
+        }
+    },
+    "required": [
+        "name",
+        "regId",
+        "company",
+        "active_ingredient",
+        "approved_crop"
+    ],
+    "title": "PesticideProduct",
+    "type": "object"
+}

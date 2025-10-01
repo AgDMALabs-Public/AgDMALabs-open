@@ -1,0 +1,369 @@
+{
+    "$defs": {
+        "IngredientModel": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "percentage": {
+                    "title": "Percentage",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "name",
+                "percentage"
+            ],
+            "title": "IngredientModel",
+            "type": "object"
+        },
+        "NutrientComposition": {
+            "description": "A nested model to contain the specific chemical analysis results of a soil sample.\nUnits are generally in parts per million (ppm) unless otherwise specified.",
+            "properties": {
+                "nitrogen": {
+                    "description": "The amount of nitrogen (N) in the Product.",
+                    "examples": [
+                        10
+                    ],
+                    "maximum": 100,
+                    "minimum": 0,
+                    "title": "Nitrogen",
+                    "type": "number"
+                },
+                "phosphorous": {
+                    "description": "The amount of phosphorus (P2O5) in the Product.",
+                    "examples": [
+                        24
+                    ],
+                    "maximum": 100,
+                    "minimum": 0,
+                    "title": "Phosphorous",
+                    "type": "number"
+                },
+                "potassium": {
+                    "description": "The amount of potassium (K2O) in the Product.",
+                    "maximum": 100,
+                    "minimum": 0,
+                    "title": "Potassium",
+                    "type": "number"
+                },
+                "sulfur": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0.0,
+                    "description": "The amount of sulfur (S) in the Product.",
+                    "title": "Sulfur"
+                },
+                "zinc": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0.0,
+                    "description": "The amount of zinc (Zn) in the Product.",
+                    "title": "Zinc"
+                },
+                "calcium": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0.0,
+                    "description": "Zinc (Zn) concentration in parts per million.",
+                    "title": "Calcium"
+                },
+                "copper": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0.0,
+                    "description": "The amount of copper (Cu) in the Product.",
+                    "title": "Copper"
+                },
+                "boron": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0.0,
+                    "description": "The amount of boron (B) in the Product.",
+                    "title": "Boron"
+                },
+                "manganese": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0.0,
+                    "description": "The amount of manganese (Mn) in the Product.",
+                    "title": "Manganese"
+                },
+                "magnesium": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0.0,
+                    "description": "The amount of magnesium (Mg) in the Product.",
+                    "title": "Magnesium"
+                },
+                "molybdenum": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0.0,
+                    "description": "The amount of molybdenum (Mo) in the Product.",
+                    "title": "Molybdenum"
+                },
+                "iron": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0.0,
+                    "description": "The amount of iron (Fe) in the Product.",
+                    "title": "Iron"
+                }
+            },
+            "required": [
+                "nitrogen",
+                "phosphorous",
+                "potassium"
+            ],
+            "title": "NutrientComposition",
+            "type": "object"
+        },
+        "PesticideProduct": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "regId": {
+                    "title": "Regid",
+                    "type": "string"
+                },
+                "company": {
+                    "title": "Company",
+                    "type": "string"
+                },
+                "active_ingredient": {
+                    "items": {
+                        "$ref": "#/$defs/IngredientModel"
+                    },
+                    "title": "Active Ingredient",
+                    "type": "array"
+                },
+                "approved_crop": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Approved Crop",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "regId",
+                "company",
+                "active_ingredient",
+                "approved_crop"
+            ],
+            "title": "PesticideProduct",
+            "type": "object"
+        }
+    },
+    "description": "Represents a single soil sample, including its location, depth, and lab analysis results.",
+    "example": {
+        "company": "AgriSolutions Inc.",
+        "fungicides": null,
+        "growth_regulators": null,
+        "herbicides": {
+            "active_ingredient": [
+                {
+                    "name": "Glyphosate",
+                    "percentage": 41.0
+                },
+                {
+                    "name": "2,4-D",
+                    "percentage": 15.0
+                }
+            ],
+            "approved_crop": [
+                "Corn",
+                "Soybeans"
+            ],
+            "company": "PestControl Corp.",
+            "name": "WeedAway Herbicide",
+            "regId": "HERB7890"
+        },
+        "insecticides": null,
+        "name": "SuperGrow Fertilizer with Integrated Herbicide",
+        "nematicides": null,
+        "notes": [
+            "Broad-spectrum fertilizer and post-emergent herbicide for corn and soybeans."
+        ],
+        "nutrients": {
+            "boron": 0.05,
+            "calcium": 2.0,
+            "copper": 0.1,
+            "iron": 0.3,
+            "magnesium": 1.5,
+            "manganese": 0.2,
+            "molybdenum": 0.01,
+            "nitrogen": 10.0,
+            "phosphorous": 20.0,
+            "potassium": 10.0,
+            "sulfur": 5.0,
+            "zinc": 0.5
+        },
+        "other": null,
+        "productId": "FG-IH-002",
+        "registrationId": "REG12345AGRI"
+    },
+    "properties": {
+        "name": {
+            "description": "The name of the product.",
+            "examples": [
+                "Round-up"
+            ],
+            "title": "Name",
+            "type": "string"
+        },
+        "productId": {
+            "description": "A unique identifier for the product.",
+            "examples": [
+                "SS-2025-FIELD-A-001"
+            ],
+            "title": "Productid",
+            "type": "string"
+        },
+        "company": {
+            "description": "The Company that made the product.",
+            "examples": [
+                "Company A"
+            ],
+            "title": "Company",
+            "type": "string"
+        },
+        "registrationId": {
+            "description": "The Registraiton ID for the product.",
+            "examples": [
+                "123456789"
+            ],
+            "title": "Registrationid",
+            "type": "string"
+        },
+        "nutrientComposition": {
+            "$ref": "#/$defs/NutrientComposition",
+            "description": "The nutrient analysis of the product."
+        },
+        "herbicideComposition": {
+            "$ref": "#/$defs/PesticideProduct",
+            "default": null,
+            "description": "The herbicides in the product."
+        },
+        "insecticideComposition": {
+            "$ref": "#/$defs/PesticideProduct",
+            "default": null,
+            "description": "The insecticides in the product."
+        },
+        "fungicideComposition": {
+            "$ref": "#/$defs/PesticideProduct",
+            "default": null,
+            "description": "The fungicides in the product."
+        },
+        "nematicideComposition": {
+            "$ref": "#/$defs/PesticideProduct",
+            "default": null,
+            "description": "The nematicides in the product."
+        },
+        "growthRegulatorComposition": {
+            "$ref": "#/$defs/PesticideProduct",
+            "default": null,
+            "description": "The growth regulators in the product."
+        },
+        "other": {
+            "$ref": "#/$defs/PesticideProduct",
+            "default": null,
+            "description": "A place to put products that do not fall under the main category."
+        },
+        "notes": {
+            "default": null,
+            "description": "A place to put notes about the product.",
+            "items": {
+                "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+        }
+    },
+    "required": [
+        "name",
+        "productId",
+        "company",
+        "registrationId",
+        "nutrientComposition"
+    ],
+    "title": "Product",
+    "type": "object"
+}

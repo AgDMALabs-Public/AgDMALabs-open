@@ -1,0 +1,174 @@
+{
+    "description": "A nested model to contain the specific chemical analysis results of a soil sample.\nUnits are generally in parts per million (ppm) unless otherwise specified.",
+    "properties": {
+        "nitrogen": {
+            "description": "The amount of nitrogen (N) in the Product.",
+            "examples": [
+                10
+            ],
+            "maximum": 100,
+            "minimum": 0,
+            "title": "Nitrogen",
+            "type": "number"
+        },
+        "phosphorous": {
+            "description": "The amount of phosphorus (P2O5) in the Product.",
+            "examples": [
+                24
+            ],
+            "maximum": 100,
+            "minimum": 0,
+            "title": "Phosphorous",
+            "type": "number"
+        },
+        "potassium": {
+            "description": "The amount of potassium (K2O) in the Product.",
+            "maximum": 100,
+            "minimum": 0,
+            "title": "Potassium",
+            "type": "number"
+        },
+        "sulfur": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": 0.0,
+            "description": "The amount of sulfur (S) in the Product.",
+            "title": "Sulfur"
+        },
+        "zinc": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": 0.0,
+            "description": "The amount of zinc (Zn) in the Product.",
+            "title": "Zinc"
+        },
+        "calcium": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": 0.0,
+            "description": "Zinc (Zn) concentration in parts per million.",
+            "title": "Calcium"
+        },
+        "copper": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": 0.0,
+            "description": "The amount of copper (Cu) in the Product.",
+            "title": "Copper"
+        },
+        "boron": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": 0.0,
+            "description": "The amount of boron (B) in the Product.",
+            "title": "Boron"
+        },
+        "manganese": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": 0.0,
+            "description": "The amount of manganese (Mn) in the Product.",
+            "title": "Manganese"
+        },
+        "magnesium": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": 0.0,
+            "description": "The amount of magnesium (Mg) in the Product.",
+            "title": "Magnesium"
+        },
+        "molybdenum": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": 0.0,
+            "description": "The amount of molybdenum (Mo) in the Product.",
+            "title": "Molybdenum"
+        },
+        "iron": {
+            "anyOf": [
+                {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": 0.0,
+            "description": "The amount of iron (Fe) in the Product.",
+            "title": "Iron"
+        }
+    },
+    "required": [
+        "nitrogen",
+        "phosphorous",
+        "potassium"
+    ],
+    "title": "NutrientComposition",
+    "type": "object"
+}

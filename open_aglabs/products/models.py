@@ -1,23 +1,6 @@
-from typing import Optional, Union
-from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, Field
-
-
-class CompoundModel(BaseModel):
-    compound: str = Field(
-        ...,
-        alias="compound",
-        description="The name of the compound.",
-        examples=["glyphosate"]
-    )
-    percentage: float = Field(
-        ...,
-        alias="percentage",
-        description="The amount of the compound in the product, expressed as a percentage of the total product mass.",
-        examples=[47.7]
-    )
 
 
 class NutrientComposition(BaseModel):
@@ -117,38 +100,17 @@ class NutrientComposition(BaseModel):
     )
 
 
-class PesticideModel(BaseModel):
+class IngredientModel(BaseModel):
     name: str
     percentage: float
 
 
-class CropModel(BaseModel):
-    name: str
-    percentage: float
-
-
-class HerbicideProduct(BaseModel):
+class PesticideProduct(BaseModel):
     name: str
     regId: str
     company: str
-    active_ingredient: list[PesticideModel]
-    approved_crop: list[CropModel]
-
-
-class InsecticideProduct(BaseModel):
-    name: str
-    regId: str
-    company: str
-    active_ingredient: list[PesticideModel]
-    approved_crop: list[CropModel]
-
-
-class FungicideProduct(BaseModel):
-    name: str
-    regId: str
-    company: str
-    active_ingredient: list[PesticideModel]
-    approved_crop: list[CropModel]
+    active_ingredient: list[IngredientModel]
+    approved_crop: list[str]
 
 
 class Product(BaseModel):
@@ -184,38 +146,50 @@ class Product(BaseModel):
         alias="nutrientComposition",
         description="The nutrient analysis of the product."
     )
-    herbicides: list[PesticideModel] = Field(
+    herbicides: PesticideProduct = Field(
         None,
         alias="herbicideComposition",
         description="The herbicides in the product."
     )
-    insecticides: list[PesticideModel] = Field(
+    insecticides: PesticideProduct = Field(
         None,
         alias="insecticideComposition",
         description="The insecticides in the product."
     )
-    fungicides: list[PesticideModel] = Field(
+    fungicides: PesticideProduct = Field(
         None,
         alias="fungicideComposition",
         description="The fungicides in the product."
     )
-    nematicides: list[PesticideModel] = Field(
+    nematicides: PesticideProduct = Field(
         None,
         alias="nematicideComposition",
         description="The nematicides in the product."
     )
-    growth_regulators: list[PesticideModel] = Field(
+    growth_regulators: PesticideProduct = Field(
         None,
         alias="growthRegulatorComposition",
         description="The growth regulators in the product."
     )
 
+    other: PesticideProduct = Field(
+        None,
+        alias="other",
+        description="A place to put products that do not fall under the main category."
+    )
+
+    notes: list[str] = Field(
+        None,
+        alias="notes",
+        description="A place to put notes about the product."
+    )
+
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        validate_by_name = True
+        json_schema_extra = {
             "example": {
-                "name": "SuperGrow Fertilizer",
-                "productId": "FG-SG-001",
+                "name": "SuperGrow Fertilizer with Integrated Herbicide",
+                "productId": "FG-IH-002",
                 "company": "AgriSolutions Inc.",
                 "registrationId": "REG12345AGRI",
                 "nutrients": {
@@ -232,15 +206,21 @@ class Product(BaseModel):
                     "molybdenum": 0.01,
                     "iron": 0.3
                 },
-                "herbicides": [
-                    {
-                        "name": "Glyphosate",
-                        "percentage": 41.0
-                    }
-                ],
-                "insecticides": [],
-                "fungicides": [],
-                "nematicides": [],
-                "growthRegulators": []
+                "herbicides": {
+                    "name": "WeedAway Herbicide",
+                    "regId": "HERB7890",
+                    "company": "PestControl Corp.",
+                    "active_ingredient": [
+                        {"name": "Glyphosate", "percentage": 41.0},
+                        {"name": "2,4-D", "percentage": 15.0}
+                    ],
+                    "approved_crop": ["Corn", "Soybeans"]
+                },
+                "insecticides": None,  # Assuming no insecticide in this specific example product
+                "fungicides": None,  # Assuming no fungicide
+                "nematicides": None,  # Assuming no nematicide
+                "growth_regulators": None,  # Assuming no growth regulators
+                "other": None,  # Assuming no other specific category
+                "notes": ["Broad-spectrum fertilizer and post-emergent herbicide for corn and soybeans."]
             }
         }

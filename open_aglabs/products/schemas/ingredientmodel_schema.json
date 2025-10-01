@@ -1,0 +1,18 @@
+{
+    "properties": {
+        "name": {
+            "title": "Name",
+            "type": "string"
+        },
+        "percentage": {
+            "title": "Percentage",
+            "type": "number"
+        }
+    },
+    "required": [
+        "name",
+        "percentage"
+    ],
+    "title": "IngredientModel",
+    "type": "object"
+}
