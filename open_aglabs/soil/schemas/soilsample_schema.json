@@ -1,0 +1,473 @@
+{
+    "$defs": {
+        "Location": {
+            "additionalProperties": false,
+            "description": "Values to support the proper documentation of location information",
+            "properties": {
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 180.0,
+                            "minimum": -180.0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The latitude of where the data was taken",
+                    "title": "Latitude"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 180.0,
+                            "minimum": -180.0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The longitude of where the data was taken",
+                    "title": "Longitude"
+                },
+                "elevation_m": {
+                    "anyOf": [
+                        {
+                            "maximum": 10000,
+                            "minimum": -100,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The elevation of where the data came from",
+                    "title": "Elevation M"
+                },
+                "crs": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The crs of the GPS data",
+                    "title": "Crs"
+                },
+                "geometry": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The Geometry in WKT format",
+                    "title": "Geometry"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The country that the data came from.",
+                    "title": "Country"
+                },
+                "state": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What state did the data come from",
+                    "title": "State"
+                },
+                "county": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What County did the data come from",
+                    "title": "County"
+                },
+                "district": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What District did the data come from",
+                    "title": "District"
+                },
+                "village": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What Village did the data come from",
+                    "title": "Village"
+                },
+                "site": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What is the site the data came from",
+                    "title": "Site"
+                },
+                "field": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What is the site the data came from",
+                    "title": "Field"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "the location (by BrApi Def) of there the data came from",
+                    "title": "Location"
+                }
+            },
+            "title": "Location",
+            "type": "object"
+        },
+        "SoilAnalysis": {
+            "description": "A nested model to contain the specific chemical analysis results of a soil sample.\nUnits are generally in parts per million (ppm) unless otherwise specified.",
+            "properties": {
+                "ph": {
+                    "description": "Soil pH value.",
+                    "examples": [
+                        6.8
+                    ],
+                    "title": "Ph",
+                    "type": "number"
+                },
+                "organicMatterPercent": {
+                    "description": "Percentage of organic matter in the soil.",
+                    "examples": [
+                        3.5
+                    ],
+                    "title": "Organicmatterpercent",
+                    "type": "number"
+                },
+                "nitrogenPpm": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Nitrogen (N) concentration in parts per million.",
+                    "title": "Nitrogenppm"
+                },
+                "phosphorusPpm": {
+                    "description": "Phosphorus (P) concentration in parts per million.",
+                    "title": "Phosphorusppm",
+                    "type": "number"
+                },
+                "potassiumPpm": {
+                    "description": "Potassium (K) concentration in parts per million.",
+                    "title": "Potassiumppm",
+                    "type": "number"
+                },
+                "calciumPpm": {
+                    "description": "Calcium (Ca) concentration in parts per million.",
+                    "title": "Calciumppm",
+                    "type": "number"
+                },
+                "magnesiumPct": {
+                    "anyOf": [
+                        {
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Magnesium (Mg) concentration in parts per million.",
+                    "title": "Magnesiumpct"
+                },
+                "zincPpm": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zinc (Zn) concentration in parts per million.",
+                    "title": "Zincppm"
+                },
+                "ironPpm": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Iron (Fe) concentration in parts per million.",
+                    "title": "Ironppm"
+                },
+                "manganesePpm": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Manganese (Mn) concentration in parts per million.",
+                    "title": "Manganeseppm"
+                },
+                "copperPpm": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Copper (Cu) concentration in parts per million.",
+                    "title": "Copperppm"
+                },
+                "boronPpm": {
+                    "anyOf": [
+                        {
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Boron (B) concentration in parts per million.",
+                    "title": "Boronppm"
+                },
+                "molybdenumPpm": {
+                    "anyOf": [
+                        {
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Molybdenum (Mo) concentration in parts per million.",
+                    "title": "Molybdenumppm"
+                },
+                "cationExchangeCapacity": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Cation Exchange Capacity (CEC) in meq/100g.",
+                    "title": "Cationexchangecapacity"
+                }
+            },
+            "required": [
+                "ph",
+                "organicMatterPercent",
+                "phosphorusPpm",
+                "potassiumPpm",
+                "potassiumPpm",
+                "calciumPpm"
+            ],
+            "title": "SoilAnalysis",
+            "type": "object"
+        }
+    },
+    "additionalProperties": false,
+    "description": "Represents a single soil sample, including its location, depth, and lab analysis results.",
+    "example": {
+        "analysisResults": {
+            "nitrogenPpm": 25.0,
+            "organicMatterPercent": 3.2,
+            "ph": 6.5,
+            "phosphorusPpm": 55.0,
+            "potassiumPpm": 150.0,
+            "zincPpm": 2.1
+        },
+        "endDepthCm": 15,
+        "labId": "AgriLab-1",
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "notes": [
+            "thjs is a test",
+            "this is a test too"
+        ],
+        "sampleId": "SS-2025-FZ-001",
+        "startDepthCm": 0,
+        "timestamp": "2025-08-21T10:30:00Z"
+    },
+    "properties": {
+        "sampleId": {
+            "description": "Unique identifier for the soil sample.",
+            "examples": [
+                "SS-2025-FIELD-A-001"
+            ],
+            "title": "Sampleid",
+            "type": "string"
+        },
+        "sampleLocationId": {
+            "description": "Unique identifier for the sample location. This can be used to identify samples from the same location.",
+            "examples": [
+                "SS-2025-FIELD-A-001"
+            ],
+            "title": "Samplelocationid",
+            "type": "string"
+        },
+        "timestamp": {
+            "description": "The date and time the sample was collected.",
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+        },
+        "labId": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Identifier for the lab that conducted the analysis.",
+            "title": "Labid"
+        },
+        "sampleRadiusM": {
+            "description": "The radius around the point that the sample was taken..",
+            "minimum": 0,
+            "title": "Sampleradiusm",
+            "type": "number"
+        },
+        "startDepthCm": {
+            "description": "Starting depth of the soil sample in centimeters.",
+            "minimum": 0,
+            "title": "Startdepthcm",
+            "type": "number"
+        },
+        "endDepthCm": {
+            "description": "Ending depth of the soil sample in centimeters.",
+            "exclusiveMinimum": 0,
+            "title": "Enddepthcm",
+            "type": "number"
+        },
+        "extractionType": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "description": "The extraction method used to in the test.",
+            "title": "Extractiontype"
+        },
+        "location": {
+            "$ref": "#/$defs/Location",
+            "description": "The location of the sample defined by the Location model."
+        },
+        "analysisResults": {
+            "$ref": "#/$defs/SoilAnalysis",
+            "description": "The results of the nutrient analysis for the sample."
+        },
+        "notes": {
+            "description": "Notes associated with eh sample.",
+            "items": {
+                "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+        }
+    },
+    "required": [
+        "sampleId",
+        "sampleLocationId",
+        "timestamp",
+        "sampleRadiusM",
+        "startDepthCm",
+        "endDepthCm",
+        "extractionType",
+        "location",
+        "analysisResults",
+        "notes"
+    ],
+    "title": "SoilSample",
+    "type": "object"
+}

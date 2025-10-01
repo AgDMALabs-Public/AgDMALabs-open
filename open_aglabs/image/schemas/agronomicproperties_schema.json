@@ -1,0 +1,154 @@
+{
+    "additionalProperties": false,
+    "description": "Pydantic model representing approved values to be captured about images of agricultural data.",
+    "properties": {
+        "crop_type": {
+            "anyOf": [
+                {
+                    "enum": [
+                        "barley",
+                        "maize",
+                        "pearl_millet",
+                        "finger_millet",
+                        "rice",
+                        "sorghum",
+                        "wheat",
+                        "bush_bean",
+                        "climbing_bean",
+                        "chickpea",
+                        "cowpea",
+                        "faba_bean",
+                        "grass_pea",
+                        "ground_nut",
+                        "lentil",
+                        "pigeonpea",
+                        "soybean",
+                        "banana",
+                        "cassava",
+                        "potato",
+                        "sweet_potato",
+                        "yam",
+                        "taro",
+                        "corn",
+                        "sugarcane"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The type of crop present in the image.",
+            "title": "Crop Type"
+        },
+        "growth_stage": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The growth stage of the crop, if a crop is present",
+            "title": "Growth Stage"
+        },
+        "soil_color": {
+            "anyOf": [
+                {
+                    "enum": [
+                        "light",
+                        "dark",
+                        "red"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The predominant color of the soil in the image.",
+            "title": "Soil Color"
+        },
+        "weed_pressure": {
+            "anyOf": [
+                {
+                    "enum": [
+                        "high",
+                        "high-medium",
+                        "medium",
+                        "medium-low",
+                        "low"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The level of weed presence in the image.",
+            "title": "Weed Pressure"
+        },
+        "irrigation_level": {
+            "anyOf": [
+                {
+                    "enum": [
+                        "high",
+                        "standard",
+                        "low",
+                        "none"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The observed irrigation level.",
+            "title": "Irrigation Level"
+        },
+        "tillage_type": {
+            "anyOf": [
+                {
+                    "enum": [
+                        "conventional",
+                        "reduced",
+                        "no-till"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The type of tillage observed.",
+            "title": "Tillage Type"
+        },
+        "fertilizer_level": {
+            "anyOf": [
+                {
+                    "enum": [
+                        "high",
+                        "standard",
+                        "low"
+                    ],
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The observed fertilizer level.",
+            "title": "Fertilizer Level"
+        }
+    },
+    "title": "AgronomicProperties",
+    "type": "object"
+}

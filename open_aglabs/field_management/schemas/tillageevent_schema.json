@@ -1,0 +1,89 @@
+{
+    "additionalProperties": false,
+    "description": "Represents a single tillage event for a field.",
+    "example": {
+        "depthCm": 25.0,
+        "eventId": "TILL-2025-FIELD-A-003",
+        "implementUsed": "Case IH Chisel Plow",
+        "notes": "Primary tillage after winter. Good soil penetration.",
+        "tillageType": "Chisel Plow",
+        "timestamp": "2025-03-10T14:00:00Z"
+    },
+    "properties": {
+        "eventId": {
+            "description": "Unique identifier for this specific tillage event.",
+            "examples": [
+                "TILL-2025-FIELD-A-003"
+            ],
+            "title": "Eventid",
+            "type": "string"
+        },
+        "timestamp": {
+            "description": "The date and time the tillage occurred.",
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+        },
+        "tillageType": {
+            "description": "The type of tillage performed (e.g., 'Conventional', 'No-till', 'Minimum-till', 'Chisel Plow').",
+            "examples": [
+                "Chisel Plow"
+            ],
+            "title": "Tillagetype",
+            "type": "string"
+        },
+        "implementUsed": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The specific implement used for tillage.",
+            "examples": [
+                "John Deere 2700 Ripper"
+            ],
+            "title": "Implementused"
+        },
+        "depthCm": {
+            "anyOf": [
+                {
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Average tillage depth in centimeters.",
+            "examples": [
+                20.0
+            ],
+            "title": "Depthcm"
+        },
+        "notes": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Any additional notes about the tillage event.",
+            "title": "Notes"
+        }
+    },
+    "required": [
+        "eventId",
+        "timestamp",
+        "tillageType"
+    ],
+    "title": "TillageEvent",
+    "type": "object"
+}

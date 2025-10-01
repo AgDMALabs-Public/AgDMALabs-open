@@ -1,0 +1,67 @@
+{
+    "description": "Pydantic model to store data about an image of agricultural materials.",
+    "properties": {
+        "name": {
+            "description": "The Name of the protocol used to capture the image.",
+            "title": "Name",
+            "type": "string"
+        },
+        "sample_type": {
+            "description": "What is being imaged (e.g., 'corn field', 'soil', 'tomato fruit').",
+            "title": "Sample Type",
+            "type": "string"
+        },
+        "camera_height_mm": {
+            "description": "Height of the camera from the sample in millimeters.",
+            "exclusiveMinimum": 0,
+            "title": "Camera Height Mm",
+            "type": "number"
+        },
+        "camera_angle": {
+            "description": "The angle that the camera is at relative to vertical. eg: top down is 0",
+            "title": "Camera Angle",
+            "type": "number"
+        },
+        "magnification": {
+            "description": "Magnification level used for the image capture.",
+            "exclusiveMinimum": 0,
+            "title": "Magnification",
+            "type": "number"
+        },
+        "lighting_conditions": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Description of the lighting conditions (e.g., 'natural sunlight', 'LED array', 'dark field').",
+            "title": "Lighting Conditions"
+        },
+        "notes": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Any additional relevant notes or observations.",
+            "title": "Notes"
+        }
+    },
+    "required": [
+        "name",
+        "sample_type",
+        "camera_height_mm",
+        "camera_angle",
+        "magnification"
+    ],
+    "title": "ImageProtocol",
+    "type": "object"
+}

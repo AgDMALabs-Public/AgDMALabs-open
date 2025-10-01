@@ -1,0 +1,164 @@
+{
+    "$defs": {
+        "MLOutput": {
+            "properties": {
+                "pred": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Pred"
+                },
+                "model_version": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Model Version"
+                }
+            },
+            "title": "MLOutput",
+            "type": "object"
+        }
+    },
+    "additionalProperties": false,
+    "description": "All the approved values to be captured about Images of Ag Data.",
+    "properties": {
+        "date": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The date the image was taken",
+            "title": "Date"
+        },
+        "time": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The time the image was taken",
+            "title": "Time"
+        },
+        "camera_height_m": {
+            "anyOf": [
+                {
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The height of the camera in meters",
+            "title": "Camera Height M"
+        },
+        "camera_angle_deg": {
+            "anyOf": [
+                {
+                    "maximum": 180,
+                    "minimum": -180,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The angle of the camera when the photo was taken",
+            "title": "Camera Angle Deg"
+        },
+        "object_resolution": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Image Level / Collection Level depending on variance.",
+            "title": "Object Resolution"
+        },
+        "object_resolution_ml": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/MLOutput"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The resolution of the object in the image predicted by a ML model."
+        },
+        "light_source": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "What light source was used to collect the image.",
+            "title": "Light Source"
+        },
+        "lighting_lux": {
+            "anyOf": [
+                {
+                    "maximum": 100000,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Image Level / Collection Level depending on variance.",
+            "title": "Lighting Lux"
+        },
+        "setting": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Where was the image taken",
+            "title": "Setting"
+        }
+    },
+    "title": "AcquisitionProperties",
+    "type": "object"
+}

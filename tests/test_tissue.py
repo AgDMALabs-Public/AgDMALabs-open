@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import pytest
-from aglabs.tissue.models import TissueSample, NutrientAnalysis
+from open_aglabs.tissue.models import TissueSample, NutrientAnalysis
 
 
 def test_tissue_sample_initialization():

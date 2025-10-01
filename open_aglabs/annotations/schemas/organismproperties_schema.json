@@ -1,0 +1,94 @@
+{
+    "additionalProperties": false,
+    "description": "Pydantic model for storing plant taxonomic information.",
+    "example": {
+        "common_name": "corn",
+        "cultivar": "field",
+        "family": "poaceae",
+        "genus": "zea",
+        "species": "zea mays",
+        "subspecies": "mays"
+    },
+    "properties": {
+        "common_name": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The common name of the organism",
+            "title": "Common Name"
+        },
+        "cultivar": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The common name of the organism",
+            "title": "Cultivar"
+        },
+        "family": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The common name of the organism",
+            "title": "Family"
+        },
+        "genus": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The common name of the organism",
+            "title": "Genus"
+        },
+        "species": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The common name of the organism",
+            "title": "Species"
+        },
+        "subspecies": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The common name of the organism",
+            "title": "Subspecies"
+        }
+    },
+    "title": "OrganismProperties",
+    "type": "object"
+}

@@ -1,0 +1,33 @@
+{
+    "properties": {
+        "pred": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "title": "Pred"
+        },
+        "model_version": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "title": "Model Version"
+        }
+    },
+    "title": "MLOutput",
+    "type": "object"
+}

@@ -1,0 +1,42 @@
+{
+    "additionalProperties": false,
+    "example": {
+        "class": "Liliopsida",
+        "family": "Poaceae",
+        "genus": "Zea",
+        "kingdom": "Plantae",
+        "order": "Poales",
+        "phylum": "Tracheophyta",
+        "species": "Zea mays"
+    },
+    "properties": {
+        "common": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The common name for the plant structure being annotated.",
+            "title": "Common"
+        },
+        "scientific": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The scientific name for the plant structure being annotated.",
+            "title": "Scientific"
+        }
+    },
+    "title": "PlantStructure",
+    "type": "object"
+}

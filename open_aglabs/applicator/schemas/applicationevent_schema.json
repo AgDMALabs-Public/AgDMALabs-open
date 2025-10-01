@@ -1,0 +1,119 @@
+{
+    "additionalProperties": false,
+    "description": "Represents a single application event (e.g., fertilizer, pesticide, herbicide).",
+    "example": {
+        "applicationRate": 2.0,
+        "applicationType": "Herbicide",
+        "equipment": "Tractor Sprayer",
+        "eventId": "APP-2025-FIELD-A-002",
+        "method": "Broadcast",
+        "notes": "Post-emergent herbicide application on weeds.",
+        "productName": "Glyphosate 41%",
+        "rateUnit": "L/ha",
+        "timestamp": "2025-05-15T10:30:00Z"
+    },
+    "properties": {
+        "eventId": {
+            "description": "Unique identifier for this specific application event.",
+            "examples": [
+                "APP-2025-FIELD-A-002"
+            ],
+            "title": "Eventid",
+            "type": "string"
+        },
+        "timestamp": {
+            "description": "The date and time the application occurred.",
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+        },
+        "applicationType": {
+            "description": "The type of application (e.g., 'Fertilizer', 'Herbicide', 'Fungicide', 'Insecticide').",
+            "examples": [
+                "Herbicide"
+            ],
+            "title": "Applicationtype",
+            "type": "string"
+        },
+        "productName": {
+            "description": "The name of the product applied.",
+            "examples": [
+                "Roundup PowerMAX"
+            ],
+            "title": "Productname",
+            "type": "string"
+        },
+        "applicationRate": {
+            "description": "The rate at which the product was applied.",
+            "examples": [
+                2.5
+            ],
+            "minimum": 0,
+            "title": "Applicationrate",
+            "type": "number"
+        },
+        "rateUnit": {
+            "description": "The unit for the application rate (e.g., 'L/ha', 'gal/acre', 'kg/ha').",
+            "examples": [
+                "L/ha"
+            ],
+            "title": "Rateunit",
+            "type": "string"
+        },
+        "method": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The method of application (e.g., 'Broadcast', 'Foliar', 'In-furrow', 'Side-dress').",
+            "examples": [
+                "Foliar"
+            ],
+            "title": "Method"
+        },
+        "equipment": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The equipment used for the application.",
+            "examples": [
+                "Sprayer"
+            ],
+            "title": "Equipment"
+        },
+        "notes": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "Any additional notes about the application event.",
+            "title": "Notes"
+        }
+    },
+    "required": [
+        "eventId",
+        "timestamp",
+        "applicationType",
+        "productName",
+        "applicationRate",
+        "rateUnit"
+    ],
+    "title": "ApplicationEvent",
+    "type": "object"
+}

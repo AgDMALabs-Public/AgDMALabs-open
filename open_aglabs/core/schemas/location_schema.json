@@ -1,0 +1,183 @@
+{
+    "additionalProperties": false,
+    "description": "Values to support the proper documentation of location information",
+    "properties": {
+        "latitude": {
+            "anyOf": [
+                {
+                    "maximum": 180.0,
+                    "minimum": -180.0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The latitude of where the data was taken",
+            "title": "Latitude"
+        },
+        "longitude": {
+            "anyOf": [
+                {
+                    "maximum": 180.0,
+                    "minimum": -180.0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The longitude of where the data was taken",
+            "title": "Longitude"
+        },
+        "elevation_m": {
+            "anyOf": [
+                {
+                    "maximum": 10000,
+                    "minimum": -100,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The elevation of where the data came from",
+            "title": "Elevation M"
+        },
+        "crs": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The crs of the GPS data",
+            "title": "Crs"
+        },
+        "geometry": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The Geometry in WKT format",
+            "title": "Geometry"
+        },
+        "country": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The country that the data came from.",
+            "title": "Country"
+        },
+        "state": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "What state did the data come from",
+            "title": "State"
+        },
+        "county": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "What County did the data come from",
+            "title": "County"
+        },
+        "district": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "What District did the data come from",
+            "title": "District"
+        },
+        "village": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "What Village did the data come from",
+            "title": "Village"
+        },
+        "site": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "What is the site the data came from",
+            "title": "Site"
+        },
+        "field": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "What is the site the data came from",
+            "title": "Field"
+        },
+        "location": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "the location (by BrApi Def) of there the data came from",
+            "title": "Location"
+        }
+    },
+    "title": "Location",
+    "type": "object"
+}

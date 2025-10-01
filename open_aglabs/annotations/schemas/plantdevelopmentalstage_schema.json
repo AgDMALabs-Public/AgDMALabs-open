@@ -1,0 +1,58 @@
+{
+    "properties": {
+        "common": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The biological kingdom of the organism (e.g., 'Plantae').",
+            "title": "Common"
+        },
+        "scientific": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The biological phylum/division of the plant.",
+            "title": "Scientific"
+        },
+        "class": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The biological class of the plant.",
+            "title": "Class"
+        },
+        "order": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The biological order of the plant.",
+            "title": "Order"
+        }
+    },
+    "title": "PlantDevelopmentalStage",
+    "type": "object"
+}
