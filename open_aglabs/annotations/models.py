@@ -31,7 +31,7 @@ class OrganismProperties(BaseModel):
         None,
         description="The common name of the organism"
     )
-    class Config:
+    class ConfigDict:
         extra = 'forbid'
         validate_by_name = True # Allow population using 'class' or 'class_name'
         json_schema_extra = {
@@ -74,7 +74,7 @@ class PlantStructure(BaseModel):
         description="The scientific name for the plant structure being annotated."
     )
 
-    class Config:
+    class ConfigDict:
         extra = 'forbid'
         validate_by_name = True # Allow population using 'class' or 'class_name'
         json_schema_extra = {

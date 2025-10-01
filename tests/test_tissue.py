@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import pytest
-from open_aglabs.tissue.models import TissueSample, NutrientAnalysis
+from open_aglabs.tissue.models import TissueSample
 
 
 def test_tissue_sample_initialization():
@@ -9,16 +9,19 @@ def test_tissue_sample_initialization():
         "sampleId": "TS-2025-FZ-001",
         "sampleLocationId": "TS-2025-FIELD-A-LOC-001",
         "timestamp": "2025-08-21T10:30:00Z",
-        "latitude": 34.0522,
-        "longitude": -118.2437,
+
         "labId": "TissueLab-A",
         "sampleRadiusM": 0.2,
         "growthStage": "Flowering",
         "plantFraction": "Leaf",
         "plantSamples": "10",
+        "location": {
+            "latitude": 34.0522,
+            "longitude": -118.2437,
+        },
         "analysisResults": {
             "phosphorusPct": 0.5,
-            "potassiumPpm": 28.0,
+            "potassiumPct": 9,
         }
     }
 
@@ -27,22 +30,24 @@ def test_tissue_sample_initialization():
     assert sample.sample_id == "TS-2025-FZ-001"
     assert sample.sample_location_id == "TS-2025-FIELD-A-LOC-001"
     assert sample.timestamp == datetime.fromisoformat("2025-08-21T10:30:00+00:00")
-    assert sample.latitude == 34.0522
-    assert sample.longitude == -118.2437
+    assert sample.location.latitude == 34.0522
+    assert sample.location.longitude == -118.2437
     assert sample.lab_id == "TissueLab-A"
     assert sample.sample_radius_m == 0.2
     assert sample.growth_stage == "Flowering"
     assert sample.plant_fraction == "Leaf"
-    assert sample.number_of_plants_sampled == "10"
+    assert sample.number_of_plants_sampled == 10
     assert sample.analysis_results.phosphorus_pct == 0.5
-    assert sample.analysis_results.potassium_pct == 28.0
+    assert sample.analysis_results.potassium_pct == 9
 
 
 def test_tissue_sample_missing_required_fields():
     incomplete_data = {
         "sampleId": "TS-2025-FZ-002",
-        "latitude": 34.0522,
-        "longitude": -118.2437,
+        "location": {
+            "latitude": 34.0522,
+            "longitude": -118.2437,
+        },
         "sampleRadiusM": 0.2,
         "growthStage": "Vegetative",
         "plantFraction": "Stem",
@@ -57,8 +62,10 @@ def test_tissue_sample_invalid_latitude():
         "sampleId": "TS-2025-FZ-003",
         "sampleLocationId": "TS-2025-FIELD-A-LOC-002",
         "timestamp": "2025-08-21T10:30:00Z",
-        "latitude": -100.0,  # Invalid latitude
-        "longitude": -118.2437,
+        "location": {
+            "latitude": -100.0,  # Invalid latitude
+            "longitude": -118.2437,
+        },
         "labId": "TissueLab-B",
         "sampleRadiusM": 0.5,
         "growthStage": "Reproductive",
@@ -79,8 +86,10 @@ def test_tissue_sample_valid_with_partial_analysis_results():
         "sampleId": "TS-2025-FZ-004",
         "sampleLocationId": "TS-2025-FIELD-B-LOC-001",
         "timestamp": "2025-08-21T12:45:00Z",
-        "latitude": 40.7128,
-        "longitude": -74.0060,
+        "location": {
+            "latitude": 40.7128,
+            "longitude": -74.0060,
+        },
         "labId": "TissueLab-C",
         "sampleRadiusM": 0.3,
         "growthStage": "Maturity",

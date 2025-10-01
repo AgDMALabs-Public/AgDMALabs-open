@@ -53,7 +53,7 @@ class PlantingEvent(BaseModel):
         description="Any additional notes about the planting event."
     )
 
-    class Config:
+    class ConfigDict:
         extra = "forbid"
         validate_by_name = True
         json_schema_extra = {

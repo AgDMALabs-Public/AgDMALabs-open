@@ -47,7 +47,7 @@ class HarvestEvent(BaseModel):
         description="Any additional notes about the harvest event."
     )
 
-    class Config:
+    class ConfigDict:
         extra = "forbid"
         validate_by_name = True  # Allow population using 'class' or 'class_name'
         json_schema_extra = {

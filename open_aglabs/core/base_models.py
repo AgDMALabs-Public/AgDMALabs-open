@@ -25,7 +25,7 @@ class ImageTransformations(BaseModel):
         ge=0
     )
 
-    class Config:
+    class ConfigDict:
         extra = 'forbid'
 
 
@@ -35,8 +35,8 @@ class Location(BaseModel):
     """
     latitude: Optional[float] = Field(
         None,
-        ge=-180.0,
-        le=180.0,
+        ge=-90.0,
+        le=90.0,
         description="The latitude of where the data was taken"
     )
     longitude: Optional[float] = Field(
@@ -92,5 +92,5 @@ class Location(BaseModel):
         description="the location (by BrApi Def) of there the data came from"
     )
 
-    class Config:
+    class ConfigDict:
         extra = 'forbid'

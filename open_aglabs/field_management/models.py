@@ -95,7 +95,7 @@ class FieldManagement(BaseModel):
         description="A list of all the harvest Events."
     )
 
-    class Config:
+    class ConfigDict:
         extra = "forbid"
         validate_by_name = True  # Allow population using 'class' or 'class_name'
         json_schema_extra = {
