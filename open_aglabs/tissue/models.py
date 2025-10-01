@@ -3,6 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
+from ..core.base_models import Location
 
 class TissueAnalysis(BaseModel):
     """
@@ -17,15 +18,15 @@ class TissueAnalysis(BaseModel):
         le=10,
         description="Nitrogen (N) in the sample, expressed as a percentage of the total sample mass."
     )
-    phosphorus_pct: float = Field(
-        ...,
+    phosphorus_pct: Optional[float] = Field(
+        None,
         alias="phosphorusPct",
         ge=0,
         le=10,
         description="Phosphorus (P) in the sample, expressed as a percentage of the total sample mass."
     )
-    potassium_pct: float = Field(
-        ...,
+    potassium_pct: Optional[float] = Field(
+        None,
         alias="potassiumPct",
         ge=0,
         le=10,
@@ -155,22 +156,9 @@ class TissueSample(BaseModel):
         description="Unique identifier for the sample location. This can be used to identify samples from the same location.",
         examples=["SS-2025-FIELD-A-001"]
     )
-
     timestamp: datetime = Field(
         ...,
         description="The date and time the sample was collected."
-    )
-    latitude: float = Field(
-        ...,
-        ge=-90,
-        le=90,
-        description="Latitude of the sample location in WGS 84 coordinates."
-    )
-    longitude: float = Field(
-        ...,
-        ge=-180,
-        le=180,
-        description="Longitude of the sample location in WGS 84 coordinates."
     )
     lab_id: Optional[str] = Field(
         None,
@@ -193,26 +181,26 @@ class TissueSample(BaseModel):
         alias="plantFraction",
         description="The plant fraction that was collected."
     )
-
     number_of_plants_sampled: int = Field(
         ...,
         alias="plantSamples",
         description="The number of plants that were sampled from."
     )
-
+    location: Location = Field(
+        ...
+    )
     analysis_results: TissueAnalysis = Field(
         ...,
         alias="analysisResults",
         description="The results of the nutrient analysis for the sample."
     )
-
-    notes: list[str] = Field(
-        ...,
+    notes: Optional[list[str]] = Field(
+        None,
         alias="notes",
         description="Notes associated with eh sample."
     )
 
-    class Config:
+    class ConfigDict:
         extra = "forbid"
         validate_by_name = True
         json_schema_extra = {

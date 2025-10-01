@@ -159,7 +159,7 @@ class SoilSample(BaseModel):
         description="Notes associated with eh sample."
     )
 
-    class Config:
+    class ConfigDict:
         extra = "forbid"
         validate_by_name = True
         json_schema_extra = {

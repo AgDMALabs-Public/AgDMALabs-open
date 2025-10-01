@@ -184,7 +184,7 @@ class Product(BaseModel):
         description="A place to put notes about the product."
     )
 
-    class Config:
+    class ConfigDict:
         validate_by_name = True
         json_schema_extra = {
             "example": {

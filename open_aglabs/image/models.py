@@ -62,7 +62,7 @@ class AgronomicProperties(BaseModel):
         description="The observed fertilizer level."
     )
 
-    class Config:
+    class ConfigDict:
         extra = 'forbid'
 
 
@@ -134,7 +134,7 @@ class AcquisitionProperties(BaseModel):
         description="Where was the image taken"
     )
 
-    class Config:
+    class ConfigDict:
         extra = 'forbid'
 
 
@@ -191,7 +191,7 @@ class ImageQuality(BaseModel):
         le=100
     )
 
-    class Config:
+    class ConfigDict:
         extra = 'forbid'
 
 
@@ -230,7 +230,7 @@ class Image(BaseModel):
         None
     )
 
-    class Config:
+    class ConfigDict:
         extra = 'forbid'
         json_schema_extra = {
             "example": {
