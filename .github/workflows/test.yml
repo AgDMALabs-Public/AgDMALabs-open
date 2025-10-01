@@ -1,34 +1,22 @@
-# Use a matrix strategy to test across different Python versions and OSes
-strategy:
-  matrix:
-    os: [ubuntu-latest, macos-latest]
-    python-version: ['3.9', '3.10', '3.11', '3.12']
+name: My Workflow
 
-# 3. Specify the environment (runner)
-runs-on: ${{ matrix.os }}
+on: [push] # This defines when the workflow runs, e.g., on every push
 
-# 4. Define the steps
-steps:
-  - name: Checkout Repository
-    # Action to clone your repository code onto the runner
-    uses: actions/checkout@v4
+jobs: # This is the required top-level key for jobs
+  my_build_job: # This is the name of your first job
+    runs-on: ubuntu-latest # This specifies the runner environment for this job
 
-  - name: Set up Python ${{ matrix.python-version }}
-    # Action to set up the specific Python version
-    uses: actions/setup-python@v5
-    with:
-      python-version: ${{ matrix.python-version }}
-      cache: 'pip' # Cache dependencies for faster runs
+    strategy: # Optional: if you're using a matrix strategy
+      matrix:
+        python-version: [3.9, 3.10]
 
-  - name: Install dependencies and package
-    # Install pytest and the package itself (in editable mode for development/testing)
-    run: |
-      python -m pip install --upgrade pip
-      pip install pytest
-      # Install your package and any required dependencies
-      pip install -e .
-
-  - name: Run Pytest in tests/ directory
-    # Executes pytest, specifically targeting the 'tests/' directory
-    # -v provides verbose output, --color=yes makes output easier to read
-    run: pytest tests/ -v --color=yes
+    steps: # These are the actions this job will perform
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: pip install -e .
+      - name: Run tests
+        run: pytest
