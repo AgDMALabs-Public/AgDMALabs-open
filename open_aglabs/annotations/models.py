@@ -30,7 +30,6 @@ class OrganismProperties(BaseModel):
         None,
         description="The common name of the organism"
     )
-
     class ConfigDict:
         extra = 'forbid'
         validate_by_name = True  # Allow population using 'class' or 'class_name'

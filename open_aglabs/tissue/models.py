@@ -3,6 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
+from ..core.base_models import Location
 
 class TissueAnalysis(BaseModel):
     """
@@ -155,22 +156,9 @@ class TissueSample(BaseModel):
         description="Unique identifier for the sample location. This can be used to identify samples from the same location.",
         examples=["SS-2025-FIELD-A-001"]
     )
-
     timestamp: datetime = Field(
         ...,
         description="The date and time the sample was collected."
-    )
-    latitude: float = Field(
-        ...,
-        ge=-90,
-        le=90,
-        description="Latitude of the sample location in WGS 84 coordinates."
-    )
-    longitude: float = Field(
-        ...,
-        ge=-180,
-        le=180,
-        description="Longitude of the sample location in WGS 84 coordinates."
     )
     lab_id: Optional[str] = Field(
         None,
@@ -193,13 +181,14 @@ class TissueSample(BaseModel):
         alias="plantFraction",
         description="The plant fraction that was collected."
     )
-
     number_of_plants_sampled: int = Field(
         ...,
         alias="plantSamples",
         description="The number of plants that were sampled from."
     )
-
+    location: Location = Field(
+        ...
+    )
     analysis_results: TissueAnalysis = Field(
         ...,
         alias="analysisResults",
