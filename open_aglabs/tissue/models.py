@@ -17,15 +17,15 @@ class TissueAnalysis(BaseModel):
         le=10,
         description="Nitrogen (N) in the sample, expressed as a percentage of the total sample mass."
     )
-    phosphorus_pct: float = Field(
-        ...,
+    phosphorus_pct: Optional[float] = Field(
+        None,
         alias="phosphorusPct",
         ge=0,
         le=10,
         description="Phosphorus (P) in the sample, expressed as a percentage of the total sample mass."
     )
-    potassium_pct: float = Field(
-        ...,
+    potassium_pct: Optional[float] = Field(
+        None,
         alias="potassiumPct",
         ge=0,
         le=10,
@@ -206,13 +206,13 @@ class TissueSample(BaseModel):
         description="The results of the nutrient analysis for the sample."
     )
 
-    notes: list[str] = Field(
-        ...,
+    notes: Optional[list[str]] = Field(
+        None,
         alias="notes",
         description="Notes associated with eh sample."
     )
 
-    class Config:
+    class ConfigDict:
         extra = "forbid"
         validate_by_name = True
         json_schema_extra = {

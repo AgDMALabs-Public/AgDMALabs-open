@@ -8,7 +8,7 @@ jobs: # This is the required top-level key for jobs
 
     strategy: # Optional: if you're using a matrix strategy
       matrix:
-        python-version: [3.10, 3.11]
+        python-version: [3.11]
 
     steps: # These are the actions this job will perform
       - uses: actions/checkout@v4

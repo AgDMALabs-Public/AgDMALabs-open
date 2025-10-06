@@ -1,7 +1,6 @@
 from datetime import datetime
-
 import pytest
-from open_aglabs.tissue.models import TissueSample, NutrientAnalysis
+from open_aglabs.tissue.models import TissueSample
 
 
 def test_tissue_sample_initialization():
@@ -18,7 +17,7 @@ def test_tissue_sample_initialization():
         "plantSamples": "10",
         "analysisResults": {
             "phosphorusPct": 0.5,
-            "potassiumPpm": 28.0,
+            "potassiumPct": 9,
         }
     }
 
@@ -33,9 +32,9 @@ def test_tissue_sample_initialization():
     assert sample.sample_radius_m == 0.2
     assert sample.growth_stage == "Flowering"
     assert sample.plant_fraction == "Leaf"
-    assert sample.number_of_plants_sampled == "10"
+    assert sample.number_of_plants_sampled == 10
     assert sample.analysis_results.phosphorus_pct == 0.5
-    assert sample.analysis_results.potassium_pct == 28.0
+    assert sample.analysis_results.potassium_pct == 9
 
 
 def test_tissue_sample_missing_required_fields():

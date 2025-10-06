@@ -2,7 +2,6 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 
-
 class OrganismProperties(BaseModel):
     """
     Pydantic model for storing plant taxonomic information.
@@ -31,9 +30,10 @@ class OrganismProperties(BaseModel):
         None,
         description="The common name of the organism"
     )
-    class Config:
+
+    class ConfigDict:
         extra = 'forbid'
-        validate_by_name = True # Allow population using 'class' or 'class_name'
+        validate_by_name = True  # Allow population using 'class' or 'class_name'
         json_schema_extra = {
             "example": {
                 "common_name": "corn",
@@ -44,6 +44,7 @@ class OrganismProperties(BaseModel):
                 "subspecies": "mays"
             }
         }
+
 
 class PlantDevelopmentalStage(BaseModel):
     common: Optional[str] = Field(
@@ -64,6 +65,11 @@ class PlantDevelopmentalStage(BaseModel):
         description="The biological order of the plant."
     )
 
+    class ConfigDict:
+        extra = 'forbid'
+        validate_by_name = True  # Allow population using 'class' or 'class_name'
+
+
 class PlantStructure(BaseModel):
     common: Optional[str] = Field(
         None,
@@ -74,9 +80,9 @@ class PlantStructure(BaseModel):
         description="The scientific name for the plant structure being annotated."
     )
 
-    class Config:
+    class ConfigDict:
         extra = 'forbid'
-        validate_by_name = True # Allow population using 'class' or 'class_name'
+        validate_by_name = True  # Allow population using 'class' or 'class_name'
         json_schema_extra = {
             "example": {
                 "kingdom": "Plantae",
@@ -90,3 +96,16 @@ class PlantStructure(BaseModel):
         }
 
 
+class PlantAnnotations(BaseModel):
+    organism_properties: OrganismProperties = Field(
+        ...,
+        description="The taxonomic information for the organism."
+    )
+    developmental_properties: PlantDevelopmentalStage = Field(
+        ...,
+        description="The developmental properties of the plant."
+    )
+    structure_properties: PlantStructure = Field(
+        ...,
+        description="The structure properties of the plant."
+    )
