@@ -1,10 +1,22 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, Union
 
 
 class MLOutput(BaseModel):
-    pred: Optional[Union[str, float]] = Field(None)
-    model_version: Optional[str] = Field(None)
+    pred: Optional[Union[str, float]] = Field(
+        None,
+        description="The predicted value"
+    )
+    model_id: Optional[str] = Field(
+        None,
+        description="The ID of the model used to make the prediction"
+    )
+    model_version: Optional[str] = Field(
+        None,
+        description="The version of the model used to make the prediction"
+    )
+    model_config =  ConfigDict(
+        extra = 'forbid')
 
 
 class ImageTransformations(BaseModel):

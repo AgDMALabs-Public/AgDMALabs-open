@@ -194,6 +194,7 @@ class TissueSample(BaseModel):
         alias="analysisResults",
         description="The results of the nutrient analysis for the sample."
     )
+
     notes: Optional[list[str]] = Field(
         None,
         alias="notes",
