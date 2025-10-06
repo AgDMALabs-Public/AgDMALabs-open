@@ -33,7 +33,7 @@
                 }
             ],
             "default": null,
-            "description": "The common name of the organism",
+            "description": "The cultivar of the organism",
             "title": "Cultivar"
         },
         "family": {
@@ -46,7 +46,7 @@
                 }
             ],
             "default": null,
-            "description": "The common name of the organism",
+            "description": "The family the organism belongs to.",
             "title": "Family"
         },
         "genus": {
@@ -59,7 +59,7 @@
                 }
             ],
             "default": null,
-            "description": "The common name of the organism",
+            "description": "The genus the organism belongs to.",
             "title": "Genus"
         },
         "species": {
@@ -72,7 +72,7 @@
                 }
             ],
             "default": null,
-            "description": "The common name of the organism",
+            "description": "The species the organism belongs to.",
             "title": "Species"
         },
         "subspecies": {
@@ -85,7 +85,7 @@
                 }
             ],
             "default": null,
-            "description": "The common name of the organism",
+            "description": "The subspecies the organism belongs to.",
             "title": "Subspecies"
         }
     },

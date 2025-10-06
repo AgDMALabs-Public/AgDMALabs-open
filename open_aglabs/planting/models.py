@@ -1,8 +1,8 @@
 from typing import Optional, List
 from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
-
+from ..core.base_models import Location
 
 class PlantingEvent(BaseModel):
     """
@@ -13,6 +13,10 @@ class PlantingEvent(BaseModel):
         alias="eventId",
         description="Unique identifier for this specific planting event.",
         examples=["PLANT-2025-FIELD-A-001"]
+    )
+    location: Optional[Location] = Field(
+        None,
+        description="The location of the planting event (e.g., 'Field A').",
     )
     timestamp: datetime = Field(
         ...,
@@ -53,12 +57,21 @@ class PlantingEvent(BaseModel):
         description="Any additional notes about the planting event."
     )
 
-    class ConfigDict:
-        extra = "forbid"
-        validate_by_name = True
-        json_schema_extra = {
+    model_config = ConfigDict(
+        extra="forbid",
+        validate_by_name=True,
+        json_schema_extra={
             "example": {
                 "eventId": "PLANT-2025-FIELD-A-001",
+                "location": {
+                    "id": "loc-plant-abc",
+                    "name": "Field A Section 1",
+                    "latitude": 34.567,
+                    "longitude": -118.789,
+                    "elevation_m": 160.0,
+                    "crs": "EPSG:4326",
+                    "geometry": "POINT (-118.789 34.567)"
+                },
                 "timestamp": "2025-04-20T08:00:00Z",
                 "cropType": "Corn",
                 "variety": "Pioneer P1197AM",
@@ -68,3 +81,4 @@ class PlantingEvent(BaseModel):
                 "notes": "Field A planted with corn, good soil moisture."
             }
         }
+    )

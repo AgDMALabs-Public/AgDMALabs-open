@@ -1,5 +1,212 @@
 {
     "$defs": {
+        "Location": {
+            "additionalProperties": false,
+            "description": "Values to support the proper documentation of location information",
+            "example": {
+                "admin_level_0": "USA",
+                "admin_level_1": "California",
+                "admin_level_2": "Los Angeles County",
+                "admin_level_3": "Los Angeles",
+                "crs": "EPSG:4326",
+                "elevation_m": 150.5,
+                "field": "Field_7B",
+                "geometry": "POINT (-118.2437 34.0522)",
+                "id": "loc-uuid-12345",
+                "latitude": 34.0522,
+                "location": "A",
+                "longitude": -118.2437,
+                "name": "Research Plot A",
+                "site": "AgTech Research Farm"
+            },
+            "properties": {
+                "id": {
+                    "description": "The UUID of the location",
+                    "title": "Id",
+                    "type": "string"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The name of the location",
+                    "title": "Name"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 90.0,
+                            "minimum": -90.0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The latitude of where the data was taken",
+                    "title": "Latitude"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 180.0,
+                            "minimum": -180.0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The longitude of where the data was taken",
+                    "title": "Longitude"
+                },
+                "elevation_m": {
+                    "anyOf": [
+                        {
+                            "maximum": 10000,
+                            "minimum": -100,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The elevation of where the data came from",
+                    "title": "Elevation M"
+                },
+                "crs": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The crs of the GPS data",
+                    "title": "Crs"
+                },
+                "geometry": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The Geometry in WKT format",
+                    "title": "Geometry"
+                },
+                "admin_level_0": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This level is for Country / Nation.",
+                    "title": "Admin Level 0"
+                },
+                "admin_level_1": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This is for things like state or the primary subdivision of a country / Nation.",
+                    "title": "Admin Level 1"
+                },
+                "admin_level_2": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This is for things like county or the primary subdivision of a state.",
+                    "title": "Admin Level 2"
+                },
+                "admin_level_3": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This is for things like city/town/village or the primary subdivision of a county.",
+                    "title": "Admin Level 3"
+                },
+                "site": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The site refers to the research site the data came from. A site will have many fields and locations associated to it",
+                    "title": "Site"
+                },
+                "field": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What is the field ID that the data came from",
+                    "title": "Field"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "the location (by BrApi Def) of there the data came from",
+                    "title": "Location"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Location",
+            "type": "object"
+        },
         "TissueAnalysis": {
             "description": "A nested model to contain the specific chemical analysis results of a soil sample.\nUnits are generally in parts per million (ppm) unless otherwise specified.",
             "properties": {
@@ -19,18 +226,34 @@
                     "title": "Nitrogenpct"
                 },
                 "phosphorusPct": {
+                    "anyOf": [
+                        {
+                            "maximum": 10,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
                     "description": "Phosphorus (P) in the sample, expressed as a percentage of the total sample mass.",
-                    "maximum": 10,
-                    "minimum": 0,
-                    "title": "Phosphoruspct",
-                    "type": "number"
+                    "title": "Phosphoruspct"
                 },
                 "potassiumPct": {
+                    "anyOf": [
+                        {
+                            "maximum": 10,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
                     "description": "Potassium (K) concentration in percentages of the total sample mass.",
-                    "maximum": 10,
-                    "minimum": 0,
-                    "title": "Potassiumpct",
-                    "type": "number"
+                    "title": "Potassiumpct"
                 },
                 "sulfurPct": {
                     "anyOf": [
@@ -258,10 +481,6 @@
                     "title": "Ndfpct"
                 }
             },
-            "required": [
-                "phosphorusPct",
-                "potassiumPct"
-            ],
             "title": "TissueAnalysis",
             "type": "object"
         }
@@ -269,7 +488,7 @@
     "additionalProperties": false,
     "description": "Represents a single tissue sample, including its location, depth, and lab analysis results.",
     "example": {
-        "analysisResults": {
+        "analysis_results": {
             "adfPct": 26.0,
             "boronPpm": 16.0,
             "calciumPct": 0.7,
@@ -288,19 +507,28 @@
         },
         "growthStage": "Flowering",
         "labId": "TissueLab-A",
-        "latitude": 34.0522,
-        "longitude": -118.2437,
+        "location": {
+            "id": "TS-2025-FIELD-A-LOC-001",
+            "latitude": 34.0522,
+            "longitude": -118.2437
+        },
         "notes": [
             "thjs is a test",
             "this is a test too"
         ],
         "plantFraction": "Leaf",
         "sampleId": "TS-2025-FZ-001",
-        "sampleLocationId": "TS-2025-FIELD-A-LOC-001",
         "sampleRadiusM": 0.2,
+        "schema_name": "TissueSample",
         "timestamp": "2025-08-21T10:30:00Z"
     },
     "properties": {
+        "schema_name": {
+            "const": "TissueSample",
+            "description": "The name of the schema used to validate the data.",
+            "title": "Schema Name",
+            "type": "string"
+        },
         "sampleId": {
             "description": "Unique identifier for the soil sample.",
             "examples": [
@@ -322,20 +550,6 @@
             "format": "date-time",
             "title": "Timestamp",
             "type": "string"
-        },
-        "latitude": {
-            "description": "Latitude of the sample location in WGS 84 coordinates.",
-            "maximum": 90,
-            "minimum": -90,
-            "title": "Latitude",
-            "type": "number"
-        },
-        "longitude": {
-            "description": "Longitude of the sample location in WGS 84 coordinates.",
-            "maximum": 180,
-            "minimum": -180,
-            "title": "Longitude",
-            "type": "number"
         },
         "labId": {
             "anyOf": [
@@ -371,31 +585,41 @@
             "title": "Plantsamples",
             "type": "integer"
         },
+        "location": {
+            "$ref": "#/$defs/Location"
+        },
         "analysisResults": {
             "$ref": "#/$defs/TissueAnalysis",
             "description": "The results of the nutrient analysis for the sample."
         },
         "notes": {
+            "anyOf": [
+                {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
             "description": "Notes associated with eh sample.",
-            "items": {
-                "type": "string"
-            },
-            "title": "Notes",
-            "type": "array"
+            "title": "Notes"
         }
     },
     "required": [
+        "schema_name",
         "sampleId",
         "sampleLocationId",
         "timestamp",
-        "latitude",
-        "longitude",
         "sampleRadiusM",
         "growthStage",
         "plantFraction",
         "plantSamples",
-        "analysisResults",
-        "notes"
+        "location",
+        "analysisResults"
     ],
     "title": "TissueSample",
     "type": "object"

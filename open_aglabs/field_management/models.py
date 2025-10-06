@@ -1,7 +1,7 @@
 from typing import Optional, List
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from open_aglabs.planting.models import PlantingEvent
 from open_aglabs.applicator.models import ApplicationEvent
@@ -46,10 +46,10 @@ class TillageEvent(BaseModel):
         description="Any additional notes about the tillage event."
     )
 
-    class Config:
-        extra = "forbid"
-        validate_by_name = True  # Allow population using 'class' or 'class_name'
-        json_schema_extra = {
+    model_config = ConfigDict(
+        extra="forbid",
+        validate_by_name=True,
+        json_schema_extra={
             "example": {
                 "eventId": "TILL-2025-FIELD-A-003",
                 "timestamp": "2025-03-10T14:00:00Z",
@@ -59,6 +59,7 @@ class TillageEvent(BaseModel):
                 "notes": "Primary tillage after winter. Good soil penetration."
             }
         }
+    )
 
 
 class FieldManagement(BaseModel):
@@ -95,10 +96,10 @@ class FieldManagement(BaseModel):
         description="A list of all the harvest Events."
     )
 
-    class ConfigDict:
-        extra = "forbid"
-        validate_by_name = True  # Allow population using 'class' or 'class_name'
-        json_schema_extra = {
+    model_config = ConfigDict(
+        extra="forbid",
+        validate_by_name=True,
+        json_schema_extra={
             "example": {
                 "fieldId": "FIELD-A-2025",
                 "seasonYear": 2025,
@@ -155,3 +156,4 @@ class FieldManagement(BaseModel):
                 }]
             }
         }
+    )

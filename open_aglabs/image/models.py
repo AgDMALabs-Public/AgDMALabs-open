@@ -1,9 +1,9 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, Literal
 from uuid import uuid4
 
 from ..core.base_models import MLOutput, Location
-from ..core.constants import CROP_LIST, SOIL_COLOR
+from ..core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST
 
 
 class ImageProtocol(BaseModel):
@@ -62,8 +62,9 @@ class AgronomicProperties(BaseModel):
         description="The observed fertilizer level."
     )
 
-    class ConfigDict:
-        extra = 'forbid'
+    model_config = ConfigDict(
+        extra='forbid'
+    )
 
 
 class CameraProperties(BaseModel):
@@ -85,6 +86,9 @@ class CameraProperties(BaseModel):
     magnification: Optional[float] = Field(
         None,
         description="The magnification setting of the camera."
+    )
+    model_config = ConfigDict(
+        extra='forbid'
     )
 
 
@@ -134,8 +138,9 @@ class AcquisitionProperties(BaseModel):
         description="Where was the image taken"
     )
 
-    class ConfigDict:
-        extra = 'forbid'
+    model_config = ConfigDict(
+        extra='forbid'
+    )
 
 
 class ImageQuality(BaseModel):
@@ -191,9 +196,28 @@ class ImageQuality(BaseModel):
         le=100
     )
 
-    class ConfigDict:
-        extra = 'forbid'
+    model_config = ConfigDict(
+        extra='allow'
+    )
 
+class SyntheticImageProperties(BaseModel):
+    """
+    Values associated with Synthetic Images
+    """
+    model: Optional[str] = Field(
+        None,
+        description="The model of the synthetic image."
+    )
+    seed: Optional[int] = Field(
+        None,
+        description="The seed used to generate the synthetic image."
+    )
+    noise: Optional[float] = Field(
+        None,
+    )
+    model_config = ConfigDict(
+        extra='allow'
+    )
 
 class Image(BaseModel):
     """
@@ -211,13 +235,26 @@ class Image(BaseModel):
         ...,
         description="The type of device that is collecting the images, mobile, auxillery, or drone."
     )
+    protocol_name: Optional[str] = Field(
+        None,
+        description="The name of the protocol used to capture the image."
+    )
+    protocol_version: Optional[str] = Field(
+        None,
+        description="The version of the protocol used to capture the image."
+    )
+    protocol_url: Optional[str] = Field(
+        None,
+        description="The URL of the protocol used to capture the image."
+    )
+    type: Literal[*IMAGE_TYPE_LIST] = Field(
+        ...,
+        description="The type of image is it, original, augmented, synthetic."
+    )
     camera_properties: Optional[CameraProperties] = Field(
         None
     )
     location_properties: Optional[Location] = Field(
-        None
-    )
-    protocol_properties: Optional[ImageProtocol] = Field(
         None
     )
     acquisition_properties: Optional[AcquisitionProperties] = Field(
@@ -229,10 +266,13 @@ class Image(BaseModel):
     agronomic_properties: Optional[AgronomicProperties] = Field(
         None
     )
+    synthetic_image_properties: Optional[SyntheticImageProperties] = Field(
+        None
+    )
 
-    class ConfigDict:
-        extra = 'forbid'
-        json_schema_extra = {
+    model_config = ConfigDict(
+        extra='allow',
+        json_schema_extra={
             "example": {
                 "path": "/images/field_A/row_1/image_001.jpg",
                 "id": str(uuid4()),
@@ -297,6 +337,12 @@ class Image(BaseModel):
                     "irrigation_level": "standard",
                     "tillage_type": "no-till",
                     "fertilizer_level": "standard"
+                },
+                "synthetic_image_properties": {
+                    "model": 'v1',
+                    "seed": 12345,
+                    "noise": 0.01,
                 }
             }
         }
+    )

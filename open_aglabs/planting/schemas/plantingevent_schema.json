@@ -1,10 +1,228 @@
 {
+    "$defs": {
+        "Location": {
+            "additionalProperties": false,
+            "description": "Values to support the proper documentation of location information",
+            "example": {
+                "admin_level_0": "USA",
+                "admin_level_1": "California",
+                "admin_level_2": "Los Angeles County",
+                "admin_level_3": "Los Angeles",
+                "crs": "EPSG:4326",
+                "elevation_m": 150.5,
+                "field": "Field_7B",
+                "geometry": "POINT (-118.2437 34.0522)",
+                "id": "loc-uuid-12345",
+                "latitude": 34.0522,
+                "location": "A",
+                "longitude": -118.2437,
+                "name": "Research Plot A",
+                "site": "AgTech Research Farm"
+            },
+            "properties": {
+                "id": {
+                    "description": "The UUID of the location",
+                    "title": "Id",
+                    "type": "string"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The name of the location",
+                    "title": "Name"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 90.0,
+                            "minimum": -90.0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The latitude of where the data was taken",
+                    "title": "Latitude"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 180.0,
+                            "minimum": -180.0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The longitude of where the data was taken",
+                    "title": "Longitude"
+                },
+                "elevation_m": {
+                    "anyOf": [
+                        {
+                            "maximum": 10000,
+                            "minimum": -100,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The elevation of where the data came from",
+                    "title": "Elevation M"
+                },
+                "crs": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The crs of the GPS data",
+                    "title": "Crs"
+                },
+                "geometry": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The Geometry in WKT format",
+                    "title": "Geometry"
+                },
+                "admin_level_0": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This level is for Country / Nation.",
+                    "title": "Admin Level 0"
+                },
+                "admin_level_1": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This is for things like state or the primary subdivision of a country / Nation.",
+                    "title": "Admin Level 1"
+                },
+                "admin_level_2": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This is for things like county or the primary subdivision of a state.",
+                    "title": "Admin Level 2"
+                },
+                "admin_level_3": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This is for things like city/town/village or the primary subdivision of a county.",
+                    "title": "Admin Level 3"
+                },
+                "site": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The site refers to the research site the data came from. A site will have many fields and locations associated to it",
+                    "title": "Site"
+                },
+                "field": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What is the field ID that the data came from",
+                    "title": "Field"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "the location (by BrApi Def) of there the data came from",
+                    "title": "Location"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Location",
+            "type": "object"
+        }
+    },
     "additionalProperties": false,
     "description": "Represents a single planting event for a field.",
     "example": {
         "cropType": "Corn",
         "depthCm": 5.5,
         "eventId": "PLANT-2025-FIELD-A-001",
+        "location": {
+            "crs": "EPSG:4326",
+            "elevation_m": 160.0,
+            "geometry": "POINT (-118.789 34.567)",
+            "id": "loc-plant-abc",
+            "latitude": 34.567,
+            "longitude": -118.789,
+            "name": "Field A Section 1"
+        },
         "notes": "Field A planted with corn, good soil moisture.",
         "seedingRate": 34500,
         "seedingUnit": "seeds/acre",
@@ -19,6 +237,18 @@
             ],
             "title": "Eventid",
             "type": "string"
+        },
+        "location": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/Location"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The location of the planting event (e.g., 'Field A')."
         },
         "timestamp": {
             "description": "The date and time the planting occurred.",

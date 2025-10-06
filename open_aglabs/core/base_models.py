@@ -15,8 +15,9 @@ class MLOutput(BaseModel):
         None,
         description="The version of the model used to make the prediction"
     )
-    model_config =  ConfigDict(
-        extra = 'forbid')
+    model_config = ConfigDict(
+        extra='forbid'
+    )
 
 
 class ImageTransformations(BaseModel):
@@ -37,14 +38,23 @@ class ImageTransformations(BaseModel):
         ge=0
     )
 
-    class ConfigDict:
-        extra = 'forbid'
+    model_config = ConfigDict(
+        extra='forbid'
+    )
 
 
 class Location(BaseModel):
     """
     Values to support the proper documentation of location information
     """
+    id: str = Field(
+        ...,
+        description="The UUID of the location"
+    )
+    name: Optional[str] = Field(
+        None,
+        description="The name of the location"
+    )
     latitude: Optional[float] = Field(
         None,
         ge=-90.0,
@@ -71,38 +81,53 @@ class Location(BaseModel):
         None,
         description="The Geometry in WKT format"
     )
-    country: Optional[str] = Field(
+    admin_level_0: Optional[str] = Field(
         None,
-        description="The country that the data came from."
+        description="This level is for Country / Nation."
     )
-    state: Optional[str] = Field(
+    admin_level_1: Optional[str] = Field(
         None,
-        description="What state did the data come from"
+        description="This is for things like state or the primary subdivision of a country / Nation."
     )
-    county: Optional[str] = Field(
+    admin_level_2: Optional[str] = Field(
         None,
-        description="What County did the data come from"
+        description="This is for things like county or the primary subdivision of a state."
     )
-    district: Optional[str] = Field(
+    admin_level_3: Optional[str] = Field(
         None,
-        description="What District did the data come from"
-    )
-    village: Optional[str] = Field(
-        None,
-        description="What Village did the data come from"
+        description="This is for things like city/town/village or the primary subdivision of a county."
     )
     site: Optional[str] = Field(
         None,
-        description="What is the site the data came from"
+        description="The site refers to the research site the data came from. A site will have many fields and locations"
+                    " associated to it"
     )
     field: Optional[str] = Field(
         None,
-        description="What is the site the data came from"
+        description="What is the field ID that the data came from"
     )
     location: Optional[str] = Field(
         None,
         description="the location (by BrApi Def) of there the data came from"
     )
-
-    class ConfigDict:
-        extra = 'forbid'
+    model_config = ConfigDict(
+        extra='forbid',
+        json_schema_extra={
+            "example": {
+                "id": "loc-uuid-12345",
+                "name": "Research Plot A",
+                "latitude": 34.0522,
+                "longitude": -118.2437,
+                "elevation_m": 150.5,
+                "crs": "EPSG:4326",
+                "geometry": "POINT (-118.2437 34.0522)",
+                "admin_level_0": "USA",
+                "admin_level_1": "California",
+                "admin_level_2": "Los Angeles County",
+                "admin_level_3": "Los Angeles",
+                "site": "AgTech Research Farm",
+                "field": "Field_7B",
+                "location": "A"
+            }
+        }
+    )

@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field
-from typing import Optional
+from pydantic import BaseModel, Field, ConfigDict
+from typing import Optional, List, Literal
 
 
 class OrganismProperties(BaseModel):
@@ -12,28 +12,28 @@ class OrganismProperties(BaseModel):
     )
     cultivar: Optional[str] = Field(
         None,
-        description="The common name of the organism"
+        description="The cultivar of the organism"
     )
     family: Optional[str] = Field(
         None,
-        description="The common name of the organism"
+        description="The family the organism belongs to."
     )
     genus: Optional[str] = Field(
         None,
-        description="The common name of the organism"
+        description="The genus the organism belongs to."
     )
     species: Optional[str] = Field(
         None,
-        description="The common name of the organism"
+        description="The species the organism belongs to."
     )
     subspecies: Optional[str] = Field(
         None,
-        description="The common name of the organism"
+        description="The subspecies the organism belongs to."
     )
-    class ConfigDict:
-        extra = 'forbid'
-        validate_by_name = True  # Allow population using 'class' or 'class_name'
-        json_schema_extra = {
+    model_config = ConfigDict(
+        extra='forbid',
+        validate_by_name=True,  # Allow population using 'class' or 'class_name'
+        json_schema_extra={
             "example": {
                 "common_name": "corn",
                 "cultivar": "field",
@@ -43,59 +43,91 @@ class OrganismProperties(BaseModel):
                 "subspecies": "mays"
             }
         }
+    )
 
 
 class PlantDevelopmentalStage(BaseModel):
-    common: Optional[str] = Field(
+    common_name: Optional[str] = Field(
         None,
-        description="The biological kingdom of the organism (e.g., 'Plantae')."
+        description="The common name for the plant developmental stage being annotated."
     )
-    scientific: Optional[str] = Field(
+    ontology_source: Optional[str] = Field(
         None,
-        description="The biological phylum/division of the plant."
+        description="The ontology name for the plant developmental stage being annotated."
+    )
+    ontology_name: Optional[str] = Field(
+        None,
+        description="The scientific name for the plant developmental stage being annotated."
+    )
+    ontology_id: Optional[str] = Field(
+        None,
+        description="The ontology ID for the plant developmental stage being annotated."
     )
     crop_growth_stage: Optional[str] = Field(
         None,
         alias="class",  # Use alias to allow 'class' as a field name
-        description="The biological class of the plant."
-    )
-    order: Optional[str] = Field(
-        None,
-        description="The biological order of the plant."
+        description="The technical name for the crop growth stage of the organism being annotated."
     )
 
-    class ConfigDict:
-        extra = 'forbid'
-        validate_by_name = True  # Allow population using 'class' or 'class_name'
+    model_config = ConfigDict(
+        extra='forbid',
+        validate_by_name=True,
+        json_schema_extra={
+            "example": {
+                "common_name": "corn emergence",
+                "ontology_source": "https://obofoundry.org/ontology/po.html",
+                "ontology_name": "1 main shoot growth stage",
+                "ontology_id": "PO:0007112",
+                "crop_growth_stage": "ve"
+            }}
+    )
 
 
 class PlantStructure(BaseModel):
-    common: Optional[str] = Field(
+    common_name: Optional[str] = Field(
         None,
         description="The common name for the plant structure being annotated."
     )
-    scientific: Optional[str] = Field(
+    state: Optional[str] = Field(
+        None,
+        description="The state of the plant structure being annotated. Ex Open for a flower."
+    )
+    ontology_source: Optional[str] = Field(
+        None,
+        description="The ontology name for the plant structure being annotated."
+    )
+    ontology_name: Optional[str] = Field(
         None,
         description="The scientific name for the plant structure being annotated."
     )
-
-    class ConfigDict:
-        extra = 'forbid'
-        validate_by_name = True  # Allow population using 'class' or 'class_name'
-        json_schema_extra = {
+    ontology_id: Optional[str] = Field(
+        None,
+        description="The scientific name for the plant structure being annotated."
+    )
+    model_config = ConfigDict(
+        extra='forbid',
+        validate_by_name=True,
+        json_schema_extra={
             "example": {
-                "kingdom": "Plantae",
-                "phylum": "Tracheophyta",
-                "class": "Liliopsida",
-                "order": "Poales",
-                "family": "Poaceae",
-                "genus": "Zea",
-                "species": "Zea mays"
+                "common_name": "plant",
+                "state": "living",
+                "ontology_source": "https://obofoundry.org/ontology/po.html",
+                "ontology_name": "whole plant",
+                "ontology_id": "PO:0000003"
             }
         }
+    )
 
 
-class PlantAnnotations(BaseModel):
+class PlantAnnotation(BaseModel):
+    annotation_name: str = Field(
+        ...,
+        description="The name of the annotation"
+    )
+    annotation_class_id: int = Field(
+        ...,
+        description="The ID of the annotation class"
+    )
     organism_properties: OrganismProperties = Field(
         ...,
         description="The taxonomic information for the organism."
@@ -107,4 +139,116 @@ class PlantAnnotations(BaseModel):
     structure_properties: PlantStructure = Field(
         ...,
         description="The structure properties of the plant."
+    )
+    notes: Optional[str] = Field(
+        None,
+        description="Any additional notes about the annotation."
+    )
+    model_config = ConfigDict(
+        extra='allow',
+        json_schema_extra={
+            "example": {
+                "annotation_name": "corn",
+                "annotation_class_id": 1,
+                "organism_properties": {
+                    "common_name": "corn",
+                    "cultivar": "field",
+                    "family": "poaceae",
+                    "genus": "zea",
+                    "species": "zea mays",
+                    "subspecies": "mays"
+                },
+                "developmental_properties": {
+                    "common_name": "emergence",
+                    "ontology_source": "https://obofoundry.org/ontology/po.html",
+                    "ontology_name": "1 main shoot growth stage",
+                    "ontology_id": "PO:0007112",
+                    "crop_growth_stage": "ve"
+                },
+                "structure_properties": {
+                    "common_name": "plant",
+                    "state": "living",
+                    "ontology_name": "whole plant",
+                    "ontology_id": "PO:0000003"
+                },
+                "notes": "The objective of the annotation task was to label all the emerging for plant for a"
+                         " stand count model.."
+            }
+        }
+    )
+
+
+class PlantAnnotationStandardization(BaseModel):
+    schema_name: Literal["PlantAnnotationStandardization"] = Field(
+        ...,
+        description="The name of the schema"
+    )
+    schema_version: str = Field(
+        "1.0.0",
+        description="The version of the schema"
+    )
+    annotations: List[PlantAnnotation] = Field(
+        ...,
+        description="A list of annotations with the metadata to standardize them."
+    )
+    model_config = ConfigDict(
+        extra='forbid',
+        validate_by_name=True,
+        json_schema_extra={
+            "example": {
+                "schema_name": "PlantAnnotationStandardization",
+                "annotations": [
+                    {
+                        "annotation_name": "corn",
+                        "annotation_class_id": 1,
+                        "organism_properties": {
+                            "common_name": "corn",
+                            "cultivar": "field",
+                            "family": "poaceae",
+                            "genus": "zea",
+                            "species": "zea mays",
+                            "subspecies": "mays"
+                        },
+                        "developmental_properties": {
+                            "common_name": "emergence",
+                            "ontology_source": "https://obofoundry.org/ontology/po.html",
+                            "ontology_name": "1 main shoot growth stage",
+                            "ontology_id": "PO:0007112",
+                            "crop_growth_stage": "ve"
+                        },
+                        "structure_properties": {
+                            "common_name": "plant",
+                            "state": "living",
+                            "ontology_name": "whole plant",
+                            "ontology_id": "PO:0000003"
+                        }
+                    },
+                    {
+                        "annotation_name": "corn_leaf",
+                        "annotation_class_id": 2,
+                        "organism_properties": {
+                            "common_name": "corn",
+                            "cultivar": "field",
+                            "family": "poaceae",
+                            "genus": "zea",
+                            "species": "zea mays",
+                            "subspecies": "mays"
+                        },
+                        "developmental_properties": {
+                            "common_name": "corn v6",
+                            "ontology_source": "https://obofoundry.org/ontology/po.html",
+                            "ontology_name": "LP.06 six leaves visible stage",
+                            "ontology_id": "PO:0007123",
+                            "crop_growth_stage": "v6"
+                        },
+                        "structure_properties": {
+                            "common_name": "leaf",
+                            "state": "living",
+                            "ontology_name": "cauline leaf",
+                            "ontology_id": "PO:0009025"
+                        }
+                    }
+                ]
+            }
+        }
     )

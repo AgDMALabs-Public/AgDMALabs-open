@@ -17,18 +17,34 @@
             "title": "Nitrogenpct"
         },
         "phosphorusPct": {
+            "anyOf": [
+                {
+                    "maximum": 10,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
             "description": "Phosphorus (P) in the sample, expressed as a percentage of the total sample mass.",
-            "maximum": 10,
-            "minimum": 0,
-            "title": "Phosphoruspct",
-            "type": "number"
+            "title": "Phosphoruspct"
         },
         "potassiumPct": {
+            "anyOf": [
+                {
+                    "maximum": 10,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
             "description": "Potassium (K) concentration in percentages of the total sample mass.",
-            "maximum": 10,
-            "minimum": 0,
-            "title": "Potassiumpct",
-            "type": "number"
+            "title": "Potassiumpct"
         },
         "sulfurPct": {
             "anyOf": [
@@ -256,10 +272,6 @@
             "title": "Ndfpct"
         }
     },
-    "required": [
-        "phosphorusPct",
-        "potassiumPct"
-    ],
     "title": "TissueAnalysis",
     "type": "object"
 }

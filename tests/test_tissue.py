@@ -5,6 +5,7 @@ from open_aglabs.tissue.models import TissueSample
 
 def test_tissue_sample_initialization():
     sample_data = {
+        "schema_name": 'TissueSample',
         "sampleId": "TS-2025-FZ-001",
         "sampleLocationId": "TS-2025-FIELD-A-LOC-001",
         "timestamp": "2025-08-21T10:30:00Z",
@@ -15,6 +16,7 @@ def test_tissue_sample_initialization():
         "plantFraction": "Leaf",
         "plantSamples": "10",
         "location": {
+            "id": "TS-2025-FIELD-A-LOC-001",
             "latitude": 34.0522,
             "longitude": -118.2437,
         },
@@ -42,8 +44,10 @@ def test_tissue_sample_initialization():
 
 def test_tissue_sample_missing_required_fields():
     incomplete_data = {
+        "schema_name": 'TissueSample',
         "sampleId": "TS-2025-FZ-002",
         "location": {
+            "id": "TS-2025-FIELD-A-LOC-002",
             "latitude": 34.0522,
             "longitude": -118.2437,
         },
@@ -58,10 +62,12 @@ def test_tissue_sample_missing_required_fields():
 
 def test_tissue_sample_invalid_latitude():
     invalid_latitude_data = {
+        "schema_name": 'TissueSample',
         "sampleId": "TS-2025-FZ-003",
         "sampleLocationId": "TS-2025-FIELD-A-LOC-002",
         "timestamp": "2025-08-21T10:30:00Z",
         "location": {
+            "id": "TS-2025-FIELD-A-LOC-002",
             "latitude": -100.0,  # Invalid latitude
             "longitude": -118.2437,
         },
@@ -82,10 +88,12 @@ def test_tissue_sample_invalid_latitude():
 
 def test_tissue_sample_valid_with_partial_analysis_results():
     valid_data = {
+        "schema_name": 'TissueSample',
         "sampleId": "TS-2025-FZ-004",
         "sampleLocationId": "TS-2025-FIELD-B-LOC-001",
         "timestamp": "2025-08-21T12:45:00Z",
         "location": {
+            "id": "TS-2025-FIELD-B-LOC-001",
             "latitude": 40.7128,
             "longitude": -74.0060,
         },

@@ -1,0 +1,118 @@
+{
+    "$defs": {
+        "ApplicatorZone": {
+            "properties": {
+                "id": {
+                    "description": "Unique identifier for this specific zone.",
+                    "title": "Id",
+                    "type": "string"
+                },
+                "geometry": {
+                    "description": "The geometry for this zone.",
+                    "title": "Geometry",
+                    "type": "string"
+                },
+                "tank_id": {
+                    "description": "The tank ID for this zone.",
+                    "title": "Tank Id",
+                    "type": "string"
+                },
+                "tank_mix": {
+                    "description": "The tank mix for this zone.",
+                    "title": "Tank Mix",
+                    "type": "string"
+                },
+                "rate": {
+                    "description": "The rate for this zone.",
+                    "minimum": 0,
+                    "title": "Rate",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "id",
+                "geometry",
+                "tank_id",
+                "tank_mix",
+                "rate"
+            ],
+            "title": "ApplicatorZone",
+            "type": "object"
+        }
+    },
+    "additionalProperties": false,
+    "example": {
+        "Id": "RX-2023-FIELD-B-001",
+        "crs": "EPSG:4326",
+        "schema_name": "ApplicatorRx",
+        "units": "l/ha",
+        "zones": [
+            {
+                "geometry": "POLYGON ((-118.25 34.05, -118.24 34.05, -118.24 34.04, -118.25 34.04, -118.25 34.05))",
+                "id": "zone-1",
+                "rate": 2.5,
+                "tank_id": "TANK001",
+                "tank_mix": "Mix_A_Herbicide"
+            },
+            {
+                "geometry": "POLYGON ((-118.23 34.05, -118.22 34.05, -118.22 34.04, -118.23 34.04, -118.23 34.05))",
+                "id": "zone-2",
+                "rate": 10,
+                "tank_id": "TANK002",
+                "tank_mix": "Mix_B_Fertilizer"
+            }
+        ]
+    },
+    "properties": {
+        "schema_name": {
+            "const": "ApplicatorRx",
+            "description": "The name of the schema for this model.",
+            "title": "Schema Name",
+            "type": "string"
+        },
+        "eventId": {
+            "description": "Unique identifier for this specific application event.",
+            "examples": [
+                "APP-2025-FIELD-A-002"
+            ],
+            "title": "Eventid",
+            "type": "string"
+        },
+        "crs": {
+            "description": "The coordinate reference system for the geometry.",
+            "title": "Crs",
+            "type": "string"
+        },
+        "units": {
+            "description": "The units for the rate.",
+            "enum": [
+                "kg/ha",
+                "lbs/ac",
+                "g/m2",
+                "oz/ft2",
+                "l/ha",
+                "ml/m2",
+                "gal/ac"
+            ],
+            "title": "Units",
+            "type": "string"
+        },
+        "zones": {
+            "description": "A list of all the zones.",
+            "items": {
+                "$ref": "#/$defs/ApplicatorZone"
+            },
+            "title": "Zones",
+            "type": "array"
+        }
+    },
+    "required": [
+        "schema_name",
+        "eventId",
+        "crs",
+        "units",
+        "zones"
+    ],
+    "title": "ApplicatorRx",
+    "type": "object"
+}

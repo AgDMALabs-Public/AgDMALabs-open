@@ -1,8 +1,16 @@
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional, Literal
 
+from ..core.base_models import Location
+
 
 class DroneFlight(BaseModel):
+    id: str = Field(
+        ...,
+        description="Unique identifier for this drone flight."
+    )
+    location: Location = Field(...,
+                               description="Location of the drone flight.")
     drone_make: str = Field(...,
                             alias="droneMake",
                             description="Make of the drone")
@@ -42,17 +50,34 @@ class DroneFlight(BaseModel):
     multispec_channels: Optional[List[str]] = Field(None,
                                                     alias="multispecChannels",
                                                     description="List of multispectral channels if applicable (e.g., ['Red', 'Green', 'Blue', 'NIR'])")
+    directory: Optional[str] = Field(None,
+                                     alias="directory",
+                                     description="The directory where the flight data is stored")
+    images: List[str] = Field(...,
+                              alias="images",
+                              description="List of image IDs associated with the flight")
 
     model_config = ConfigDict(
         extra="forbid",
         populate_by_name=True,
-        # Generates an example in the OpenAPI schema for documentation
         json_schema_extra={
             "example": {
+                "id": "drone-flight-uuid-67890",
+                "location": {
+                    "id": "loc-uuid-12345",
+                    "name": "Field 12 Drone Flight",
+                    "latitude": 34.0522,
+                    "longitude": -118.2437,
+                    "elevation_m": 100.0,
+                    "crs": "EPSG:4326",
+                    "site": "AgTech Research Farm",
+                    "field": "Field_12",
+                    "location": "Central part of Field 12"
+                },
                 "droneMake": "DJI",
                 "droneModel": "Mavic 3 Multispectral",
-                "cameraMake": "DJI",
-                "cameraModel": "Mavic 3M Camera",
+                "cameraMake": "Micasense",
+                "cameraModel": "Altum",
                 "groundControlPoints": True,
                 "reflectancePanels": False,
                 "reflectancePanelType": "Micasense",
@@ -60,7 +85,9 @@ class DroneFlight(BaseModel):
                 "horizontalOverlapPercentage": 70.0,
                 "verticalOverlapPercentage": 70.0,
                 "gpsQuality": "RTK",
-                "multispecChannels": ["Green", "Red", "Red Edge", "NIR"]
+                "multispecChannels": ["Green", "Red", "Red Edge", "NIR"],
+                "directory": "/path/to/flight/data",
+                "images": ['1234564565_1.tif', '1234564565_2.tif', '1234564565_3.tif', '1234564565_4.tif']
             }
         }
     )

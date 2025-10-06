@@ -10,10 +10,12 @@ from open_aglabs.annotations.models import (
 ANNOTATION_MODELS = [OrganismProperties, PlantDevelopmentalStage, PlantStructure]
 
 from open_aglabs.applicator.models import (
-    ApplicationEvent
+    ApplicationEvent,
+    ApplicatorZone,
+    ApplicatorRx
 )
 
-APPLICATOR_MODELS = [ApplicationEvent]
+APPLICATOR_MODELS = [ApplicationEvent, ApplicatorZone, ApplicatorRx]
 
 from open_aglabs.core.base_models import (
     MLOutput,
@@ -62,9 +64,6 @@ from open_aglabs.products.models import (
 
 PRODUCT_MODELS = [NutrientComposition, PesticideProduct, IngredientModel, Product]
 
-# Sensors?
-SENSORS_MODELS = []
-
 from open_aglabs.soil.models import (
     SoilAnalysis,
     SoilSample
@@ -72,8 +71,12 @@ from open_aglabs.soil.models import (
 
 SOIL_MODELS = [SoilAnalysis, SoilSample]
 
-# Tank Mix
-TANK_MIX_MODELS = []
+from open_aglabs.tank_mix.models import (
+    SimpleProduct,
+    TankMix,
+)
+
+TANK_MIX_MODELS = [SimpleProduct, TankMix]
 
 from open_aglabs.tissue.models import (
     TissueAnalysis,
@@ -81,6 +84,7 @@ from open_aglabs.tissue.models import (
 )
 
 TISSUE_MODELS = [TissueAnalysis, TissueSample]
+
 
 def generate_schemas(models, schemas_dir):
     schemas_dir.mkdir(exist_ok=True)
@@ -135,11 +139,6 @@ if len(PRODUCT_MODELS) > 0:
     generate_schemas(models=PRODUCT_MODELS,
                      schemas_dir=Path("open_aglabs/products/schemas"))
 
-# -------------------------------------------------SENSOR Models-------------------------------------------------------#
-if len(SENSORS_MODELS) > 0:
-    generate_schemas(models=SENSORS_MODELS,
-                     schemas_dir=Path("open_aglabs/sensors/schemas"))
-
 # -------------------------------------------------SOIL Models---------------------------------------------------------#
 if len(SOIL_MODELS) > 0:
     generate_schemas(models=SOIL_MODELS,
@@ -154,12 +153,3 @@ if len(TANK_MIX_MODELS) > 0:
 if len(TISSUE_MODELS) > 0:
     generate_schemas(models=TISSUE_MODELS,
                      schemas_dir=Path("open_aglabs/tissue/schemas"))
-
-
-
-
-
-
-
-
-

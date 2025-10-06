@@ -1,14 +1,232 @@
 {
+    "$defs": {
+        "Location": {
+            "additionalProperties": false,
+            "description": "Values to support the proper documentation of location information",
+            "example": {
+                "admin_level_0": "USA",
+                "admin_level_1": "California",
+                "admin_level_2": "Los Angeles County",
+                "admin_level_3": "Los Angeles",
+                "crs": "EPSG:4326",
+                "elevation_m": 150.5,
+                "field": "Field_7B",
+                "geometry": "POINT (-118.2437 34.0522)",
+                "id": "loc-uuid-12345",
+                "latitude": 34.0522,
+                "location": "A",
+                "longitude": -118.2437,
+                "name": "Research Plot A",
+                "site": "AgTech Research Farm"
+            },
+            "properties": {
+                "id": {
+                    "description": "The UUID of the location",
+                    "title": "Id",
+                    "type": "string"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The name of the location",
+                    "title": "Name"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 90.0,
+                            "minimum": -90.0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The latitude of where the data was taken",
+                    "title": "Latitude"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 180.0,
+                            "minimum": -180.0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The longitude of where the data was taken",
+                    "title": "Longitude"
+                },
+                "elevation_m": {
+                    "anyOf": [
+                        {
+                            "maximum": 10000,
+                            "minimum": -100,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The elevation of where the data came from",
+                    "title": "Elevation M"
+                },
+                "crs": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The crs of the GPS data",
+                    "title": "Crs"
+                },
+                "geometry": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The Geometry in WKT format",
+                    "title": "Geometry"
+                },
+                "admin_level_0": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This level is for Country / Nation.",
+                    "title": "Admin Level 0"
+                },
+                "admin_level_1": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This is for things like state or the primary subdivision of a country / Nation.",
+                    "title": "Admin Level 1"
+                },
+                "admin_level_2": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This is for things like county or the primary subdivision of a state.",
+                    "title": "Admin Level 2"
+                },
+                "admin_level_3": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "This is for things like city/town/village or the primary subdivision of a county.",
+                    "title": "Admin Level 3"
+                },
+                "site": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The site refers to the research site the data came from. A site will have many fields and locations associated to it",
+                    "title": "Site"
+                },
+                "field": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "What is the field ID that the data came from",
+                    "title": "Field"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "the location (by BrApi Def) of there the data came from",
+                    "title": "Location"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Location",
+            "type": "object"
+        }
+    },
     "additionalProperties": false,
     "description": "Represents a single tillage event for a field.",
     "example": {
-        "crop_yield": 200,
-        "crop_yield_units": "bu/acre",
-        "eventId": "TILL-2025-FIELD-A-003",
-        "harvestType": "destructive",
-        "harvest_method": "machine",
-        "notes": "The first and only harvest of the season.",
-        "timestamp": "2025-03-10T14:00:00Z"
+        "cropYield": 250.75,
+        "cropYieldUnits": "bu/acre",
+        "eventId": "HARV-2025-FIELD-A-001",
+        "harvestType": "Destructive",
+        "implementUsed": "Combine Harvester",
+        "location": {
+            "crs": "EPSG:4326",
+            "elevation_m": 120.0,
+            "geometry": "POINT (-118.456 34.123)",
+            "id": "loc-harvest-789",
+            "latitude": 34.123,
+            "longitude": -118.456,
+            "name": "Field A Harvest Zone 1"
+        },
+        "notes": "First pass of corn harvest in Field A. Good yield observed.",
+        "timestamp": "2025-09-20T10:00:00Z"
     },
     "properties": {
         "eventId": {
@@ -18,6 +236,17 @@
             ],
             "title": "Eventid",
             "type": "string"
+        },
+        "location": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/Location"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null
         },
         "timestamp": {
             "description": "The date and time the harvest occurred.",

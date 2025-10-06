@@ -284,6 +284,7 @@
             "type": "object"
         },
         "CameraProperties": {
+            "additionalProperties": false,
             "description": "Values to support the proper documentation of camera, if you add information to this json please update this doc. https://docs.google.com/spreadsheets/d/1zljGA5xtwtLNXqjohfXeJzh6SFwdObAjmb5gHflQfIA/edit?gid=1769639569#gid=1769639569",
             "properties": {
                 "make": {
@@ -342,75 +343,8 @@
             "title": "CameraProperties",
             "type": "object"
         },
-        "ImageProtocol": {
-            "description": "Pydantic model to store data about an image of agricultural materials.",
-            "properties": {
-                "name": {
-                    "description": "The Name of the protocol used to capture the image.",
-                    "title": "Name",
-                    "type": "string"
-                },
-                "sample_type": {
-                    "description": "What is being imaged (e.g., 'corn field', 'soil', 'tomato fruit').",
-                    "title": "Sample Type",
-                    "type": "string"
-                },
-                "camera_height_mm": {
-                    "description": "Height of the camera from the sample in millimeters.",
-                    "exclusiveMinimum": 0,
-                    "title": "Camera Height Mm",
-                    "type": "number"
-                },
-                "camera_angle": {
-                    "description": "The angle that the camera is at relative to vertical. eg: top down is 0",
-                    "title": "Camera Angle",
-                    "type": "number"
-                },
-                "magnification": {
-                    "description": "Magnification level used for the image capture.",
-                    "exclusiveMinimum": 0,
-                    "title": "Magnification",
-                    "type": "number"
-                },
-                "lighting_conditions": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "default": null,
-                    "description": "Description of the lighting conditions (e.g., 'natural sunlight', 'LED array', 'dark field').",
-                    "title": "Lighting Conditions"
-                },
-                "notes": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "default": null,
-                    "description": "Any additional relevant notes or observations.",
-                    "title": "Notes"
-                }
-            },
-            "required": [
-                "name",
-                "sample_type",
-                "camera_height_mm",
-                "camera_angle",
-                "magnification"
-            ],
-            "title": "ImageProtocol",
-            "type": "object"
-        },
         "ImageQuality": {
-            "additionalProperties": false,
+            "additionalProperties": true,
             "description": "The properties associated with Image Quality",
             "properties": {
                 "exposure": {
@@ -548,12 +482,46 @@
         "Location": {
             "additionalProperties": false,
             "description": "Values to support the proper documentation of location information",
+            "example": {
+                "admin_level_0": "USA",
+                "admin_level_1": "California",
+                "admin_level_2": "Los Angeles County",
+                "admin_level_3": "Los Angeles",
+                "crs": "EPSG:4326",
+                "elevation_m": 150.5,
+                "field": "Field_7B",
+                "geometry": "POINT (-118.2437 34.0522)",
+                "id": "loc-uuid-12345",
+                "latitude": 34.0522,
+                "location": "A",
+                "longitude": -118.2437,
+                "name": "Research Plot A",
+                "site": "AgTech Research Farm"
+            },
             "properties": {
+                "id": {
+                    "description": "The UUID of the location",
+                    "title": "Id",
+                    "type": "string"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The name of the location",
+                    "title": "Name"
+                },
                 "latitude": {
                     "anyOf": [
                         {
-                            "maximum": 180.0,
-                            "minimum": -180.0,
+                            "maximum": 90.0,
+                            "minimum": -90.0,
                             "type": "number"
                         },
                         {
@@ -620,7 +588,7 @@
                     "description": "The Geometry in WKT format",
                     "title": "Geometry"
                 },
-                "country": {
+                "admin_level_0": {
                     "anyOf": [
                         {
                             "type": "string"
@@ -630,10 +598,10 @@
                         }
                     ],
                     "default": null,
-                    "description": "The country that the data came from.",
-                    "title": "Country"
+                    "description": "This level is for Country / Nation.",
+                    "title": "Admin Level 0"
                 },
-                "state": {
+                "admin_level_1": {
                     "anyOf": [
                         {
                             "type": "string"
@@ -643,10 +611,10 @@
                         }
                     ],
                     "default": null,
-                    "description": "What state did the data come from",
-                    "title": "State"
+                    "description": "This is for things like state or the primary subdivision of a country / Nation.",
+                    "title": "Admin Level 1"
                 },
-                "county": {
+                "admin_level_2": {
                     "anyOf": [
                         {
                             "type": "string"
@@ -656,10 +624,10 @@
                         }
                     ],
                     "default": null,
-                    "description": "What County did the data come from",
-                    "title": "County"
+                    "description": "This is for things like county or the primary subdivision of a state.",
+                    "title": "Admin Level 2"
                 },
-                "district": {
+                "admin_level_3": {
                     "anyOf": [
                         {
                             "type": "string"
@@ -669,21 +637,8 @@
                         }
                     ],
                     "default": null,
-                    "description": "What District did the data come from",
-                    "title": "District"
-                },
-                "village": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "default": null,
-                    "description": "What Village did the data come from",
-                    "title": "Village"
+                    "description": "This is for things like city/town/village or the primary subdivision of a county.",
+                    "title": "Admin Level 3"
                 },
                 "site": {
                     "anyOf": [
@@ -695,7 +650,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "What is the site the data came from",
+                    "description": "The site refers to the research site the data came from. A site will have many fields and locations associated to it",
                     "title": "Site"
                 },
                 "field": {
@@ -708,7 +663,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "What is the site the data came from",
+                    "description": "What is the field ID that the data came from",
                     "title": "Field"
                 },
                 "location": {
@@ -725,10 +680,14 @@
                     "title": "Location"
                 }
             },
+            "required": [
+                "id"
+            ],
             "title": "Location",
             "type": "object"
         },
         "MLOutput": {
+            "additionalProperties": false,
             "properties": {
                 "pred": {
                     "anyOf": [
@@ -743,7 +702,21 @@
                         }
                     ],
                     "default": null,
+                    "description": "The predicted value",
                     "title": "Pred"
+                },
+                "model_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The ID of the model used to make the prediction",
+                    "title": "Model Id"
                 },
                 "model_version": {
                     "anyOf": [
@@ -755,14 +728,61 @@
                         }
                     ],
                     "default": null,
+                    "description": "The version of the model used to make the prediction",
                     "title": "Model Version"
                 }
             },
             "title": "MLOutput",
             "type": "object"
+        },
+        "SyntheticImageProperties": {
+            "additionalProperties": true,
+            "description": "Values associated with Synthetic Images",
+            "properties": {
+                "model": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The model of the synthetic image.",
+                    "title": "Model"
+                },
+                "seed": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The seed used to generate the synthetic image.",
+                    "title": "Seed"
+                },
+                "noise": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Noise"
+                }
+            },
+            "title": "SyntheticImageProperties",
+            "type": "object"
         }
     },
-    "additionalProperties": false,
+    "additionalProperties": true,
     "description": "All the approved values to be captured about Images of Ag Data.",
     "example": {
         "acquisition_properties": {
@@ -795,7 +815,7 @@
             "model": "DJI Mavic 2 Pro"
         },
         "device": "drone",
-        "id": "4d922e05-4764-4cc8-84d8-b2557825adc4",
+        "id": "6628bf9c-6697-47f1-b11a-260f6b5e7354",
         "image_quality": {
             "aperture": "f/2.8",
             "blur_score": {
@@ -828,6 +848,11 @@
             "name": "Drone Survey v1.0",
             "notes": "Standard flight path",
             "sample_type": "corn field"
+        },
+        "synthetic_image_properties": {
+            "model": "v1",
+            "noise": 0.01,
+            "seed": 12345
         }
     },
     "properties": {
@@ -846,6 +871,56 @@
             "title": "Device",
             "type": "string"
         },
+        "protocol_name": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The name of the protocol used to capture the image.",
+            "title": "Protocol Name"
+        },
+        "protocol_version": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The version of the protocol used to capture the image.",
+            "title": "Protocol Version"
+        },
+        "protocol_url": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The URL of the protocol used to capture the image.",
+            "title": "Protocol Url"
+        },
+        "type": {
+            "description": "The type of image is it, original, augmented, synthetic.",
+            "enum": [
+                "original",
+                "annotation",
+                "augmented",
+                "synthetic"
+            ],
+            "title": "Type",
+            "type": "string"
+        },
         "camera_properties": {
             "anyOf": [
                 {
@@ -861,17 +936,6 @@
             "anyOf": [
                 {
                     "$ref": "#/$defs/Location"
-                },
-                {
-                    "type": "null"
-                }
-            ],
-            "default": null
-        },
-        "protocol_properties": {
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/ImageProtocol"
                 },
                 {
                     "type": "null"
@@ -911,12 +975,24 @@
                 }
             ],
             "default": null
+        },
+        "synthetic_image_properties": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/SyntheticImageProperties"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null
         }
     },
     "required": [
         "path",
         "id",
-        "device"
+        "device",
+        "type"
     ],
     "title": "Image",
     "type": "object"
