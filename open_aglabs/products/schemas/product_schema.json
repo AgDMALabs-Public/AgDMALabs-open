@@ -232,6 +232,7 @@
             "type": "object"
         }
     },
+    "additionalProperties": false,
     "description": "Represents a single soil sample, including its location, depth, and lab analysis results.",
     "example": {
         "company": "AgriSolutions Inc.",
@@ -306,7 +307,7 @@
             "type": "string"
         },
         "registrationId": {
-            "description": "The Registraiton ID for the product.",
+            "description": "The Registration ID for the product.",
             "examples": [
                 "123456789"
             ],

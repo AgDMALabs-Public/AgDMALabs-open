@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class NutrientComposition(BaseModel):
@@ -138,7 +138,7 @@ class Product(BaseModel):
     registration_id: str = Field(
         ...,
         alias="registrationId",
-        description="The Registraiton ID for the product.",
+        description="The Registration ID for the product.",
         examples=["123456789"]
     )
     nutrients: NutrientComposition = Field(
@@ -184,9 +184,10 @@ class Product(BaseModel):
         description="A place to put notes about the product."
     )
 
-    class ConfigDict:
-        validate_by_name = True
-        json_schema_extra = {
+    model_config = ConfigDict(
+        extra="forbid",
+        validate_by_name=True,
+        json_schema_extra={
             "example": {
                 "name": "SuperGrow Fertilizer with Integrated Herbicide",
                 "productId": "FG-IH-002",
@@ -224,3 +225,4 @@ class Product(BaseModel):
                 "notes": ["Broad-spectrum fertilizer and post-emergent herbicide for corn and soybeans."]
             }
         }
+    )

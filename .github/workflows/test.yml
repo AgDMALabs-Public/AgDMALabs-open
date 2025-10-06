@@ -1,12 +1,12 @@
 name: My Workflow
 
-on: [push] # This defines when the workflow runs, e.g., on every push
+on: [push]
 
-jobs: # This is the required top-level key for jobs
-  my_build_job: # This is the name of your first job
-    runs-on: ubuntu-latest # This specifies the runner environment for this job
+jobs:
+  my_build_job:
+    runs-on: ubuntu-latest
 
-    strategy: # Optional: if you're using a matrix strategy
+    strategy:
       matrix:
         python-version: [3.11]
 

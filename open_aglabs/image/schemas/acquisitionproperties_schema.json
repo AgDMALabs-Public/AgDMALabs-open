@@ -1,6 +1,7 @@
 {
     "$defs": {
         "MLOutput": {
+            "additionalProperties": false,
             "properties": {
                 "pred": {
                     "anyOf": [
@@ -15,7 +16,21 @@
                         }
                     ],
                     "default": null,
+                    "description": "The predicted value",
                     "title": "Pred"
+                },
+                "model_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The ID of the model used to make the prediction",
+                    "title": "Model Id"
                 },
                 "model_version": {
                     "anyOf": [
@@ -27,6 +42,7 @@
                         }
                     ],
                     "default": null,
+                    "description": "The version of the model used to make the prediction",
                     "title": "Model Version"
                 }
             },

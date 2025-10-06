@@ -1,0 +1,121 @@
+{
+    "$defs": {
+        "SimpleProduct": {
+            "properties": {
+                "product_id": {
+                    "description": "Unique identifier for this product.",
+                    "title": "Product Id",
+                    "type": "string"
+                },
+                "product_name": {
+                    "description": "Name of the product.",
+                    "title": "Product Name",
+                    "type": "string"
+                },
+                "amount": {
+                    "description": "Amount of the product.",
+                    "title": "Amount",
+                    "type": "number"
+                },
+                "amount_units": {
+                    "enum": [
+                        "Kg",
+                        "lbs",
+                        "g",
+                        "oz",
+                        "l",
+                        "ml",
+                        "gal"
+                    ],
+                    "title": "Amount Units",
+                    "type": "string"
+                },
+                "rate": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Rate of the product.",
+                    "title": "Rate"
+                },
+                "rate_units": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "kg/ha",
+                                "lbs/ac",
+                                "g/m2",
+                                "oz/ft2",
+                                "l/ha",
+                                "ml/m2",
+                                "gal/ac"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Units of the rate.",
+                    "title": "Rate Units"
+                },
+                "ratio": {
+                    "anyOf": [
+                        {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Ratio of the product.",
+                    "title": "Ratio"
+                }
+            },
+            "required": [
+                "product_id",
+                "product_name",
+                "amount",
+                "amount_units"
+            ],
+            "title": "SimpleProduct",
+            "type": "object"
+        }
+    },
+    "properties": {
+        "id": {
+            "description": "Unique identifier for this tank mix.",
+            "title": "Id",
+            "type": "string"
+        },
+        "name": {
+            "description": "Name of the tank mix.",
+            "title": "Name",
+            "type": "string"
+        },
+        "mix_content": {
+            "description": "List of products in the tank mix.",
+            "items": {
+                "$ref": "#/$defs/SimpleProduct"
+            },
+            "title": "Mix Content",
+            "type": "array"
+        }
+    },
+    "required": [
+        "id",
+        "name",
+        "mix_content"
+    ],
+    "title": "TankMix",
+    "type": "object"
+}

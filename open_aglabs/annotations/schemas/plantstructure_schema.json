@@ -1,16 +1,14 @@
 {
     "additionalProperties": false,
     "example": {
-        "class": "Liliopsida",
-        "family": "Poaceae",
-        "genus": "Zea",
-        "kingdom": "Plantae",
-        "order": "Poales",
-        "phylum": "Tracheophyta",
-        "species": "Zea mays"
+        "common_name": "plant",
+        "ontology_id": "PO:0000003",
+        "ontology_name": "whole plant",
+        "ontology_source": "https://obofoundry.org/ontology/po.html",
+        "state": "living"
     },
     "properties": {
-        "common": {
+        "common_name": {
             "anyOf": [
                 {
                     "type": "string"
@@ -21,9 +19,35 @@
             ],
             "default": null,
             "description": "The common name for the plant structure being annotated.",
-            "title": "Common"
+            "title": "Common Name"
         },
-        "scientific": {
+        "state": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The state of the plant structure being annotated. Ex Open for a flower.",
+            "title": "State"
+        },
+        "ontology_source": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The ontology name for the plant structure being annotated.",
+            "title": "Ontology Source"
+        },
+        "ontology_name": {
             "anyOf": [
                 {
                     "type": "string"
@@ -34,7 +58,20 @@
             ],
             "default": null,
             "description": "The scientific name for the plant structure being annotated.",
-            "title": "Scientific"
+            "title": "Ontology Name"
+        },
+        "ontology_id": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The scientific name for the plant structure being annotated.",
+            "title": "Ontology Id"
         }
     },
     "title": "PlantStructure",

@@ -1,9 +1,10 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from open_aglabs.core.base_models import Location
+
 
 class SoilAnalysis(BaseModel):
     """
@@ -103,13 +104,6 @@ class SoilSample(BaseModel):
         description="Unique identifier for the soil sample.",
         examples=["SS-2025-FIELD-A-001"]
     )
-    sample_location_id: str = Field(
-        ...,
-        alias="sampleLocationId",
-        description="Unique identifier for the sample location. This can be used to identify samples from the same location.",
-        examples=["SS-2025-FIELD-A-001"]
-    )
-
     timestamp: datetime = Field(
         ...,
         description="The date and time the sample was collected."
@@ -159,26 +153,52 @@ class SoilSample(BaseModel):
         description="Notes associated with eh sample."
     )
 
-    class ConfigDict:
-        extra = "forbid"
-        validate_by_name = True
-        json_schema_extra = {
+    model_config = ConfigDict(
+        extra="forbid",
+        validate_by_name=True,
+        json_schema_extra={
             "example": {
-                "sampleId": "SS-2025-FZ-001",
+                "sampleId": "SS-2025-FIELD-A-001",
                 "timestamp": "2025-08-21T10:30:00Z",
-                "latitude": 40.7128,
-                "longitude": -74.0060,
                 "labId": "AgriLab-1",
-                "startDepthCm": 0,
-                "endDepthCm": 15,
+                "sampleRadiusM": 2.5,
+                "startDepthCm": 0.0,
+                "endDepthCm": 15.0,
+                "extractionType": "Mehlich-3",
+                "location": {
+                    "id": "loc-soil-sample-1",
+                    "name": "Field A Sample Point 1",
+                    "latitude": 40.7128,
+                    "longitude": -74.0060,
+                    "elevation_m": 50.0,
+                    "crs": "EPSG:4326",
+                    "geometry": "POINT (-74.0060 40.7128)",
+                    "admin_level_0": "USA",
+                    "admin_level_1": "New York",
+                    "admin_level_2": "New York County",
+                    "admin_level_3": "Farm X",
+                    "site": "Research Farm",
+                    "field": "Field_A",
+                    "location": "Center of Field A"
+                },
                 "analysisResults": {
                     "ph": 6.5,
                     "organicMatterPercent": 3.2,
                     "nitrogenPpm": 25.0,
                     "phosphorusPpm": 55.0,
                     "potassiumPpm": 150.0,
+                    "sulfurPpm": 12.0,
+                    "calciumPpm": 1500.0,
+                    "magnesiumPpm": 250.0,
                     "zincPpm": 2.1,
+                    "ironPpm": 45.0,
+                    "manganesePpm": 30.0,
+                    "copperPpm": 0.8,
+                    "boronPpm": 0.5,
+                    "molybdenumPpm": 0.1,
+                    "cationExchangeCapacity": 18.5
                 },
-                "notes": ['thjs is a test', 'this is a test too']
+                "notes": ["Sample taken before fall fertilization.", "Area with historical lower yields."]
             }
         }
+    )

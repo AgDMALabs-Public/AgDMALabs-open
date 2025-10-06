@@ -1,9 +1,10 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from ..core.base_models import Location
+
 
 class TissueAnalysis(BaseModel):
     """
@@ -144,6 +145,10 @@ class TissueSample(BaseModel):
     """
     Represents a single tissue sample, including its location, depth, and lab analysis results.
     """
+    schema_name: Literal["TissueSample"] = Field(
+        ...,
+        description="The name of the schema used to validate the data."
+    )
     sample_id: str = Field(
         ...,
         alias="sampleId",
@@ -201,21 +206,24 @@ class TissueSample(BaseModel):
         description="Notes associated with eh sample."
     )
 
-    class ConfigDict:
-        extra = "forbid"
-        validate_by_name = True
-        json_schema_extra = {
+    model_config = ConfigDict(
+        extra="forbid",
+        validate_by_name=True,
+        json_schema_extra={
             "example": {
+                "schema_name": "TissueSample",
                 "sampleId": "TS-2025-FZ-001",
-                "sampleLocationId": "TS-2025-FIELD-A-LOC-001",
+                "location": {
+                    "id": "TS-2025-FIELD-A-LOC-001",
+                    "latitude": 34.0522,
+                    "longitude": -118.2437,
+                },
                 "timestamp": "2025-08-21T10:30:00Z",
-                "latitude": 34.0522,
-                "longitude": -118.2437,
                 "labId": "TissueLab-A",
                 "sampleRadiusM": 0.2,
                 "growthStage": "Flowering",
                 "plantFraction": "Leaf",
-                "analysisResults": {
+                "analysis_results": {
                     "nitrogenPct": 3.8,
                     "phosphorusPct": 0.5,
                     "potassiumPpm": 28000.0,
@@ -235,3 +243,4 @@ class TissueSample(BaseModel):
                 "notes": ['thjs is a test', 'this is a test too']
             }
         }
+    )

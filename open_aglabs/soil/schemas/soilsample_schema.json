@@ -3,12 +3,46 @@
         "Location": {
             "additionalProperties": false,
             "description": "Values to support the proper documentation of location information",
+            "example": {
+                "admin_level_0": "USA",
+                "admin_level_1": "California",
+                "admin_level_2": "Los Angeles County",
+                "admin_level_3": "Los Angeles",
+                "crs": "EPSG:4326",
+                "elevation_m": 150.5,
+                "field": "Field_7B",
+                "geometry": "POINT (-118.2437 34.0522)",
+                "id": "loc-uuid-12345",
+                "latitude": 34.0522,
+                "location": "A",
+                "longitude": -118.2437,
+                "name": "Research Plot A",
+                "site": "AgTech Research Farm"
+            },
             "properties": {
+                "id": {
+                    "description": "The UUID of the location",
+                    "title": "Id",
+                    "type": "string"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The name of the location",
+                    "title": "Name"
+                },
                 "latitude": {
                     "anyOf": [
                         {
-                            "maximum": 180.0,
-                            "minimum": -180.0,
+                            "maximum": 90.0,
+                            "minimum": -90.0,
                             "type": "number"
                         },
                         {
@@ -75,7 +109,7 @@
                     "description": "The Geometry in WKT format",
                     "title": "Geometry"
                 },
-                "country": {
+                "admin_level_0": {
                     "anyOf": [
                         {
                             "type": "string"
@@ -85,10 +119,10 @@
                         }
                     ],
                     "default": null,
-                    "description": "The country that the data came from.",
-                    "title": "Country"
+                    "description": "This level is for Country / Nation.",
+                    "title": "Admin Level 0"
                 },
-                "state": {
+                "admin_level_1": {
                     "anyOf": [
                         {
                             "type": "string"
@@ -98,10 +132,10 @@
                         }
                     ],
                     "default": null,
-                    "description": "What state did the data come from",
-                    "title": "State"
+                    "description": "This is for things like state or the primary subdivision of a country / Nation.",
+                    "title": "Admin Level 1"
                 },
-                "county": {
+                "admin_level_2": {
                     "anyOf": [
                         {
                             "type": "string"
@@ -111,10 +145,10 @@
                         }
                     ],
                     "default": null,
-                    "description": "What County did the data come from",
-                    "title": "County"
+                    "description": "This is for things like county or the primary subdivision of a state.",
+                    "title": "Admin Level 2"
                 },
-                "district": {
+                "admin_level_3": {
                     "anyOf": [
                         {
                             "type": "string"
@@ -124,21 +158,8 @@
                         }
                     ],
                     "default": null,
-                    "description": "What District did the data come from",
-                    "title": "District"
-                },
-                "village": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "default": null,
-                    "description": "What Village did the data come from",
-                    "title": "Village"
+                    "description": "This is for things like city/town/village or the primary subdivision of a county.",
+                    "title": "Admin Level 3"
                 },
                 "site": {
                     "anyOf": [
@@ -150,7 +171,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "What is the site the data came from",
+                    "description": "The site refers to the research site the data came from. A site will have many fields and locations associated to it",
                     "title": "Site"
                 },
                 "field": {
@@ -163,7 +184,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "What is the site the data came from",
+                    "description": "What is the field ID that the data came from",
                     "title": "Field"
                 },
                 "location": {
@@ -180,6 +201,9 @@
                     "title": "Location"
                 }
             },
+            "required": [
+                "id"
+            ],
             "title": "Location",
             "type": "object"
         },
@@ -354,23 +378,48 @@
     "description": "Represents a single soil sample, including its location, depth, and lab analysis results.",
     "example": {
         "analysisResults": {
+            "boronPpm": 0.5,
+            "calciumPpm": 1500.0,
+            "cationExchangeCapacity": 18.5,
+            "copperPpm": 0.8,
+            "ironPpm": 45.0,
+            "magnesiumPpm": 250.0,
+            "manganesePpm": 30.0,
+            "molybdenumPpm": 0.1,
             "nitrogenPpm": 25.0,
             "organicMatterPercent": 3.2,
             "ph": 6.5,
             "phosphorusPpm": 55.0,
             "potassiumPpm": 150.0,
+            "sulfurPpm": 12.0,
             "zincPpm": 2.1
         },
-        "endDepthCm": 15,
+        "endDepthCm": 15.0,
+        "extractionType": "Mehlich-3",
         "labId": "AgriLab-1",
-        "latitude": 40.7128,
-        "longitude": -74.006,
+        "location": {
+            "admin_level_0": "USA",
+            "admin_level_1": "New York",
+            "admin_level_2": "New York County",
+            "admin_level_3": "Farm X",
+            "crs": "EPSG:4326",
+            "elevation_m": 50.0,
+            "field": "Field_A",
+            "geometry": "POINT (-74.0060 40.7128)",
+            "id": "loc-soil-sample-1",
+            "latitude": 40.7128,
+            "location": "Center of Field A",
+            "longitude": -74.006,
+            "name": "Field A Sample Point 1",
+            "site": "Research Farm"
+        },
         "notes": [
-            "thjs is a test",
-            "this is a test too"
+            "Sample taken before fall fertilization.",
+            "Area with historical lower yields."
         ],
-        "sampleId": "SS-2025-FZ-001",
-        "startDepthCm": 0,
+        "sampleId": "SS-2025-FIELD-A-001",
+        "sampleRadiusM": 2.5,
+        "startDepthCm": 0.0,
         "timestamp": "2025-08-21T10:30:00Z"
     },
     "properties": {
@@ -380,14 +429,6 @@
                 "SS-2025-FIELD-A-001"
             ],
             "title": "Sampleid",
-            "type": "string"
-        },
-        "sampleLocationId": {
-            "description": "Unique identifier for the sample location. This can be used to identify samples from the same location.",
-            "examples": [
-                "SS-2025-FIELD-A-001"
-            ],
-            "title": "Samplelocationid",
             "type": "string"
         },
         "timestamp": {
@@ -458,7 +499,6 @@
     },
     "required": [
         "sampleId",
-        "sampleLocationId",
         "timestamp",
         "sampleRadiusM",
         "startDepthCm",

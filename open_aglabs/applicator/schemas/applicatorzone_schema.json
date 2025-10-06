@@ -1,0 +1,39 @@
+{
+    "properties": {
+        "id": {
+            "description": "Unique identifier for this specific zone.",
+            "title": "Id",
+            "type": "string"
+        },
+        "geometry": {
+            "description": "The geometry for this zone.",
+            "title": "Geometry",
+            "type": "string"
+        },
+        "tank_id": {
+            "description": "The tank ID for this zone.",
+            "title": "Tank Id",
+            "type": "string"
+        },
+        "tank_mix": {
+            "description": "The tank mix for this zone.",
+            "title": "Tank Mix",
+            "type": "string"
+        },
+        "rate": {
+            "description": "The rate for this zone.",
+            "minimum": 0,
+            "title": "Rate",
+            "type": "number"
+        }
+    },
+    "required": [
+        "id",
+        "geometry",
+        "tank_id",
+        "tank_mix",
+        "rate"
+    ],
+    "title": "ApplicatorZone",
+    "type": "object"
+}

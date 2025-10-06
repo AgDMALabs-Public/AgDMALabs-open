@@ -1,6 +1,14 @@
 {
+    "additionalProperties": false,
+    "example": {
+        "common_name": "corn emergence",
+        "crop_growth_stage": "ve",
+        "ontology_id": "PO:0007112",
+        "ontology_name": "1 main shoot growth stage",
+        "ontology_source": "https://obofoundry.org/ontology/po.html"
+    },
     "properties": {
-        "common": {
+        "common_name": {
             "anyOf": [
                 {
                     "type": "string"
@@ -10,10 +18,10 @@
                 }
             ],
             "default": null,
-            "description": "The biological kingdom of the organism (e.g., 'Plantae').",
-            "title": "Common"
+            "description": "The common name for the plant developmental stage being annotated.",
+            "title": "Common Name"
         },
-        "scientific": {
+        "ontology_source": {
             "anyOf": [
                 {
                     "type": "string"
@@ -23,8 +31,34 @@
                 }
             ],
             "default": null,
-            "description": "The biological phylum/division of the plant.",
-            "title": "Scientific"
+            "description": "The ontology name for the plant developmental stage being annotated.",
+            "title": "Ontology Source"
+        },
+        "ontology_name": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The scientific name for the plant developmental stage being annotated.",
+            "title": "Ontology Name"
+        },
+        "ontology_id": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The ontology ID for the plant developmental stage being annotated.",
+            "title": "Ontology Id"
         },
         "class": {
             "anyOf": [
@@ -36,21 +70,8 @@
                 }
             ],
             "default": null,
-            "description": "The biological class of the plant.",
+            "description": "The technical name for the crop growth stage of the organism being annotated.",
             "title": "Class"
-        },
-        "order": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "type": "null"
-                }
-            ],
-            "default": null,
-            "description": "The biological order of the plant.",
-            "title": "Order"
         }
     },
     "title": "PlantDevelopmentalStage",

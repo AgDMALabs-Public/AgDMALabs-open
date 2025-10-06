@@ -1,4 +1,5 @@
 {
+    "additionalProperties": false,
     "description": "Values to support the proper documentation of camera, if you add information to this json please update this doc. https://docs.google.com/spreadsheets/d/1zljGA5xtwtLNXqjohfXeJzh6SFwdObAjmb5gHflQfIA/edit?gid=1769639569#gid=1769639569",
     "properties": {
         "make": {

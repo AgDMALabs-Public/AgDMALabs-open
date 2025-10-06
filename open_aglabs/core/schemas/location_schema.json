@@ -1,12 +1,46 @@
 {
     "additionalProperties": false,
     "description": "Values to support the proper documentation of location information",
+    "example": {
+        "admin_level_0": "USA",
+        "admin_level_1": "California",
+        "admin_level_2": "Los Angeles County",
+        "admin_level_3": "Los Angeles",
+        "crs": "EPSG:4326",
+        "elevation_m": 150.5,
+        "field": "Field_7B",
+        "geometry": "POINT (-118.2437 34.0522)",
+        "id": "loc-uuid-12345",
+        "latitude": 34.0522,
+        "location": "A",
+        "longitude": -118.2437,
+        "name": "Research Plot A",
+        "site": "AgTech Research Farm"
+    },
     "properties": {
+        "id": {
+            "description": "The UUID of the location",
+            "title": "Id",
+            "type": "string"
+        },
+        "name": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The name of the location",
+            "title": "Name"
+        },
         "latitude": {
             "anyOf": [
                 {
-                    "maximum": 180.0,
-                    "minimum": -180.0,
+                    "maximum": 90.0,
+                    "minimum": -90.0,
                     "type": "number"
                 },
                 {
@@ -73,7 +107,7 @@
             "description": "The Geometry in WKT format",
             "title": "Geometry"
         },
-        "country": {
+        "admin_level_0": {
             "anyOf": [
                 {
                     "type": "string"
@@ -83,10 +117,10 @@
                 }
             ],
             "default": null,
-            "description": "The country that the data came from.",
-            "title": "Country"
+            "description": "This level is for Country / Nation.",
+            "title": "Admin Level 0"
         },
-        "state": {
+        "admin_level_1": {
             "anyOf": [
                 {
                     "type": "string"
@@ -96,10 +130,10 @@
                 }
             ],
             "default": null,
-            "description": "What state did the data come from",
-            "title": "State"
+            "description": "This is for things like state or the primary subdivision of a country / Nation.",
+            "title": "Admin Level 1"
         },
-        "county": {
+        "admin_level_2": {
             "anyOf": [
                 {
                     "type": "string"
@@ -109,10 +143,10 @@
                 }
             ],
             "default": null,
-            "description": "What County did the data come from",
-            "title": "County"
+            "description": "This is for things like county or the primary subdivision of a state.",
+            "title": "Admin Level 2"
         },
-        "district": {
+        "admin_level_3": {
             "anyOf": [
                 {
                     "type": "string"
@@ -122,21 +156,8 @@
                 }
             ],
             "default": null,
-            "description": "What District did the data come from",
-            "title": "District"
-        },
-        "village": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "type": "null"
-                }
-            ],
-            "default": null,
-            "description": "What Village did the data come from",
-            "title": "Village"
+            "description": "This is for things like city/town/village or the primary subdivision of a county.",
+            "title": "Admin Level 3"
         },
         "site": {
             "anyOf": [
@@ -148,7 +169,7 @@
                 }
             ],
             "default": null,
-            "description": "What is the site the data came from",
+            "description": "The site refers to the research site the data came from. A site will have many fields and locations associated to it",
             "title": "Site"
         },
         "field": {
@@ -161,7 +182,7 @@
                 }
             ],
             "default": null,
-            "description": "What is the site the data came from",
+            "description": "What is the field ID that the data came from",
             "title": "Field"
         },
         "location": {
@@ -178,6 +199,9 @@
             "title": "Location"
         }
     },
+    "required": [
+        "id"
+    ],
     "title": "Location",
     "type": "object"
 }

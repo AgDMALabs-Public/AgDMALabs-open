@@ -1,7 +1,8 @@
 from typing import Optional, List
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
+from ..core.base_models import Location
 
 class HarvestEvent(BaseModel):
     """
@@ -12,6 +13,9 @@ class HarvestEvent(BaseModel):
         alias="eventId",
         description="Unique identifier for this specific harvest event.",
         examples=["TILL-2025-FIELD-A-003"]
+    )
+    location: Optional[Location] = Field(
+        None
     )
     timestamp: datetime = Field(
         ...,
@@ -47,17 +51,27 @@ class HarvestEvent(BaseModel):
         description="Any additional notes about the harvest event."
     )
 
-    class ConfigDict:
-        extra = "forbid"
-        validate_by_name = True  # Allow population using 'class' or 'class_name'
-        json_schema_extra = {
+    model_config = ConfigDict(
+        extra="forbid",
+        validate_by_name=True,
+        json_schema_extra={
             "example": {
-                "eventId": "TILL-2025-FIELD-A-003",
-                "timestamp": "2025-03-10T14:00:00Z",
-                "harvestType": "destructive",
-                "harvest_method": "machine",
-                "crop_yield": 200,
-                "crop_yield_units": "bu/acre",
-                "notes": "The first and only harvest of the season."
+                "eventId": "HARV-2025-FIELD-A-001",
+                "location": {
+                    "id": "loc-harvest-789",
+                    "name": "Field A Harvest Zone 1",
+                    "latitude": 34.123,
+                    "longitude": -118.456,
+                    "elevation_m": 120.0,
+                    "crs": "EPSG:4326",
+                    "geometry": "POINT (-118.456 34.123)",
+                },
+                "timestamp": "2025-09-20T10:00:00Z",
+                "harvestType": "Destructive",
+                "implementUsed": "Combine Harvester",
+                "cropYield": 250.75,
+                "cropYieldUnits": "bu/acre",
+                "notes": "First pass of corn harvest in Field A. Good yield observed."
             }
         }
+    )
