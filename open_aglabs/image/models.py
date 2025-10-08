@@ -235,6 +235,10 @@ class Image(BaseModel):
         ...,
         description="The type of device that is collecting the images, mobile, auxillery, or drone."
     )
+    type: Literal[*IMAGE_TYPE_LIST] = Field(
+        ...,
+        description="The type of image is it, original, augmented, synthetic."
+    )
     protocol_name: Optional[str] = Field(
         None,
         description="The name of the protocol used to capture the image."
@@ -246,10 +250,6 @@ class Image(BaseModel):
     protocol_url: Optional[str] = Field(
         None,
         description="The URL of the protocol used to capture the image."
-    )
-    type: Literal[*IMAGE_TYPE_LIST] = Field(
-        ...,
-        description="The type of image is it, original, augmented, synthetic."
     )
     camera_properties: Optional[CameraProperties] = Field(
         None
