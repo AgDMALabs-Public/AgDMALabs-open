@@ -1,14 +1,19 @@
 name: AgLabs_open
 
-on: [pull_request]
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
-  my_build_job:
+  build_and_test:
+    name: Build & Run Tests
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        python-version: [3.11]
+        python-version: [ 3.11 ]
 
     steps: # These are the actions this job will perform
       - uses: actions/checkout@v4
