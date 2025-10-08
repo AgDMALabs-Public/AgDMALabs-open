@@ -47,8 +47,8 @@ class Location(BaseModel):
     """
     Values to support the proper documentation of location information
     """
-    id: str = Field(
-        ...,
+    id: Optional[str] = Field(
+        None,
         description="The UUID of the location"
     )
     name: Optional[str] = Field(

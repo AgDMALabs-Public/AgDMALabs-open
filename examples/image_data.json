@@ -1,0 +1,67 @@
+{
+    "path": "test/33910373-ac1c-437a-9e45-7ffeb5461963.jpg",
+    "id": "33910373-ac1c-437a-9e45-7ffeb5461963",
+    "device": "mobile",
+    "type": "original",
+    "protocol_name": null,
+    "protocol_version": null,
+    "protocol_url": null,
+    "camera_properties": {
+        "make": null,
+        "model": null,
+        "iso": null,
+        "magnification": null
+    },
+    "location_properties": {
+        "id": null,
+        "name": null,
+        "latitude": null,
+        "longitude": null,
+        "elevation_m": null,
+        "crs": null,
+        "geometry": null,
+        "admin_level_0": null,
+        "admin_level_1": null,
+        "admin_level_2": null,
+        "admin_level_3": null,
+        "site": null,
+        "field": null,
+        "location": null
+    },
+    "acquisition_properties": {
+        "date": null,
+        "time": null,
+        "camera_height_m": null,
+        "camera_angle_deg": null,
+        "object_resolution": null,
+        "object_resolution_ml": null,
+        "light_source": null,
+        "lighting_lux": null,
+        "setting": null
+    },
+    "image_quality": {
+        "exposure": null,
+        "aperture": null,
+        "iso": null,
+        "height": null,
+        "width": null,
+        "channels": null,
+        "blur_score": null,
+        "pct_pixel_over_saturation": null,
+        "pct_pixel_under_saturation": null
+    },
+    "agronomic_properties": {
+        "crop_type": "corn",
+        "growth_stage": null,
+        "soil_color": "light",
+        "weed_pressure": null,
+        "irrigation_level": null,
+        "tillage_type": null,
+        "fertilizer_level": null
+    },
+    "synthetic_image_properties": {
+        "model": null,
+        "seed": null,
+        "noise": null
+    }
+}
