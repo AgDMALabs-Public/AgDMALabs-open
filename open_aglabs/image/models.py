@@ -277,6 +277,7 @@ class Image(BaseModel):
                 "path": "/images/field_A/row_1/image_001.jpg",
                 "id": str(uuid4()),
                 "device": "drone",
+                "type": "original",
                 "camera_properties": {
                     "model": "DJI Mavic 2 Pro",
                     "make": 1.0,
