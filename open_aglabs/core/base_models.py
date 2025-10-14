@@ -2,10 +2,34 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, Union
 
 
+class Other(BaseModel):
+    model_config = ConfigDict(
+        extra='allow'
+    )
+
+
+class Notes(BaseModel):
+    message: str = Field(
+        ...,
+        description="The message to be stored in the notes field"
+    )
+    author: str = Field(
+        ...,
+        description="The author of the message"
+    )
+    model_config = ConfigDict(
+        extra='allow'
+    )
+
+
 class MLOutput(BaseModel):
     pred: Optional[Union[str, float]] = Field(
         None,
         description="The predicted value"
+    )
+    confidence: Optional[float] = Field(
+        None,
+        description="The confidence score of the prediction."
     )
     model_id: Optional[str] = Field(
         None,

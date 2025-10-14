@@ -1,9 +1,10 @@
 from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional, Literal
+from typing import Optional, Literal, List
 from uuid import uuid4
 
-from ..core.base_models import MLOutput, Location
-from ..core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST
+from ..core.base_models import MLOutput, Location, Notes
+from ..core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST, ORIENTATION_LIST
+
 
 
 class ImageProtocol(BaseModel):
@@ -175,6 +176,12 @@ class ImageQuality(BaseModel):
         ge=0,
         le=10000
     )
+    orientation: Optional[Literal[*ORIENTATION_LIST]] = Field(
+        None,
+        description="The orientation of the image.",
+        ge=0,
+        le=10000
+    )
     channels: Optional[float] = Field(
         None,
         description="The number of channels in the image.",
@@ -197,7 +204,7 @@ class ImageQuality(BaseModel):
     )
 
     model_config = ConfigDict(
-        extra='allow'
+        extra='forbid'
     )
 
 class SyntheticImageProperties(BaseModel):
@@ -267,6 +274,9 @@ class Image(BaseModel):
         None
     )
     synthetic_image_properties: Optional[SyntheticImageProperties] = Field(
+        None
+    )
+    notes: Optional[List[Notes]] = Field(
         None
     )
 
