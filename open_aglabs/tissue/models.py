@@ -139,6 +139,10 @@ class TissueAnalysis(BaseModel):
         le=100,
         description="The perecnt of acid detergent fiber in the sample."
     )
+    model_config = ConfigDict(
+        populate_by_name=True,
+        extra="forbid"
+    )
 
 
 class TissueSample(BaseModel):
@@ -219,7 +223,7 @@ class TissueSample(BaseModel):
                     "longitude": -118.2437,
                 },
                 "timestamp": "2025-08-21T10:30:00Z",
-                "labId": "TissueLab-A",
+                "labId": "Ward Labs",
                 "sampleRadiusM": 0.2,
                 "growthStage": "Flowering",
                 "plantFraction": "Leaf",
