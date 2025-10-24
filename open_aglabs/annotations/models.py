@@ -128,15 +128,23 @@ class PlantAnnotation(BaseModel):
         ...,
         description="The ID of the annotation class"
     )
+    standardized_annotation_name: Optional[str] = Field(
+        None,
+        description="The name of the standardized annotation, that can be matched to a db for reference"
+    )
+    standardized_growth_stage: Optional[int] = Field(
+        None,
+        description="The growth stage of the standardized annotation, that can be matched to a db for reference"
+    )
     organism_properties: OrganismProperties = Field(
         ...,
         description="The taxonomic information for the organism."
     )
-    developmental_properties: PlantDevelopmentalStage = Field(
+    plant_development: PlantDevelopmentalStage = Field(
         ...,
         description="The developmental properties of the plant."
     )
-    structure_properties: PlantStructure = Field(
+    plant_structure: PlantStructure = Field(
         ...,
         description="The structure properties of the plant."
     )
@@ -158,16 +166,17 @@ class PlantAnnotation(BaseModel):
                     "species": "zea mays",
                     "subspecies": "mays"
                 },
-                "developmental_properties": {
+                "plant_development": {
                     "common_name": "emergence",
                     "ontology_source": "https://obofoundry.org/ontology/po.html",
                     "ontology_name": "1 main shoot growth stage",
                     "ontology_id": "PO:0007112",
                     "crop_growth_stage": "ve"
                 },
-                "structure_properties": {
+                "plant_structure": {
                     "common_name": "plant",
                     "state": "living",
+                    "ontology_source": "https://obofoundry.org/ontology/po.html",
                     "ontology_name": "whole plant",
                     "ontology_id": "PO:0000003"
                 },
@@ -182,10 +191,6 @@ class PlantAnnotationStandardization(BaseModel):
     schema_name: Literal["PlantAnnotationStandardization"] = Field(
         ...,
         description="The name of the schema"
-    )
-    schema_version: str = Field(
-        "1.0.0",
-        description="The version of the schema"
     )
     annotations: List[PlantAnnotation] = Field(
         ...,
@@ -224,7 +229,7 @@ class PlantAnnotationStandardization(BaseModel):
                         }
                     },
                     {
-                        "annotation_name": "corn_leaf",
+                        "annotation_name": "leaf",
                         "annotation_class_id": 2,
                         "organism_properties": {
                             "common_name": "corn",
