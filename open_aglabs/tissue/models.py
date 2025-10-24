@@ -139,6 +139,9 @@ class TissueAnalysis(BaseModel):
         le=100,
         description="The perecnt of acid detergent fiber in the sample."
     )
+    model_config = ConfigDict(
+        extra="forbid",
+        validate_by_name=True)
 
 
 class TissueSample(BaseModel):
