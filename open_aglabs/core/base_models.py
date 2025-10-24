@@ -1,3 +1,5 @@
+from audioop import alaw2lin
+
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, Union
 
@@ -11,10 +13,12 @@ class Other(BaseModel):
 class Notes(BaseModel):
     message: str = Field(
         ...,
+        alias="note_message",
         description="The message to be stored in the notes field"
     )
     author: str = Field(
         ...,
+        alias='note_author',
         description="The author of the message"
     )
     model_config = ConfigDict(
@@ -25,18 +29,22 @@ class Notes(BaseModel):
 class MLOutput(BaseModel):
     pred: Optional[Union[str, float]] = Field(
         None,
+        alias='model_pred',
         description="The predicted value"
     )
     confidence: Optional[float] = Field(
         None,
+        alias='model_confidence',
         description="The confidence score of the prediction."
     )
     model_id: Optional[str] = Field(
         None,
+        alias='model_id',
         description="The ID of the model used to make the prediction"
     )
     model_version: Optional[str] = Field(
         None,
+        alias='model_version',
         description="The version of the model used to make the prediction"
     )
     model_config = ConfigDict(
@@ -50,14 +58,17 @@ class ImageTransformations(BaseModel):
     """
     parent_img_id: Optional[str] = Field(
         None,
+        alias='parent_image_id',
         description="The UUID of the original Image"
     )
     resize: Optional[str] = Field(
         None,
+        alias='image_resize',
         description="The details bout how the image was resized."
     )
     cropped: Optional[float] = Field(
         None,
+        alias='image_cropped',
         description="The height of the camera in meters",
         ge=0
     )
@@ -73,36 +84,43 @@ class Location(BaseModel):
     """
     id: Optional[str] = Field(
         None,
+        alias='location_id',
         description="The UUID of the location"
     )
     name: Optional[str] = Field(
         None,
+        alias='location_name',
         description="The name of the location"
     )
     latitude: Optional[float] = Field(
         None,
+        alias='latitude',
         ge=-90.0,
         le=90.0,
         description="The latitude of where the data was taken"
     )
     longitude: Optional[float] = Field(
         None,
+        alias='longitude',
         ge=-180.0,
         le=180.0,
         description="The longitude of where the data was taken"
     )
     elevation_m: Optional[float] = Field(
         None,
+        alias='elevation_m',
         ge=-100,
         le=10000,
         description="The elevation of where the data came from"
     )
     crs: Optional[str] = Field(
         None,
+        alias='location_crs',
         description="The crs of the GPS data"
     )
     geometry: Optional[str] = Field(
         None,
+        alias='geometry',
         description="The Geometry in WKT format"
     )
     admin_level_0: Optional[str] = Field(
