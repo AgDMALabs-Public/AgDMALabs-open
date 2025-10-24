@@ -7,7 +7,6 @@ def test_tissue_sample_initialization():
     sample_data = {
         "schema_name": 'TissueSample',
         "sampleId": "TS-2025-FZ-001",
-        "sampleLocationId": "TS-2025-FIELD-A-LOC-001",
         "timestamp": "2025-08-21T10:30:00Z",
 
         "labId": "TissueLab-A",
@@ -29,7 +28,6 @@ def test_tissue_sample_initialization():
     sample = TissueSample(**sample_data)
 
     assert sample.sample_id == "TS-2025-FZ-001"
-    assert sample.sample_location_id == "TS-2025-FIELD-A-LOC-001"
     assert sample.timestamp == datetime.fromisoformat("2025-08-21T10:30:00+00:00")
     assert sample.location.latitude == 34.0522
     assert sample.location.longitude == -118.2437
@@ -64,7 +62,6 @@ def test_tissue_sample_invalid_latitude():
     invalid_latitude_data = {
         "schema_name": 'TissueSample',
         "sampleId": "TS-2025-FZ-003",
-        "sampleLocationId": "TS-2025-FIELD-A-LOC-002",
         "timestamp": "2025-08-21T10:30:00Z",
         "location": {
             "id": "TS-2025-FIELD-A-LOC-002",
@@ -90,7 +87,6 @@ def test_tissue_sample_valid_with_partial_analysis_results():
     valid_data = {
         "schema_name": 'TissueSample',
         "sampleId": "TS-2025-FZ-004",
-        "sampleLocationId": "TS-2025-FIELD-B-LOC-001",
         "timestamp": "2025-08-21T12:45:00Z",
         "location": {
             "id": "TS-2025-FIELD-B-LOC-001",

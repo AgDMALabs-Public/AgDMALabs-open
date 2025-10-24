@@ -33,8 +33,7 @@ class AgronomicProperties(BaseModel):
     """
     Pydantic model representing approved values to be captured about images of agricultural data.
     """
-    crop_type: Optional[
-        Literal[*CROP_LIST]] = Field(
+    crop_type: Optional[Literal[*CROP_LIST]] = Field(
         None,
         description="The type of crop present in the image."
     )

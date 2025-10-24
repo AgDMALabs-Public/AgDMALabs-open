@@ -1,5 +1,3 @@
-# File: tests/test_models.py
-
 import pytest
 from open_aglabs.annotations.models import PlantAnnotationStandardization, PlantAnnotation
 from pydantic import ValidationError
@@ -20,16 +18,17 @@ def test_valid_plant_annotation_standardization():
                     "species": "zea mays",
                     "subspecies": "mays"
                 },
-                "developmental_properties": {
+                "plant_development": {
                     "common_name": "emergence",
                     "ontology_source": "https://obofoundry.org/ontology/po.html",
                     "ontology_name": "1 main shoot growth stage",
                     "ontology_id": "PO:0007112",
                     "crop_growth_stage": "ve"
                 },
-                "structure_properties": {
+                "plant_structure": {
                     "common_name": "plant",
                     "state": "living",
+                    "ontology_source": "https://obofoundry.org/ontology/po.html",
                     "ontology_name": "whole plant",
                     "ontology_id": "PO:0000003"
                 }
@@ -63,14 +62,14 @@ def test_disallowed_extra_fields():
                     "species": "zea mays",
                     "subspecies": "mays"
                 },
-                "developmental_properties": {
+                "plant_development": {
                     "common_name": "emergence",
                     "ontology_source": "https://obofoundry.org/ontology/po.html",
                     "ontology_name": "1 main shoot growth stage",
                     "ontology_id": "PO:0007112",
                     "crop_growth_stage": "ve"
                 },
-                "structure_properties": {
+                "plant_structure": {
                     "common_name": "plant",
                     "state": "living",
                     "ontology_name": "whole plant",

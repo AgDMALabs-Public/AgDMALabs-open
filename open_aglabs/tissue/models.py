@@ -155,12 +155,6 @@ class TissueSample(BaseModel):
         description="Unique identifier for the soil sample.",
         examples=["SS-2025-FIELD-A-001"]
     )
-    sample_location_id: str = Field(
-        ...,
-        alias="sampleLocationId",
-        description="Unique identifier for the sample location. This can be used to identify samples from the same location.",
-        examples=["SS-2025-FIELD-A-001"]
-    )
     timestamp: datetime = Field(
         ...,
         description="The date and time the sample was collected."
@@ -213,16 +207,16 @@ class TissueSample(BaseModel):
             "example": {
                 "schema_name": "TissueSample",
                 "sampleId": "TS-2025-FZ-001",
-                "location": {
-                    "id": "TS-2025-FIELD-A-LOC-001",
-                    "latitude": 34.0522,
-                    "longitude": -118.2437,
-                },
                 "timestamp": "2025-08-21T10:30:00Z",
                 "labId": "TissueLab-A",
                 "sampleRadiusM": 0.2,
                 "growthStage": "Flowering",
                 "plantFraction": "Leaf",
+                "location": {
+                    "id": "TS-2025-FIELD-A-LOC-001",
+                    "latitude": 34.0522,
+                    "longitude": -118.2437,
+                },
                 "analysis_results": {
                     "nitrogenPct": 3.8,
                     "phosphorusPct": 0.5,
