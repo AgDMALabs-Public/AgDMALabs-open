@@ -8,15 +8,20 @@ class PlantingEvent(BaseModel):
     """
     Represents a single planting event for a field.
     """
-    event_id: str = Field(
+    id: str = Field(
         ...,
-        alias="eventId",
+        alias="Id",
         description="Unique identifier for this specific planting event.",
         examples=["PLANT-2025-FIELD-A-001"]
     )
+    file_path: Optional[str] = Field(
+        default_factory=str,
+        alias="filePath",
+        description="The path to the spatial data."
+    )
     location: Optional[Location] = Field(
         None,
-        description="The location of the planting event (e.g., 'Field A').",
+        description="The location information for the planting event.",
     )
     timestamp: datetime = Field(
         ...,
@@ -28,10 +33,10 @@ class PlantingEvent(BaseModel):
         description="The type of crop planted (e.g., 'Corn', 'Soybeans', 'Wheat').",
         examples=["Corn"]
     )
-    variety: Optional[str] = Field(
+    variety: Optional[List[str]] = Field(
         None,
         description="Specific variety or hybrid of the crop.",
-        examples=["Dekalb DKC67-44RIB"]
+        examples=["Dekalb DKC67-44RIB", "Pioneer P1197AM"]
     )
     seeding_rate: float = Field(
         ...,

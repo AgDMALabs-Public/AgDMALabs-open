@@ -49,7 +49,7 @@ def test_applicator_zone_empty_tank_mix():
 def test_valid_application_event():
     valid_data = {
         "schema_name": "ApplicationEvent",
-        "eventId": "APP-2025-FIELD-A-002",
+        "Id": "APP-2025-FIELD-A-002",
         "location": {
             "id": "loc-uuid-12345",
             "name": "Test Location",
@@ -61,6 +61,7 @@ def test_valid_application_event():
         "timestamp": "2025-10-01T12:00:00Z",
         "applicationType": "Fertilizer",
         "mixName": "Urea",
+        "mixId": "MIX-12345",
         "applicationRate": 1.5,
         "rateUnit": "kg/ha",
         "method": "Broadcast",

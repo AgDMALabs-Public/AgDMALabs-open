@@ -1,14 +1,15 @@
 from datetime import datetime
 import pytest
 from open_aglabs.tissue.models import TissueSample
+from open_aglabs.tissue.models import TissueAggregate
 
 
 def test_tissue_sample_initialization():
     sample_data = {
         "schema_name": 'TissueSample',
         "sampleId": "TS-2025-FZ-001",
+        "event_id": "TS-2025-FZ-004-EVENT-001",
         "timestamp": "2025-08-21T10:30:00Z",
-
         "labId": "TissueLab-A",
         "sampleRadiusM": 0.2,
         "growthStage": "Flowering",
@@ -43,7 +44,7 @@ def test_tissue_sample_initialization():
 def test_tissue_sample_missing_required_fields():
     incomplete_data = {
         "schema_name": 'TissueSample',
-        "sampleId": "TS-2025-FZ-002",
+        "Id": "TS-2025-FZ-002",
         "location": {
             "id": "TS-2025-FIELD-A-LOC-002",
             "latitude": 34.0522,
@@ -87,6 +88,7 @@ def test_tissue_sample_valid_with_partial_analysis_results():
     valid_data = {
         "schema_name": 'TissueSample',
         "sampleId": "TS-2025-FZ-004",
+        "event_id": "TS-2025-FZ-004-EVENT-001",
         "timestamp": "2025-08-21T12:45:00Z",
         "location": {
             "id": "TS-2025-FIELD-B-LOC-001",
@@ -107,3 +109,39 @@ def test_tissue_sample_valid_with_partial_analysis_results():
 
     assert sample.analysis_results.phosphorus_pct == 0.7
     assert sample.analysis_results.potassium_pct is None
+
+
+def test_tissue_aggregate_initialization():
+    aggregate_data = {
+        "schema_name": "TissueAggregate",
+        "eventId": "EA-2025-XX-001",
+        "file_path": "a.geojson",
+        "timestamp": "2025-09-01T14:00:00Z",
+        "growthStage": "Flowering",
+        "plantFraction": "Leaf",
+        "location": {
+            "id": "LOC-12345",
+            "latitude": 34.0522,
+            "longitude": -118.2437
+        },
+        "analysisResults": {
+            "nitrogenPct": 3.5,
+            "phosphorusPct": 0.4,
+            "potassiumPct": 8.0
+        },
+        "notes": ["Good data", "High accuracy"]
+    }
+
+    tissue_aggregate = TissueAggregate(**aggregate_data)
+
+    assert tissue_aggregate.schema_name == "TissueAggregate"
+    assert tissue_aggregate.event_id == "EA-2025-XX-001"
+    assert tissue_aggregate.timestamp == datetime.fromisoformat("2025-09-01T14:00:00+00:00")
+    assert tissue_aggregate.growth_stage == "Flowering"
+    assert tissue_aggregate.plant_fraction == "Leaf"
+    assert tissue_aggregate.location.latitude == 34.0522
+    assert tissue_aggregate.location.longitude == -118.2437
+    assert tissue_aggregate.analysis_results.nitrogen_pct == 3.5
+    assert tissue_aggregate.analysis_results.phosphorus_pct == 0.4
+    assert tissue_aggregate.analysis_results.potassium_pct == 8.0
+    assert tissue_aggregate.notes == ["Good data", "High accuracy"]

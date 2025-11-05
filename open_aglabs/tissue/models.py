@@ -149,7 +149,7 @@ class TissueSample(BaseModel):
     Represents a single tissue sample, including its location, depth, and lab analysis results.
     """
     schema_name: Literal["TissueSample"] = Field(
-        ...,
+        "TissueSample",
         description="The name of the schema used to validate the data."
     )
     sample_id: str = Field(
@@ -157,6 +157,12 @@ class TissueSample(BaseModel):
         alias="sampleId",
         description="Unique identifier for the soil sample.",
         examples=["SS-2025-FIELD-A-001"]
+    )
+    event_id: Optional[str] = Field(
+        ...,
+        alias="eventId",
+        description="Unique identifier for the soil sample event.",
+        examples=["1234-456-789-7654"]
     )
     timestamp: datetime = Field(
         ...,
@@ -209,7 +215,8 @@ class TissueSample(BaseModel):
         json_schema_extra={
             "example": {
                 "schema_name": "TissueSample",
-                "sampleId": "TS-2025-FZ-001",
+                "Id": "TS-2025-FZ-001",
+                "eventId": "1234-456-789-7654",
                 "timestamp": "2025-08-21T10:30:00Z",
                 "labId": "TissueLab-A",
                 "sampleRadiusM": 0.2,
@@ -222,6 +229,93 @@ class TissueSample(BaseModel):
                 },
                 "analysis_results": {
                     "nitrogenPct": 3.8,
+                    "phosphorusPct": 0.5,
+                    "potassiumPpm": 28000.0,
+                    "sulfurPct": 0.25,
+                    "calciumPct": 0.7,
+                    "magnesiumPct": 0.3,
+                    "zincPpm": 80.0,
+                    "ironPpm": 80.0,
+                    "manganesePpm": 160.0,
+                    "copperPpm": 22.0,
+                    "boronPpm": 16.0,
+                    "molybdenumPpm": 0.6,
+                    "proteinPct": 20.0,
+                    "starchPct": 58.0,
+                    "adfPct": 26.0,
+                },
+                "notes": ['thjs is a test', 'this is a test too']
+            }
+        }
+    )
+
+
+class TissueAggregate(BaseModel):
+    """
+    Represents a single tissue sample, including its location, depth, and lab analysis results.
+    """
+    schema_name: Literal["TissueAggregate"] = Field(
+        "TissueAggregate",
+        description="The name of the schema used to validate the data."
+    )
+    event_id: str = Field(
+        ...,
+        alias="eventId",
+        description="Unique identifier for the soil sample.",
+        examples=["1234-345-687-9876"]
+    )
+    file_path: Optional[str] = Field(
+        ...,
+        alias="filePath",
+        description="The path to the data."
+    )
+    timestamp: datetime = Field(
+        ...,
+        description="The date and time the sample was collected."
+    )
+    growth_stage: str = Field(
+        ...,
+        alias="growthStage",
+        description="The growth stage that the sample was collected."
+    )
+    plant_fraction: str = Field(
+        ...,
+        alias="plantFraction",
+        description="The plant fraction that was collected."
+    )
+    location: Location = Field(
+        ...
+    )
+    analysis_results: TissueAnalysis = Field(
+        ...,
+        alias="analysisResults",
+        description="The results of the nutrient analysis for the sample."
+    )
+
+    notes: Optional[list[str]] = Field(
+        None,
+        alias="notes",
+        description="Notes associated with eh sample."
+    )
+
+    model_config = ConfigDict(
+        extra="forbid",
+        validate_by_name=True,
+        json_schema_extra={
+            "example": {
+                "schema_name": "TissueAggregate",
+                "eventId": "1234-345-687-9876",
+                "filePath": "path/to/tissue/data.geojson",
+                "timestamp": "2025-08-21T10:30:00Z",
+                "growthStage": "Flowering",
+                "plantFraction": "Leaf",
+                "location": {
+                    "id": "TS-2025-FIELD-A-LOC-001",
+                    "latitude": 34.0522,
+                    "longitude": -118.2437,
+                },
+                "analysis_results": {
+                    "nitrogenPct": 3.9,
                     "phosphorusPct": 0.5,
                     "potassiumPpm": 28000.0,
                     "sulfurPct": 0.25,

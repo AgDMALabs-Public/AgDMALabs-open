@@ -8,11 +8,16 @@ class HarvestEvent(BaseModel):
     """
     Represents a single tillage event for a field.
     """
-    event_id: str = Field(
+    id: str = Field(
         ...,
-        alias="eventId",
+        alias="Id",
         description="Unique identifier for this specific harvest event.",
         examples=["TILL-2025-FIELD-A-003"]
+    )
+    file_path: Optional[str] = Field(
+        default_factory=str,
+        alias="Path",
+        description="The path to the spatial data."
     )
     location: Optional[Location] = Field(
         None
@@ -46,17 +51,50 @@ class HarvestEvent(BaseModel):
         description="The units for the crop harvest.",
         examples=['bu/acre']
     )
+    nominal_moisture: Optional[float] = Field(
+        None,
+        alias="cropNominalMoisture",
+        ge=0,
+        le=100,
+        description="The nominal moisture content of the crop.",
+        examples=[15.5]
+    )
+    area: Optional[float] = Field(
+        None,
+        description="The area harvested.",
+        examples=[100.0]
+    )
+    area_units: Optional[str] = Field(
+        None,
+        description="The units for the area harvested.",
+        examples=[100.0]
+    )
+    mass: Optional[float] = Field(
+        None,
+        description="The mass harvested.",
+    )
+    mass_units: Optional[str] = Field(
+        None,
+        description="The units for the mass harvested.",
+        examples=['kg']
+    )
+    nominal_volume: Optional[float] = Field(
+        None,
+        description="The amount of mass in the volume measurement, EX: 56 lbs of corn in a bu.",
+        examples=[56.0]
+    )
+    nominal_mass_units: Optional[str] = Field()
     notes: Optional[str] = Field(
         None,
-        description="Any additional notes about the harvest event."
+        description="Additional notes about the harvest event."
     )
-
     model_config = ConfigDict(
         extra="forbid",
         validate_by_name=True,
         json_schema_extra={
             "example": {
-                "eventId": "HARV-2025-FIELD-A-001",
+                "id": "HARV-2025-FIELD-A-001",
+                'file_path': 'path/to/harvest/data.geojson',
                 "location": {
                     "id": "loc-harvest-789",
                     "name": "Field A Harvest Zone 1",
@@ -71,6 +109,12 @@ class HarvestEvent(BaseModel):
                 "implementUsed": "Combine Harvester",
                 "cropYield": 250.75,
                 "cropYieldUnits": "bu/acre",
+                "cropNominalMoisture": 15.5,
+                "area": 100.0,
+                "area_units": "acres",
+                "mass": 1000.0,
+                "mass_units": "lbs",
+                "nominal_volume": 56.0,
                 "notes": "First pass of corn harvest in Field A. Good yield observed."
             }
         }
