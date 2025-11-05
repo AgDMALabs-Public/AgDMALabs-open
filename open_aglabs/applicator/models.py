@@ -10,14 +10,19 @@ class ApplicationEvent(BaseModel):
     Represents a single application event (e.g., fertilizer, pesticide, herbicide).
     """
     schema_name: Literal["ApplicationEvent"] = Field(
-        ...,
+        "ApplicationEvent",
         description="The name of the schema for this model."
     )
     id: str = Field(
         ...,
-        alias="eventId",
+        alias="Id",
         description="Unique identifier for this specific application event.",
         examples=["APP-2025-FIELD-A-002"]
+    )
+    file_path: Optional[str] = Field(
+        default_factory=str,
+        alias="filePath",
+        description="The path to the spatial data."
     )
     location: Optional[Location] = Field(
         None
@@ -37,6 +42,12 @@ class ApplicationEvent(BaseModel):
         alias="mixName",
         description="The name of the product applied.",
         examples=["Roundup PowerMAX"]
+    )
+    mix_id: Optional[str] = Field(
+        ...,
+        alias="mixId",
+        description="The unique ID of the mix that was applied.",
+        examples=['1234-234-567-1985']
     )
     rate: float = Field(
         ...,
@@ -72,7 +83,8 @@ class ApplicationEvent(BaseModel):
         json_schema_extra={
             "example": {
                 "schema_name": "ApplicationEvent",
-                "eventId": "1234-679-123-456-4456",
+                "id": "1234-679-123-456-4456",
+                "filePath": "path/to/application/data.geojson",
                 "location": {  # Nested Location example
                     "id": "loc-uuid-12345",
                     "name": "Research Plot A",

@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 from datetime import datetime
 
 from pydantic import BaseModel, Field, ConfigDict
@@ -6,18 +6,27 @@ from pydantic import BaseModel, Field, ConfigDict
 from open_aglabs.planting.models import PlantingEvent
 from open_aglabs.applicator.models import ApplicationEvent
 from open_aglabs.harvest.models import HarvestEvent
+from open_aglabs.soil.models import SoilAggregate
+from open_aglabs.tissue.models import TissueAggregate
 
 
 class TillageEvent(BaseModel):
     """
     Represents a single tillage event for a field.
     """
-    event_id: str = Field(
+    id: str = Field(
         ...,
-        alias="eventId",
+        alias="Id",
         description="Unique identifier for this specific tillage event.",
         examples=["TILL-2025-FIELD-A-003"]
     )
+
+    file: Optional[str] = Field(
+        default_factory=str,
+        alias="eventPath",
+        description="The path to the tillage event file."
+    )
+
     timestamp: datetime = Field(
         ...,
         description="The date and time the tillage occurred."
@@ -25,7 +34,8 @@ class TillageEvent(BaseModel):
     tillage_type: str = Field(
         ...,
         alias="tillageType",
-        description="The type of tillage performed (e.g., 'Conventional', 'No-till', 'Minimum-till', 'Chisel Plow').",
+        description="The type of tillage performed (e.g., 'Conventional', 'No-till', 'Minimum-till',"
+                    " 'Chisel Plow').",
         examples=["Chisel Plow"]
     )
     implement_used: Optional[str] = Field(
@@ -51,7 +61,7 @@ class TillageEvent(BaseModel):
         validate_by_name=True,
         json_schema_extra={
             "example": {
-                "eventId": "TILL-2025-FIELD-A-003",
+                "Id": "TILL-2025-FIELD-A-003",
                 "timestamp": "2025-03-10T14:00:00Z",
                 "tillageType": "Chisel Plow",
                 "implementUsed": "Case IH Chisel Plow",
@@ -73,26 +83,45 @@ class FieldManagement(BaseModel):
         description="Unique identifier for the agricultural field.",
         examples=["FIELD-A-2025"]
     )
-    season_year: int = Field(
+    seasons: List[str] = Field(
         ...,
-        alias="seasonYear",
-        description="The calendar year for which this management data is relevant.",
-        examples=[2025]
+        alias="seasons",
+        description="A list of all the seasons covered by the field management history.",
+        examples=['2025:us:corn:spring']
+    )
+    activity_keys: Optional[Dict[str, list]] = Field(
+        None,
+        alias="activityKeys",
+        description="A dictionary of the activity keys that went into the field management history.",
+        examples=[{'planting': ['plant_a.geojson', 'plant_b.geojson'],
+                   'application': ['application_a.geojson', 'application_b.geojson'],
+                   'tillage': ['tillage_a.geojson', 'tillage_b.geojson'],
+                   'harvest': ['harvest_a.geojson', 'harvest_b.geojson'],
+                   'soil': ['soil_a.geojson', 'soil_b.geojson'],
+                   'tissue': ['tissue_a.geojson', 'tissue_b.geojson']}]
     )
     planting_events: List[PlantingEvent] = Field(
-        ...,
+        default_factory=list,
         description="A list of all the planting events."
     )
     application_events: List[ApplicationEvent] = Field(
-        ...,
+        default_factory=list,
         description="A list of all the application events."
     )
     tillage_events: List[TillageEvent] = Field(
-        ...,
+        default_factory=list,
         description="A list of all the tillage events."
     )
     harvest_events: List[HarvestEvent] = Field(
-        ...,
+        default_factory=list,
+        description="A list of all the harvest Events."
+    )
+    soil_events: List[SoilAggregate] = Field(
+        default_factory=list,
+        description="A list of all the harvest Events."
+    )
+    tissue_events: List[TissueAggregate] = Field(
+        default_factory=list,
         description="A list of all the harvest Events."
     )
 
@@ -102,7 +131,7 @@ class FieldManagement(BaseModel):
         json_schema_extra={
             "example": {
                 "fieldId": "FIELD-A-2025",
-                "seasonYear": 2025,
+                "seasons": ['2025:us:corn:spring'],
                 "planting_events": [
                     {
                         "eventId": "PLANT-2025-FIELD-A-001",
