@@ -130,18 +130,19 @@ class TissueAnalysis(BaseModel):
         alias="adfPct",
         ge=0,
         le=100,
-        description="The perecnt of acid detergent fiber in the sample."
+        description="The percent of acid detergent fiber in the sample."
     )
     ndf_pct: Optional[float] = Field(
         None,
         alias="ndfPct",
         ge=0,
         le=100,
-        description="The perecnt of acid detergent fiber in the sample."
+        description="The percent of acid detergent fiber in the sample."
     )
     model_config = ConfigDict(
         extra="forbid",
-        validate_by_name=True)
+        validate_by_name=True,
+        populate_by_name=True)
 
 
 class TissueSample(BaseModel):
@@ -159,7 +160,7 @@ class TissueSample(BaseModel):
         examples=["SS-2025-FIELD-A-001"]
     )
     event_id: Optional[str] = Field(
-        ...,
+        None,
         alias="eventId",
         description="Unique identifier for the soil sample event.",
         examples=["1234-456-789-7654"]
@@ -194,7 +195,7 @@ class TissueSample(BaseModel):
         alias="plantSamples",
         description="The number of plants that were sampled from."
     )
-    location: Location = Field(
+    location:Location = Field(
         ...
     )
     analysis_results: TissueAnalysis = Field(
@@ -212,6 +213,7 @@ class TissueSample(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
         validate_by_name=True,
+        populate_by_name=True,
         json_schema_extra={
             "example": {
                 "schema_name": "TissueSample",
@@ -230,7 +232,7 @@ class TissueSample(BaseModel):
                 "analysis_results": {
                     "nitrogenPct": 3.8,
                     "phosphorusPct": 0.5,
-                    "potassiumPpm": 28000.0,
+                    "potassiumPct": 2.8,
                     "sulfurPct": 0.25,
                     "calciumPct": 0.7,
                     "magnesiumPct": 0.3,
@@ -258,7 +260,7 @@ class TissueAggregate(BaseModel):
         "TissueAggregate",
         description="The name of the schema used to validate the data."
     )
-    event_id: str = Field(
+    event_id: Optional[str] = Field(
         ...,
         alias="eventId",
         description="Unique identifier for the soil sample.",
@@ -283,8 +285,8 @@ class TissueAggregate(BaseModel):
         alias="plantFraction",
         description="The plant fraction that was collected."
     )
-    location: Location = Field(
-        ...
+    location: Optional[Location] = Field(
+        None
     )
     analysis_results: TissueAnalysis = Field(
         ...,
@@ -301,10 +303,11 @@ class TissueAggregate(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
         validate_by_name=True,
+        populate_by_name=True,
         json_schema_extra={
             "example": {
                 "schema_name": "TissueAggregate",
-                "eventId": "1234-345-687-9876",
+                "eventId": "1234-345-687-9875",
                 "filePath": "path/to/tissue/data.geojson",
                 "timestamp": "2025-08-21T10:30:00Z",
                 "growthStage": "Flowering",
@@ -317,7 +320,7 @@ class TissueAggregate(BaseModel):
                 "analysis_results": {
                     "nitrogenPct": 3.9,
                     "phosphorusPct": 0.5,
-                    "potassiumPpm": 28000.0,
+                    "potassiumPct": 2.8,
                     "sulfurPct": 0.25,
                     "calciumPct": 0.7,
                     "magnesiumPct": 0.3,
