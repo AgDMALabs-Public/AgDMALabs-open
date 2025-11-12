@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from typing import Optional, Literal, List
 from uuid import uuid4
 
@@ -234,20 +234,21 @@ class Image(BaseModel):
     """
     All the approved values to be captured about Images of Ag Data.
     """
-    path: str = Field(
-        ...,
+    path: Optional[str] = Field(
+        None,
         description="The path to the image"
     )
     id: str = Field(
         ...,
+        validation_alias=AliasChoices('image_id', 'id'),
         description="The Unique ID of the image, should be the image name, by default UUID4."
     )
-    device: str = Field(
-        ...,
+    device: Optional[str] = Field(
+        None,
         description="The type of device that is collecting the images, mobile, auxillery, or drone."
     )
-    type: Literal[*IMAGE_TYPE_LIST] = Field(
-        ...,
+    type: Optional[Literal[*IMAGE_TYPE_LIST]] = Field(
+        None,
         description="The type of image it is: original, augmented, synthetic."
     )
     protocol_name: Optional[str] = Field(
