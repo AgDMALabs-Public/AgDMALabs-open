@@ -67,7 +67,6 @@ def test_invalid_image_type():
 def test_missing_required_fields():
     with pytest.raises(ValidationError):
         Image(
-            id=str(uuid4()),
             device="drone",
             type="original"
         )
