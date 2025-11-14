@@ -85,14 +85,24 @@ from open_aglabs.tissue.models import (
 
 TISSUE_MODELS = [TissueAnalysis, TissueSample]
 
+# --- Robust Pathing Setup FOR WINDOWS AND MAC ---
+# Get the absolute path to this script file
+SCRIPT_PATH = Path(__file__).resolve()
+# Get the directory containing this script (e.g., /.../AgDMALabs-open/scripts)
+SCRIPT_DIR = SCRIPT_PATH.parent
+# Get the project root directory (e.g., /.../AgDMALabs-open)
+PROJECT_ROOT = SCRIPT_DIR.parent
+# --- End Robust Pathing Setup ---
+
 
 def generate_schemas(models, schemas_dir):
-    schemas_dir.mkdir(exist_ok=True)
+    # Use parents=True to create intermediate directories if they don't exist
+    schemas_dir.mkdir(parents=True, exist_ok=True)
 
     for model_class in models:
         schema = model_class.model_json_schema()
         file_name = f"{model_class.__name__.lower()}_schema.json"
-        file_path = schemas_dir / file_name
+        file_path = schemas_dir/file_name
 
         with open(file_path, "w") as f:
             json.dump(schema, f, indent=4)
@@ -102,54 +112,54 @@ def generate_schemas(models, schemas_dir):
 # ---------------------------------------------Annotations Models------------------------------------------------------#
 if len(ANNOTATION_MODELS) > 0:
     generate_schemas(models=ANNOTATION_MODELS,
-                     schemas_dir=Path("open_aglabs/annotations/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/annotations/schemas")
 
 # ----------------------------------------------Applicator Models------------------------------------------------------#
 if len(APPLICATOR_MODELS) > 0:
     generate_schemas(models=APPLICATOR_MODELS,
-                     schemas_dir=Path("open_aglabs/applicator/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/applicator/schemas")
 
 # ----------------------------------------------------CORE Models------------------------------------------------------#
 if len(CORE_MODELS) > 0:
     generate_schemas(models=CORE_MODELS,
-                     schemas_dir=Path("open_aglabs/core/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/core/schemas")
 
 # ---------------------------------------FIELD MANAGEMENT Models-------------------------------------------------------#
 if len(FIELD_MGMT_MODELS) > 0:
     generate_schemas(models=FIELD_MGMT_MODELS,
-                     schemas_dir=Path("open_aglabs/field_management/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/field_management/schemas")
 
 # -------------------------------------------------HARVEST Models------------------------------------------------------#
 if len(HARVEST_MODELS) > 0:
     generate_schemas(models=HARVEST_MODELS,
-                     schemas_dir=Path("open_aglabs/harvest/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/harvest/schemas")
 
 # ---------------------------------------------------IMAGE Models------------------------------------------------------#
 if len(IMAGE_MODELS) > 0:
     generate_schemas(models=IMAGE_MODELS,
-                     schemas_dir=Path("open_aglabs/image/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/image/schemas")
 
 # -------------------------------------------------PLANTING Models-----------------------------------------------------#
 if len(PLANTING_MODELS) > 0:
     generate_schemas(models=PLANTING_MODELS,
-                     schemas_dir=Path("open_aglabs/planting/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/planting/schemas")
 
 # -------------------------------------------------PRODUCT Models------------------------------------------------------#
 if len(PRODUCT_MODELS) > 0:
     generate_schemas(models=PRODUCT_MODELS,
-                     schemas_dir=Path("open_aglabs/products/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/products/schemas")
 
 # -------------------------------------------------SOIL Models---------------------------------------------------------#
 if len(SOIL_MODELS) > 0:
     generate_schemas(models=SOIL_MODELS,
-                     schemas_dir=Path("open_aglabs/soil/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/soil/schemas")
 
 # -------------------------------------------------TANK Models---------------------------------------------------------#
 if len(TANK_MIX_MODELS) > 0:
     generate_schemas(models=TANK_MIX_MODELS,
-                     schemas_dir=Path("open_aglabs/tank_mix/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/tank_mix/schemas")
 
 # -------------------------------------------------TISSUE Models-------------------------------------------------------#
 if len(TISSUE_MODELS) > 0:
     generate_schemas(models=TISSUE_MODELS,
-                     schemas_dir=Path("open_aglabs/tissue/schemas"))
+                     schemas_dir=PROJECT_ROOT/"open_aglabs/tissue/schemas")
