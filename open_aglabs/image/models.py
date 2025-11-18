@@ -169,13 +169,13 @@ class ImageQuality(BaseModel):
         None,
         description="The height of the image in pixels.",
         ge=0,
-        le=10000
+        le=30000
     )
     width: Optional[float] = Field(
         None,
         description="The width of the image in pixels",
         ge=0,
-        le=10000
+        le=30000
     )
     est_gsd_mm: Optional[float] = Field(
         None,
