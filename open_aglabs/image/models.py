@@ -4,12 +4,15 @@ from uuid import uuid4
 
 from ..core.base_models import MLOutput, Location, Notes
 from ..core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST, ORIENTATION_LIST
-
+from open_aglabs.mobile.trial.models import Trial
+from open_aglabs.mobile.collection.models import Collection
+from ..mobile.plot.models import PlotMetadata
 
 
 class ImageProtocol(BaseModel):
     """
     Pydantic model to store data about an image of agricultural materials.
+    Also Stores The protocol used for Imaging.
     """
     name: str = Field(...,
                       description="The Name of the protocol used to capture the image.")
@@ -28,6 +31,27 @@ class ImageProtocol(BaseModel):
                                                description="Description of the lighting conditions (e.g., 'natural sunlight', 'LED array', 'dark field').")
     notes: Optional[str] = Field(None,
                                  description="Any additional relevant notes or observations.")
+
+
+class PlantHealth(BaseModel):
+    """
+    Pydantic model representing plant health stressors and diseases.
+    Mapped from image.agronomic_properties.planthealth.*
+    """
+    other_disease: Optional[str] = Field(
+        None,
+        description="Presence of disease on imaged plant for disease outside of drop down list."
+    )
+    ranked_stressors: Optional[str] = Field(
+        None,
+        description="Ranking the diseases and other stressors present in the imaged plant."
+    )
+    stressors: Optional[str] = Field(
+        None,
+        description="Presence of stressor on imaged plant from drop down list."
+    )
+
+    model_config = ConfigDict(extra='forbid')
 
 
 class AgronomicProperties(BaseModel):
@@ -62,6 +86,10 @@ class AgronomicProperties(BaseModel):
         None,
         description="The observed fertilizer level."
     )
+    plant_health: Optional[PlantHealth] = Field(
+        None,
+        description="Details regarding plant health, diseases, and stressors."
+    )
 
     model_config = ConfigDict(
         extra='forbid'
@@ -71,6 +99,7 @@ class AgronomicProperties(BaseModel):
 class CameraProperties(BaseModel):
     """
     Values to support the proper documentation of camera, if you add information to this json please update this doc. https://docs.google.com/spreadsheets/d/1zljGA5xtwtLNXqjohfXeJzh6SFwdObAjmb5gHflQfIA/edit?gid=1769639569#gid=1769639569
+    Adding Specifications related to mobile device
     """
     make: Optional[float] = Field(
         None,
@@ -88,8 +117,18 @@ class CameraProperties(BaseModel):
         None,
         description="The magnification setting of the camera."
     )
+    device_id: Optional[str] = Field(
+        None,
+        validation_alias=AliasChoices('deviceID', 'device_id'),
+        description="Unique persistent CPU ID or collection ID."
+    )
+    model_specification: Optional[str] = Field(
+        None,
+        description="Phone model question/specification string (e.g., Manufacturer=samsung, Model=SM-A556E). IF Device is Mobile"
+    )
+
     model_config = ConfigDict(
-        extra='forbid'
+        extra='allow'   # ADDED TO ENSURE CC from android https://developer.android.com/reference/android/hardware/camera2/CameraCharacteristics can be added.
     )
 
 
@@ -141,7 +180,7 @@ class AcquisitionProperties(BaseModel):
     )
 
     model_config = ConfigDict(
-        extra='forbid'
+        extra='allow' # changed to add CaptureResult spec of Android https://developer.android.com/reference/android/hardware/camera2/CaptureResult.
     )
 
 
@@ -278,9 +317,22 @@ class Image(BaseModel):
     agronomic_properties: Optional[AgronomicProperties] = Field(
         None
     )
+    trial_properties: Optional[Trial] = Field(
+        None,
+        description="Trial and plot layout information."
+    )
+    collection_properties: Optional[Collection] = Field(
+        None,
+        description="Collection level information, will only contain CollectionID"
+    )
+    plot_properties:Optional[PlotMetadata] = Field(
+        None,
+        description="Plot level information, will only contain PlotID and other required fields"
+    )
     synthetic_image_properties: Optional[SyntheticImageProperties] = Field(
         None
     )
+
     notes: Optional[List[Notes]] = Field(
         None
     )
@@ -297,7 +349,9 @@ class Image(BaseModel):
                     "model": "DJI Mavic 2 Pro",
                     "make": 1.0,
                     "iso": 100.0,
-                    "magnification": 1.0
+                    "magnification": 1.0,
+                    "device_id": "b2f20fd1b69e6f61",
+                    "model_specification": "Samsung SM-A556E"
                 },
                 "location_properties": {
                     "latitude": 34.0522,
@@ -315,7 +369,11 @@ class Image(BaseModel):
                     "camera_angle": 0.0,
                     "magnification": 1.0,
                     "lighting_conditions": "clear sky",
-                    "notes": "Standard flight path"
+                    "notes": "Standard flight path",
+                    "sop": {
+                         "hardware_name": "Pixel 6",
+                         "sop_name": "Standard Capture v2"
+                    }
                 },
                 "acquisition_properties": {
                     "date": "2025-09-30",
@@ -352,12 +410,20 @@ class Image(BaseModel):
                     "weed_pressure": "low",
                     "irrigation_level": "standard",
                     "tillage_type": "no-till",
-                    "fertilizer_level": "standard"
+                    "fertilizer_level": "standard",
+                    "plant_health": {
+                        "stressors": "drought",
+                        "ranked_stressors": "1. drought, 2. pests"
+                    }
                 },
                 "synthetic_image_properties": {
                     "model": 'v1',
                     "seed": 12345,
                     "noise": 0.01,
+                },
+                "trial_properties": {
+                    "trial_name": "Trial-2025-A",
+                    "plot_number": "101"
                 }
             }
         }
