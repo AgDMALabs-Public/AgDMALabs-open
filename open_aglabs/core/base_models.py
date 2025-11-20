@@ -23,7 +23,7 @@ class Notes(BaseModel):
 
 
 class MLOutput(BaseModel):
-    pred: Optional[Union[str, float]] = Field(
+    pred: Optional[Union[str, float, int]] = Field(
         None,
         description="The predicted value"
     )
@@ -31,11 +31,11 @@ class MLOutput(BaseModel):
         None,
         description="The confidence score of the prediction."
     )
-    model_id: Optional[str] = Field(
+    model_id: Optional[str, float] = Field(
         None,
         description="The ID of the model used to make the prediction"
     )
-    model_version: Optional[str] = Field(
+    model_version: Optional[Union[str, float, int]] = Field(
         None,
         description="The version of the model used to make the prediction"
     )
