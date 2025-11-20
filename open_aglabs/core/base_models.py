@@ -31,7 +31,7 @@ class MLOutput(BaseModel):
         None,
         description="The confidence score of the prediction."
     )
-    model_id: Optional[str, float] = Field(
+    model_id: Optional[Union[str, float]] = Field(
         None,
         description="The ID of the model used to make the prediction"
     )
