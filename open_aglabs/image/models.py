@@ -2,14 +2,49 @@ from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from typing import Optional, Literal, List
 from uuid import uuid4
 
+from ..collection.models import Collection
 from ..core.base_models import MLOutput, Location, Notes
 from ..core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST, ORIENTATION_LIST
+from ..trial.models import Trial
 
+
+class SoP(BaseModel):
+    """
+    Pydantic model representing a Standard Operating Procedure for Image Capture.
+    Mapped from image.ImageProtocol.SoP.*
+    """
+    hardware_name: Optional[str] = Field(
+        None,
+        description="The hardware used for image collection."
+    )
+    hardware_version: Optional[str] = Field(
+        None,
+        description="Hardware version for the given hardware used."
+    )
+    sop_name: Optional[str] = Field(
+        None,
+        description="SOP name as defined for image capture SOPs."
+    )
+    phone_orientation: Optional[str] = Field(
+        None,
+        description="Phone orientation used to capture the image."
+    )
+    image_collection_method: Optional[str] = Field(
+        None,
+        description="Image collection method."
+    )
+    target_trait: Optional[str] = Field(
+        None,
+        description="The trait targeted in the image."
+    )
+
+    model_config = ConfigDict(extra='allow')
 
 
 class ImageProtocol(BaseModel):
     """
     Pydantic model to store data about an image of agricultural materials.
+    Also Stores The protocol used for Imaging.
     """
     name: str = Field(...,
                       description="The Name of the protocol used to capture the image.")
@@ -28,6 +63,31 @@ class ImageProtocol(BaseModel):
                                                description="Description of the lighting conditions (e.g., 'natural sunlight', 'LED array', 'dark field').")
     notes: Optional[str] = Field(None,
                                  description="Any additional relevant notes or observations.")
+    sop: Optional[SoP] = Field(
+        None,
+        description="Standard Operating Procedure details."
+    )
+
+
+class PlantHealth(BaseModel):
+    """
+    Pydantic model representing plant health stressors and diseases.
+    Mapped from image.agronomic_properties.planthealth.*
+    """
+    other_disease: Optional[str] = Field(
+        None,
+        description="Presence of disease on imaged plant for disease outside of drop down list."
+    )
+    ranked_stressors: Optional[str] = Field(
+        None,
+        description="Ranking the diseases and other stressors present in the imaged plant."
+    )
+    stressors: Optional[str] = Field(
+        None,
+        description="Presence of stressor on imaged plant from drop down list."
+    )
+
+    model_config = ConfigDict(extra='forbid')
 
 
 class AgronomicProperties(BaseModel):
@@ -62,6 +122,10 @@ class AgronomicProperties(BaseModel):
         None,
         description="The observed fertilizer level."
     )
+    plant_health: Optional[PlantHealth] = Field(
+        None,
+        description="Details regarding plant health, diseases, and stressors."
+    )
 
     model_config = ConfigDict(
         extra='forbid'
@@ -71,6 +135,7 @@ class AgronomicProperties(BaseModel):
 class CameraProperties(BaseModel):
     """
     Values to support the proper documentation of camera, if you add information to this json please update this doc. https://docs.google.com/spreadsheets/d/1zljGA5xtwtLNXqjohfXeJzh6SFwdObAjmb5gHflQfIA/edit?gid=1769639569#gid=1769639569
+    Adding Specifications related to mobile device
     """
     make: Optional[float] = Field(
         None,
@@ -88,8 +153,18 @@ class CameraProperties(BaseModel):
         None,
         description="The magnification setting of the camera."
     )
+    device_id: Optional[str] = Field(
+        None,
+        validation_alias=AliasChoices('deviceID', 'device_id'),
+        description="Unique persistent CPU ID or collection ID."
+    )
+    model_specification: Optional[str] = Field(
+        None,
+        description="Phone model question/specification string (e.g., Manufacturer=samsung, Model=SM-A556E). IF Device is Mobile"
+    )
+
     model_config = ConfigDict(
-        extra='forbid'
+        extra='allow'   # ADDED TO ENSURE CC from android https://developer.android.com/reference/android/hardware/camera2/CameraCharacteristics can be added.
     )
 
 
@@ -141,7 +216,7 @@ class AcquisitionProperties(BaseModel):
     )
 
     model_config = ConfigDict(
-        extra='forbid'
+        extra='allow' # changed to add CaptureResult spec of Android https://developer.android.com/reference/android/hardware/camera2/CaptureResult.
     )
 
 
@@ -230,6 +305,30 @@ class SyntheticImageProperties(BaseModel):
         extra='allow'
     )
 
+
+class Genotype(BaseModel):
+    """
+    Pydantic model representing Genotype information.
+    Mapped from image.Genotype.*
+    """
+    development_stage: Optional[str] = Field(
+        None,
+        description="The development stage of the plant when imaged."
+    )
+    genotype: Optional[str] = Field(
+        None,
+        description="The genotype that was imaged."
+    )
+    growth_stage: Optional[str] = Field(
+        None,
+        description="The growth stage of the plant when imaged."
+    )
+    land_varieties: Optional[str] = Field(
+        None,
+        description="The land variety that was imaged."
+    )
+    model_config = ConfigDict(extra='forbid')
+
 class Image(BaseModel):
     """
     All the approved values to be captured about Images of Ag Data.
@@ -278,6 +377,18 @@ class Image(BaseModel):
     agronomic_properties: Optional[AgronomicProperties] = Field(
         None
     )
+    genotype_properties: Optional[Genotype] = Field(
+        None,
+        description="Genotype properties mapped from image.Genotype.*"
+    )
+    trial_properties: Optional[Trial] = Field(
+        None,
+        description="Trial and plot layout information mapped from trial.*"
+    )
+    collection_properties: Optional[Collection] = Field(
+        None,
+        description="Collection level information mapped from collection.*"
+    )
     synthetic_image_properties: Optional[SyntheticImageProperties] = Field(
         None
     )
@@ -297,7 +408,9 @@ class Image(BaseModel):
                     "model": "DJI Mavic 2 Pro",
                     "make": 1.0,
                     "iso": 100.0,
-                    "magnification": 1.0
+                    "magnification": 1.0,
+                    "device_id": "b2f20fd1b69e6f61",
+                    "model_specification": "Samsung SM-A556E"
                 },
                 "location_properties": {
                     "latitude": 34.0522,
@@ -315,7 +428,11 @@ class Image(BaseModel):
                     "camera_angle": 0.0,
                     "magnification": 1.0,
                     "lighting_conditions": "clear sky",
-                    "notes": "Standard flight path"
+                    "notes": "Standard flight path",
+                    "sop": {
+                         "hardware_name": "Pixel 6",
+                         "sop_name": "Standard Capture v2"
+                    }
                 },
                 "acquisition_properties": {
                     "date": "2025-09-30",
@@ -352,12 +469,24 @@ class Image(BaseModel):
                     "weed_pressure": "low",
                     "irrigation_level": "standard",
                     "tillage_type": "no-till",
-                    "fertilizer_level": "standard"
+                    "fertilizer_level": "standard",
+                    "plant_health": {
+                        "stressors": "drought",
+                        "ranked_stressors": "1. drought, 2. pests"
+                    }
                 },
                 "synthetic_image_properties": {
                     "model": 'v1',
                     "seed": 12345,
                     "noise": 0.01,
+                },
+                "genotype_properties": {
+                    "genotype": "G1234",
+                    "growth_stage": "Vegetative"
+                },
+                "trial_properties": {
+                    "trial_name": "Trial-2025-A",
+                    "plot_number": "101"
                 }
             }
         }
