@@ -2,43 +2,11 @@ from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from typing import Optional, Literal, List
 from uuid import uuid4
 
-from ..collection.models import Collection
 from ..core.base_models import MLOutput, Location, Notes
 from ..core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST, ORIENTATION_LIST
-from ..trial.models import Trial
-
-
-class SoP(BaseModel):
-    """
-    Pydantic model representing a Standard Operating Procedure for Image Capture.
-    Mapped from image.ImageProtocol.SoP.*
-    """
-    hardware_name: Optional[str] = Field(
-        None,
-        description="The hardware used for image collection."
-    )
-    hardware_version: Optional[str] = Field(
-        None,
-        description="Hardware version for the given hardware used."
-    )
-    sop_name: Optional[str] = Field(
-        None,
-        description="SOP name as defined for image capture SOPs."
-    )
-    phone_orientation: Optional[str] = Field(
-        None,
-        description="Phone orientation used to capture the image."
-    )
-    image_collection_method: Optional[str] = Field(
-        None,
-        description="Image collection method."
-    )
-    target_trait: Optional[str] = Field(
-        None,
-        description="The trait targeted in the image."
-    )
-
-    model_config = ConfigDict(extra='allow')
+from open_aglabs.mobile.trial.models import Trial
+from open_aglabs.mobile.collection.models import Collection
+from ..mobile.plot.models import PlotMetadata
 
 
 class ImageProtocol(BaseModel):
@@ -63,10 +31,6 @@ class ImageProtocol(BaseModel):
                                                description="Description of the lighting conditions (e.g., 'natural sunlight', 'LED array', 'dark field').")
     notes: Optional[str] = Field(None,
                                  description="Any additional relevant notes or observations.")
-    sop: Optional[SoP] = Field(
-        None,
-        description="Standard Operating Procedure details."
-    )
 
 
 class PlantHealth(BaseModel):
@@ -305,30 +269,6 @@ class SyntheticImageProperties(BaseModel):
         extra='allow'
     )
 
-
-class Genotype(BaseModel):
-    """
-    Pydantic model representing Genotype information.
-    Mapped from image.Genotype.*
-    """
-    development_stage: Optional[str] = Field(
-        None,
-        description="The development stage of the plant when imaged."
-    )
-    genotype: Optional[str] = Field(
-        None,
-        description="The genotype that was imaged."
-    )
-    growth_stage: Optional[str] = Field(
-        None,
-        description="The growth stage of the plant when imaged."
-    )
-    land_varieties: Optional[str] = Field(
-        None,
-        description="The land variety that was imaged."
-    )
-    model_config = ConfigDict(extra='forbid')
-
 class Image(BaseModel):
     """
     All the approved values to be captured about Images of Ag Data.
@@ -377,21 +317,22 @@ class Image(BaseModel):
     agronomic_properties: Optional[AgronomicProperties] = Field(
         None
     )
-    genotype_properties: Optional[Genotype] = Field(
-        None,
-        description="Genotype properties mapped from image.Genotype.*"
-    )
     trial_properties: Optional[Trial] = Field(
         None,
-        description="Trial and plot layout information mapped from trial.*"
+        description="Trial and plot layout information."
     )
     collection_properties: Optional[Collection] = Field(
         None,
-        description="Collection level information mapped from collection.*"
+        description="Collection level information, will only contain CollectionID"
+    )
+    plot_properties:Optional[PlotMetadata] = Field(
+        None,
+        description="Plot level information, will only contain PlotID and other required fields"
     )
     synthetic_image_properties: Optional[SyntheticImageProperties] = Field(
         None
     )
+
     notes: Optional[List[Notes]] = Field(
         None
     )
@@ -479,10 +420,6 @@ class Image(BaseModel):
                     "model": 'v1',
                     "seed": 12345,
                     "noise": 0.01,
-                },
-                "genotype_properties": {
-                    "genotype": "G1234",
-                    "growth_stage": "Vegetative"
                 },
                 "trial_properties": {
                     "trial_name": "Trial-2025-A",
