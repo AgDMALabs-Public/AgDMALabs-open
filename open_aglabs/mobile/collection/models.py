@@ -1,7 +1,75 @@
 from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from typing import Optional, Literal, List, Any
 
-from pydantic.v1 import Required
+class SoP(BaseModel):
+    """
+    Pydantic model representing a Standard Operating Procedure for Image Capture.
+    Mapped from image.ImageProtocol.SoP.*
+    """
+    hardware_name: Optional[str] = Field(
+        None,
+        description="The hardware used for image collection."
+    )
+    hardware_version: Optional[str] = Field(
+        None,
+        description="Hardware version for the given hardware used."
+    )
+    sop_name: Optional[str] = Field(
+        None,
+        description="SOP name as defined for image capture SOPs."
+    )
+    phone_orientation: Optional[str] = Field(
+        None,
+        description="Phone orientation used to capture the image."
+    )
+    # DEPRECATED AS ITS COVERED IN ONA SPECIFIC VARS
+    # image_collection_method: Optional[str] = Field(
+    #     None,
+    #     description="Image collection method."
+    # )
+    # target_trait: Optional[str] = Field(
+    #     None,
+    #     description="The trait targeted in the image."
+    # )
+
+
+    """
+    ONA Specific Vars
+    """
+    task:Optional[str] = Field(
+        None,
+        description="Purpose of Data collection."
+    )
+    method:Optional[str] = Field(
+        None,
+        description="Method of Data collection."
+    )
+    trait:Optional[str] = Field(
+        None,
+        description="Trait/Traits of Interest for Data collection."
+    )
+    protocol_cloud:Optional[str] = Field(
+        None,
+        description="standard protocol name for Data collection."
+    )
+    protocol_naming:Optional[str] = Field(
+        None,
+        description="Local Reference protocol name for Data collection."
+    )
+    dataType:Optional[str] = Field(
+        None,
+        description="DataType Enum for Data collection."
+    )
+    level:Optional[str] = Field(
+        None,
+        description="Granularity of data collection, Plant/Plot Level."
+    )
+    protocol_version:Optional[str] = Field(
+        None,
+        description="Describes the Plant Name and its respective ProtocolVersion."
+    )
+
+    model_config = ConfigDict(extra='allow')
 
 class Collection(BaseModel):
     """
@@ -9,7 +77,7 @@ class Collection(BaseModel):
     In Ona App The collection model is referred to as Session.
     A collection is an instance of data collected for a Individual trait or a group of traits that belong to a particular trial.
     """
-    collection_id: Required[str] = Field(None, description="Collection ID. A unique identifier for the collection. To Track all plot and image entities that are part of this collection")
+    collection_id: Optional[str] = Field(None, description="Collection ID. A unique identifier for the collection. To Track all plot and image entities that are part of this collection")
     num_images: Optional[str] = Field(None, description="The number of images captured for a given collection.")
     num_plots: Optional[str] = Field(None, description="Number of plots collected for a given collection.")
     plot_collection:Optional[list]=Field(None, description="List of plotIds collected for a given collection.")
@@ -22,11 +90,18 @@ class Collection(BaseModel):
     user_details: Optional[dict] = Field(None, description="User details. For Future scope of Expansion")
     environment_details: Optional[dict] = Field(None, description="Environment details")
 
+    # SoP Specific to Protocol Management
+    sop: Optional[SoP] = Field(
+        None,
+        description="Standard Operating Procedure details."
+    )
+
     # update: Optional[str] = Field(None, description="Update status/info.") DEPRECATED
 
     trial: Optional[str] = Field(None, validation_alias='trial_name', description="The trial name.")
     trial_details: Optional[dict] = Field(None, description="The trial details.")
     trial_source_url: Optional[str] = Field(None, description="The source url of the trial layout.")
+
 
 
     model_config = ConfigDict(extra='forbid')
