@@ -6,7 +6,6 @@ from ..core.base_models import MLOutput, Location, Notes
 from ..core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST, ORIENTATION_LIST
 
 
-
 class ImageProtocol(BaseModel):
     """
     Pydantic model to store data about an image of agricultural materials.
@@ -15,9 +14,9 @@ class ImageProtocol(BaseModel):
                       description="The Name of the protocol used to capture the image.")
     sample_type: str = Field(...,
                              description="What is being imaged (e.g., 'corn field', 'soil', 'tomato fruit').")
-    camera_height_mm: float = Field(...,
+    camera_height_m: float = Field(...,
                                     gt=0,
-                                    description="Height of the camera from the sample in millimeters.")
+                                    description="Height of the camera from the sample in meters.")
     camera_angle: float = Field(...,
                                 ge=0,
                                 description="The angle that the camera is at relative to vertical. eg: top down is 0")
@@ -26,8 +25,15 @@ class ImageProtocol(BaseModel):
                                  description="Magnification level used for the image capture.")
     lighting_conditions: Optional[str] = Field(None,
                                                description="Description of the lighting conditions (e.g., 'natural sunlight', 'LED array', 'dark field').")
+    url: Optional[str] = Field(None,
+                               description="The path to the protocol documentation.")
     notes: Optional[str] = Field(None,
                                  description="Any additional relevant notes or observations.")
+
+    model_config = ConfigDict(
+        extra='forbid'
+    )
+
 
 
 class AgronomicProperties(BaseModel):
@@ -114,7 +120,6 @@ class AcquisitionProperties(BaseModel):
         None,
         ge=0,
         description="The angle of the camera when the photo was taken"
-
     )
     object_resolution: Optional[str] = Field(
         None,
@@ -230,7 +235,7 @@ class SyntheticImageProperties(BaseModel):
         extra='allow'
     )
 
-class Image(BaseModel):
+class AgImageModel(BaseModel):
     """
     All the approved values to be captured about Images of Ag Data.
     """
@@ -251,17 +256,8 @@ class Image(BaseModel):
         None,
         description="The type of image it is: original, augmented, synthetic."
     )
-    protocol_name: Optional[str] = Field(
-        None,
-        description="The name of the protocol used to capture the image."
-    )
-    protocol_version: Optional[str] = Field(
-        None,
-        description="The version of the protocol used to capture the image."
-    )
-    protocol_url: Optional[str] = Field(
-        None,
-        description="The URL of the protocol used to capture the image."
+    protocol_properties: Optional[ImageProtocol] = Field(
+        None
     )
     camera_properties: Optional[CameraProperties] = Field(
         None
@@ -311,7 +307,7 @@ class Image(BaseModel):
                 "protocol_properties": {
                     "name": "Drone Survey v1.0",
                     "sample_type": "corn field",
-                    "camera_height_mm": 50000.0,
+                    "camera_height_m": 50000.0,
                     "camera_angle": 0.0,
                     "magnification": 1.0,
                     "lighting_conditions": "clear sky",

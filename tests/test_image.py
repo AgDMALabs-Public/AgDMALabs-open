@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 import pytest
-from open_aglabs.image.models import Image, CameraProperties, Location, AcquisitionProperties, ImageQuality
+from open_aglabs.image.models import AgImage, CameraProperties, Location, AcquisitionProperties, ImageQuality
 from pydantic import ValidationError
 
 
@@ -40,7 +40,7 @@ def test_valid_image():
             "pct_pixel_under_saturation": 0.5
         }
     }
-    image = Image(**data)
+    image = AgImage(**data)
     assert image.path == "/images/field_A/row_1/image_001.jpg"
     assert image.device == "drone"
     assert image.type == "original"
@@ -56,7 +56,7 @@ def test_valid_image():
 
 def test_invalid_image_type():
     with pytest.raises(ValidationError):
-        Image(
+        AgImage(
             path="/images/field_A/row_1/image_001.jpg",
             id=str(uuid4()),
             device="drone",
@@ -66,7 +66,7 @@ def test_invalid_image_type():
 
 def test_missing_required_fields():
     with pytest.raises(ValidationError):
-        Image(
+        AgImage(
             device="drone",
             type="original"
         )

@@ -3,7 +3,7 @@ from open_aglabs.core.base_models import MLOutput
 from pydantic import ValidationError
 
 
-def test_mloutput_valid_data():
+def test_ml_output_valid_data():
     data = {
         "pred": 0.95,
         "model_id": "model123",
