@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional, Union
+from typing import Optional, Union, Literal
+from open_aglabs.core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST, ORIENTATION_LIST
 
 
 class Other(BaseModel):
@@ -124,7 +125,16 @@ class Location(BaseModel):
     site: Optional[str] = Field(
         None,
         description="The site refers to the research site the data came from. A site will have many fields and locations"
-                    " associated to it"
+                    " associated to it, its similar to farm but used in a research context"
+    )
+    grower: Optional[str] = Field(
+        None,
+        description="The grower the managed the field. A grower will have many fields and locations associated to it"
+    )
+    farm: Optional[str] = Field(
+        None,
+        description="The Farm the data came from. A farm will have many fields and locations associated to it,'"
+                    " its similar to site but used in the commerical context."
     )
     field: Optional[str] = Field(
         None,
@@ -150,8 +160,88 @@ class Location(BaseModel):
                 "admin_level_2": "Los Angeles County",
                 "admin_level_3": "Los Angeles",
                 "site": "AgTech Research Farm",
+                "grower": "williams",
+                "farm": "california",
                 "field": "Field_7B",
                 "location": "A"
             }
         }
+    )
+
+
+class TrialProperties(BaseModel):
+    """
+    Values to support the proper documentation of location information
+    """
+    id: Optional[str] = Field(
+        None,
+        description="A unique ID for the trial"
+    )
+    name: Optional[str] = Field(
+        None,
+        description="The name of the location"
+    )
+    model_config = ConfigDict(
+        extra='forbid',
+        json_schema_extra={
+            "example": {
+                "id": "trial-uuid-12345",
+                "name": "breeding_a"
+            }
+        }
+    )
+
+
+class AgronomicProperties(BaseModel):
+    """
+    Pydantic model representing approved values to be captured about images of agricultural data.
+    """
+    crop_type: Optional[Literal[*CROP_LIST]] = Field(
+        None,
+        description="The type of crop present in the image."
+    )
+    growth_stage: Optional[str] = Field(
+        None,
+        description="The growth stage of the crop, if a crop is present"
+    )
+    soil_color: Optional[Literal[*SOIL_COLOR]] = Field(
+        None,
+        description="The predominant color of the soil in the image."
+    )
+    weed_pressure: Optional[Literal["high", "high-medium", "medium", "medium-low", "low"]] = Field(
+        None,
+        description="The level of weed presence in the image. high would be complete coverage, low would be less than 10% coverage."
+    )
+    irrigation_level: Optional[Literal["high", "standard", "low", "none"]] = Field(
+        None,
+        description="The observed irrigation level."
+    )
+    tillage_type: Optional[Literal["conventional", "reduced", "no-till"]] = Field(
+        None,
+        description="The type of tillage observed."
+    )
+    fertilizer_level: Optional[Literal["high", "standard", "low"]] = Field(
+        None,
+        description="The observed fertilizer level."
+    )
+    model_config = ConfigDict(
+        extra='forbid'
+    )
+
+
+class ProtocolProperties(BaseModel):
+    """
+    Pydantic model to store data about an image of agricultural materials.
+    """
+    name: Optional[str] = Field(
+        None,
+        description="The Name of the protocol used to capture the image.")
+    id: Optional[str] = Field(
+        None,
+        description="What is being imaged (e.g., 'corn field', 'soil', 'tomato fruit').")
+    url: Optional[str] = Field(
+        None,
+        description="The path to the protocol documentation.")
+    model_config = ConfigDict(
+        extra='forbid'
     )

@@ -2,76 +2,8 @@ from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from typing import Optional, Literal, List
 from uuid import uuid4
 
-from ..core.base_models import MLOutput, Location, Notes
-from ..core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST, ORIENTATION_LIST
-
-
-class ImageProtocol(BaseModel):
-    """
-    Pydantic model to store data about an image of agricultural materials.
-    """
-    name: str = Field(...,
-                      description="The Name of the protocol used to capture the image.")
-    sample_type: str = Field(...,
-                             description="What is being imaged (e.g., 'corn field', 'soil', 'tomato fruit').")
-    camera_height_m: float = Field(...,
-                                    gt=0,
-                                    description="Height of the camera from the sample in meters.")
-    camera_angle: float = Field(...,
-                                ge=0,
-                                description="The angle that the camera is at relative to vertical. eg: top down is 0")
-    magnification: float = Field(...,
-                                 gt=0,
-                                 description="Magnification level used for the image capture.")
-    lighting_conditions: Optional[str] = Field(None,
-                                               description="Description of the lighting conditions (e.g., 'natural sunlight', 'LED array', 'dark field').")
-    url: Optional[str] = Field(None,
-                               description="The path to the protocol documentation.")
-    notes: Optional[str] = Field(None,
-                                 description="Any additional relevant notes or observations.")
-
-    model_config = ConfigDict(
-        extra='forbid'
-    )
-
-
-
-class AgronomicProperties(BaseModel):
-    """
-    Pydantic model representing approved values to be captured about images of agricultural data.
-    """
-    crop_type: Optional[Literal[*CROP_LIST]] = Field(
-        None,
-        description="The type of crop present in the image."
-    )
-    growth_stage: Optional[str] = Field(
-        None,
-        description="The growth stage of the crop, if a crop is present"
-    )
-    soil_color: Optional[Literal[*SOIL_COLOR]] = Field(
-        None,
-        description="The predominant color of the soil in the image."
-    )
-    weed_pressure: Optional[Literal["high", "high-medium", "medium", "medium-low", "low"]] = Field(
-        None,
-        description="The level of weed presence in the image. high would be complete coverage, low would be less than 10% coverage."
-    )
-    irrigation_level: Optional[Literal["high", "standard", "low", "none"]] = Field(
-        None,
-        description="The observed irrigation level."
-    )
-    tillage_type: Optional[Literal["conventional", "reduced", "no-till"]] = Field(
-        None,
-        description="The type of tillage observed."
-    )
-    fertilizer_level: Optional[Literal["high", "standard", "low"]] = Field(
-        None,
-        description="The observed fertilizer level."
-    )
-
-    model_config = ConfigDict(
-        extra='forbid'
-    )
+from open_aglabs.core.base_models import MLOutput, Location, Notes, AgronomicProperties, TrialProperties, ProtocolProperties
+from open_aglabs.core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST, ORIENTATION_LIST
 
 
 class CameraProperties(BaseModel):
@@ -216,6 +148,7 @@ class ImageQuality(BaseModel):
         extra='forbid'
     )
 
+
 class SyntheticImageProperties(BaseModel):
     """
     Values associated with Synthetic Images
@@ -234,6 +167,7 @@ class SyntheticImageProperties(BaseModel):
     model_config = ConfigDict(
         extra='allow'
     )
+
 
 class AgImageModel(BaseModel):
     """
@@ -256,7 +190,10 @@ class AgImageModel(BaseModel):
         None,
         description="The type of image it is: original, augmented, synthetic."
     )
-    protocol_properties: Optional[ImageProtocol] = Field(
+    protocol_properties: Optional[ProtocolProperties] = Field(
+        None
+    )
+    trial_properties: Optional[TrialProperties] = Field(
         None
     )
     camera_properties: Optional[CameraProperties] = Field(
@@ -306,12 +243,11 @@ class AgImageModel(BaseModel):
                 },
                 "protocol_properties": {
                     "name": "Drone Survey v1.0",
-                    "sample_type": "corn field",
-                    "camera_height_m": 50000.0,
-                    "camera_angle": 0.0,
-                    "magnification": 1.0,
-                    "lighting_conditions": "clear sky",
-                    "notes": "Standard flight path"
+                    "id": "corn field",
+                    "url": None
+                },
+                "trial_properties": {
+                    'name': 'breeding_a'
                 },
                 "acquisition_properties": {
                     "date": "2025-09-30",
