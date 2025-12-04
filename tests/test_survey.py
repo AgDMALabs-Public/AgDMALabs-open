@@ -33,11 +33,11 @@ def test_survey_data_model_initialization():
         "followups": {
             "Q1": {"question": "Why so high?", "answer": "Good rains this season."}
         },
-        "voice_files": [
-            {"path": "voice_clip.mp3", "id": str(uuid4()), "question": "Q1", "answer": ""}
+        "audio_files": [
+            {"path": "voice_clip.mp3", "id": str(uuid4()), "question": ["Q1"], "answer": [""]}
         ],
         "image_files": [
-            {"path": "image_20251201.png", "id": str(uuid4()), "question": "Q1"}
+            {"path": "image_20251201.png", "id": str(uuid4()), "question": ["Q1"]}
         ],
         "notes": [
             {"message": "Investigate field conditions further.", "author": "admin"}
@@ -52,13 +52,13 @@ def test_survey_data_model_initialization():
     assert survey.agronomic_properties.crop_type == data["agronomic_properties"]["crop_type"]
     assert survey.model_dump()["answers"] == data["answers"]
     assert survey.model_dump()["followups"] == data["followups"]
-    assert len(survey.voice_files) == 1
-    assert survey.voice_files[0].path == data["voice_files"][0]["path"]
+    assert len(survey.audio_files) == 1
+    assert survey.audio_files[0].path == data["audio_files"][0]["path"]
 
 
 def test_invalid_survey_data_model_missing_required_field():
     with pytest.raises(ValidationError):
-        SurveyDataModel(collection_date="2025-12-01", answers={}, followups={}, voice_files=[], image_files=[])
+        SurveyDataModel(collection_date="2025-12-01", answers={}, followups={}, audio_files=[], image_files=[])
 
 
 def test_invalid_survey_data_model_extra_field():
@@ -72,7 +72,7 @@ def test_invalid_survey_data_model_extra_field():
         "followups": {
             "Q1": {"question": "Why so high?", "answer": "Good rains this season."}
         },
-        "voice_files": [],
+        "audio_files": [],
         "image_files": [],
         "extra_field": "invalid"
     }
@@ -87,7 +87,7 @@ def test_valid_survey_notes():
         "collection_date": "2025-11-20",
         "answers": {},
         "followups": {},
-        "voice_files": [],
+        "audio_files": [],
         "image_files": [],
         "notes": notes
     }

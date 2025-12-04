@@ -29,6 +29,10 @@ def test_valid_image():
             "camera_height_m": 50.0,
             "camera_angle_deg": 90.0
         },
+        "agronomic_properties": {
+            "crop_type": "corn",
+            "soil_color": "dark"
+        },
         "image_quality": {
             "exposure": 50.0,
             "aperture": "f/2.8",
