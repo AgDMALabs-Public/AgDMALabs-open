@@ -30,10 +30,10 @@ class VoiceFile(BaseModel):
     id: str = Field(
         ...,
         description="The unique ID of the voice file.")
-    question: str = Field(
+    question: List[str] = Field(
         ...,
-        description="The question associated with the voice file.")
-    answer: str = Field(
+        description="The question(s) associated with the voice file.")
+    answer: List[str] = Field(
         ...,
         description="The transcribed answer from the voice file.")
     model_config = ConfigDict(
@@ -42,8 +42,8 @@ class VoiceFile(BaseModel):
             "example": {
                 "path": "voice_20251126_122230.wav",
                 "id": str(uuid4()),
-                "question": "Q1",
-                "answer": "I would expect it to be more tolerant to drought."
+                "question": ["Q1"],
+                "answer": ["I would expect it to be more tolerant to drought."]
             }
         }
     )
@@ -56,7 +56,7 @@ class ImageFile(BaseModel):
     id: str = Field(
         ...,
         description="The unique ID for the image file")
-    question: str = Field(
+    question: List[str] = Field(
         ...,
         description="The question associated with the image")
     model_config = ConfigDict(
@@ -104,7 +104,7 @@ class SurveyDataModel(BaseModel):
     followups: Dict[str, QuestionAnswer] = Field(
         ...,
         description="A dictionary of followup questions and answers.")
-    voice_files: List[VoiceFile] = Field(
+    audio_files: List[VoiceFile] = Field(
         ...,
         description="A list of voice files and their associated data.")
     image_files: List[ImageFile] = Field(
@@ -165,19 +165,19 @@ class SurveyDataModel(BaseModel):
                         "answer": "The rains have become less predictable over the last five years."
                     }
                 },
-                "voice_files": [
+                "audio_files": [
                     {
                         "path": "voice_20251118_103000.mp3",
                         "id": str(uuid4()),
-                        "question": "Q1",
-                        "answer": ""
+                        "question": ["Q1"],
+                        "answer": [""]
                     }
                 ],
                 "image_files": [
                     {
                         "path": "voice_20251118_103000.jpg",
                         "id": str(uuid4()),
-                        "question": "Q1"
+                        "question": ["Q1"]
                     }
                 ],
                 "notes": [
