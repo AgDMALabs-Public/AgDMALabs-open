@@ -2,8 +2,7 @@ from datetime import datetime
 from uuid import uuid4
 
 import pytest
-from open_aglabs.surveys.models import SurveyDataModel, QuestionAnswer, AudioFile, Location, TrialProperties, \
-    ProtocolProperties, AgronomicProperties
+from open_aglabs.surveys.models import SurveyDataModel
 from pydantic import ValidationError
 
 
@@ -133,6 +132,7 @@ def test_valid_survey_notes():
     notes = [{"message": "Added details for later review.", "author": "researcher1"}]
     data = {
         "id": str(uuid4()),
+        "path": "sample_data.json",
         "collection_date": "2025-11-20",
         "answers": {},
         "followups": {},
