@@ -1,6 +1,6 @@
 from uuid import uuid4
 from pydantic import BaseModel, Field, ConfigDict, AliasChoices
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Union
 from open_aglabs.core.base_models import MLOutput, Location, Notes, TrialProperties, AgronomicProperties, ProtocolProperties
 
 class QuestionAnswer(BaseModel):
@@ -22,19 +22,24 @@ class QuestionAnswer(BaseModel):
     )
 
 
-class VoiceFile(BaseModel):
+class AudioFile(BaseModel):
     """A model to represent a voice file and its associated data."""
     path: str = Field(
         ...,
+        validation_alias=AliasChoices('path', 'file'),
         description="The path to the voice file.")
     id: str = Field(
         ...,
+        validation_alias=AliasChoices('id', 'audio_id', 'voice_id'),
         description="The unique ID of the voice file.")
-    question: List[str] = Field(
-        ...,
+    question_id: Optional[Union[List[str], str]] = Field(
+        None,
+        description="The question(s) ID's associated with the voice file.")
+    question: Optional[Union[List[str], str]] = Field(
+        None,
         description="The question(s) associated with the voice file.")
-    answer: List[str] = Field(
-        ...,
+    answer: Optional[Union[List[str], str]] = Field(
+        None,
         description="The transcribed answer from the voice file.")
     model_config = ConfigDict(
         extra='forbid',
@@ -52,12 +57,17 @@ class ImageFile(BaseModel):
     """A model to represent a voice file and its associated data."""
     path: str = Field(
         ...,
+        validation_alias=AliasChoices('path', 'file'),
         description="The name of the voice file.")
     id: str = Field(
         ...,
+        validation_alias=AliasChoices('id', 'image_id'),
         description="The unique ID for the image file")
-    question: List[str] = Field(
-        ...,
+    question_id: Optional[Union[List[str], str]] = Field(
+        None,
+        description="The question(s) ID's associated with the voice file.")
+    question: Optional[Union[List[str], str]] = Field(
+        None,
         description="The question associated with the image")
     model_config = ConfigDict(
         extra='forbid',
@@ -104,8 +114,9 @@ class SurveyDataModel(BaseModel):
     followups: Dict[str, QuestionAnswer] = Field(
         ...,
         description="A dictionary of followup questions and answers.")
-    audio_files: List[VoiceFile] = Field(
+    audio_files: List[AudioFile] = Field(
         ...,
+        validation_alias=AliasChoices('audio_files', 'voice_files'),
         description="A list of voice files and their associated data.")
     image_files: List[ImageFile] = Field(
         ...,
