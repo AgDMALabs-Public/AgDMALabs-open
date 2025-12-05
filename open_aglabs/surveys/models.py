@@ -1,7 +1,9 @@
 from uuid import uuid4
 from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from typing import List, Dict, Optional, Union
-from open_aglabs.core.base_models import MLOutput, Location, Notes, TrialProperties, AgronomicProperties, ProtocolProperties
+from open_aglabs.core.base_models import MLOutput, Location, Notes, TrialProperties, AgronomicProperties, \
+    ProtocolProperties
+
 
 class QuestionAnswer(BaseModel):
     """A model to hold a question and its corresponding answer."""
@@ -22,38 +24,7 @@ class QuestionAnswer(BaseModel):
     )
 
 
-class AudioFile(BaseModel):
-    """A model to represent a voice file and its associated data."""
-    path: str = Field(
-        ...,
-        validation_alias=AliasChoices('path', 'file'),
-        description="The path to the voice file.")
-    id: str = Field(
-        ...,
-        validation_alias=AliasChoices('id', 'audio_id', 'voice_id'),
-        description="The unique ID of the voice file.")
-    question_id: Optional[Union[List[str], str]] = Field(
-        None,
-        description="The question(s) ID's associated with the voice file.")
-    question: Optional[Union[List[str], str]] = Field(
-        None,
-        description="The question(s) associated with the voice file.")
-    answer: Optional[Union[List[str], str]] = Field(
-        None,
-        description="The transcribed answer from the voice file.")
-    model_config = ConfigDict(
-        extra='forbid',
-        json_schema_extra={
-            "example": {
-                "path": "voice_20251126_122230.wav",
-                "id": str(uuid4()),
-                "question": ["Q1"],
-                "answer": ["I would expect it to be more tolerant to drought."]
-            }
-        }
-    )
-
-class ImageFile(BaseModel):
+class AssociatedSurveyFile(BaseModel):
     """A model to represent a voice file and its associated data."""
     path: str = Field(
         ...,
@@ -61,7 +32,7 @@ class ImageFile(BaseModel):
         description="The name of the voice file.")
     id: str = Field(
         ...,
-        validation_alias=AliasChoices('id', 'image_id'),
+        validation_alias=AliasChoices('id', 'image_id', 'audio_id'),
         description="The unique ID for the image file")
     question_id: Optional[Union[List[str], str]] = Field(
         None,
@@ -69,6 +40,9 @@ class ImageFile(BaseModel):
     question: Optional[Union[List[str], str]] = Field(
         None,
         description="The question associated with the image")
+    answer: Optional[Union[List[str], str]] = Field(
+        None,
+        description="The transcribed answer from the voice file.")
     model_config = ConfigDict(
         extra='forbid',
         json_schema_extra={
@@ -83,8 +57,8 @@ class ImageFile(BaseModel):
 
 class SurveyDataModel(BaseModel):
     """A Pydantic model for the provided survey data structure."""
-    path: Optional[str] = Field(
-        None,
+    path: str = Field(
+        ...,
         description="The path to the image"
     )
     id: str = Field(
@@ -111,15 +85,15 @@ class SurveyDataModel(BaseModel):
     answers: Dict[str, QuestionAnswer] = Field(
         ...,
         description="A dictionary of questions and answers.")
-    followups: Dict[str, QuestionAnswer] = Field(
-        ...,
+    followups: Optional[Dict[str, QuestionAnswer]] = Field(
+        None,
         description="A dictionary of followup questions and answers.")
-    audio_files: List[AudioFile] = Field(
-        ...,
+    audio_files: Optional[List[AssociatedSurveyFile]] = Field(
+        None,
         validation_alias=AliasChoices('audio_files', 'voice_files'),
         description="A list of voice files and their associated data.")
-    image_files: List[ImageFile] = Field(
-        ...,
+    image_files: Optional[List[AssociatedSurveyFile]] = Field(
+        None,
         description="A list of image files and their associated data.")
     notes: Optional[List[Notes]] = Field(
         None
@@ -129,14 +103,14 @@ class SurveyDataModel(BaseModel):
         populate_by_name=True,
         json_schema_extra={
             "example": {
-                "id": str(uuid4()), # required
+                "id": str(uuid4()),  # required
                 "path": "/surveys/2025/kenya_field_xyz.json",
-                "collection_date": "2025-11-18", # required
+                "collection_date": "2025-11-18",  # required
                 "trial_properties": {
-                    "name": "maize_variety_survey_2025" # required
+                    "name": "maize_variety_survey_2025"  # required
                 },
                 "protocol_properties": {
-                    "name": "maize_survey_v1.0", # required
+                    "name": "maize_survey_v1.0",  # required
                     "id": None,
                     "url": None,
                 },
@@ -145,14 +119,14 @@ class SurveyDataModel(BaseModel):
                     "name": "Research Plot A",
                     "latitude": 0.78,
                     "longitude": 35.2,
-                    "admin_level_0": "Kenya", # required
-                    "site": "CIMMYT-Kiboko", # required
+                    "admin_level_0": "Kenya",  # required
+                    "site": "CIMMYT-Kiboko",  # required
                     "grower": "local_farmer_coop",
-                    "field": "EF-3", # required
-                    "location": "" # required
+                    "field": "EF-3",  # required
+                    "location": ""  # required
                 },
                 "agronomic_properties": {
-                    "crop_type": "corn", # required
+                    "crop_type": "corn",  # required
                     "growth_stage": "VT",
                     "soil_color": "red",
                     "weed_pressure": "medium-low",
@@ -200,4 +174,3 @@ class SurveyDataModel(BaseModel):
             }
         }
     )
-
