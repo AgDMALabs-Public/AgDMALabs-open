@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import uuid4
 
 import pytest
-from open_aglabs.surveys.models import SurveyDataModel, QuestionAnswer, VoiceFile, Location, TrialProperties, \
+from open_aglabs.surveys.models import SurveyDataModel, QuestionAnswer, AudioFile, Location, TrialProperties, \
     ProtocolProperties, AgronomicProperties
 from pydantic import ValidationError
 
@@ -28,19 +28,28 @@ def test_survey_data_model_initialization():
             "crop_type": "corn",
         },
         "answers": {
-            "Q1": {"question": "What is the yield?", "answer": "20 tons/ha"}
+            "Q1": {"question": "What is the yield?",
+                   "answer": "20 tons/ha"}
         },
         "followups": {
-            "Q1": {"question": "Why so high?", "answer": "Good rains this season."}
+            "Q1": {"question": "Why so high?",
+                   "answer": "Good rains this season."}
         },
         "audio_files": [
-            {"path": "voice_clip.mp3", "id": str(uuid4()), "question": ["Q1"], "answer": [""]}
+            {"path": "voice_clip.mp3",
+             "id": str(uuid4()),
+             "question_id": ["Q1"],
+             "question": ["Q1"],
+             "answer": [""]}
         ],
         "image_files": [
-            {"path": "image_20251201.png", "id": str(uuid4()), "question": ["Q1"]}
+            {"path": "image_20251201.png",
+             "id": str(uuid4()),
+             "question": ["Q1"]}
         ],
         "notes": [
-            {"message": "Investigate field conditions further.", "author": "admin"}
+            {"message": "Investigate field conditions further.",
+             "author": "admin"}
         ]
     }
     survey = SurveyDataModel(**data)
@@ -54,6 +63,46 @@ def test_survey_data_model_initialization():
     assert survey.model_dump()["followups"] == data["followups"]
     assert len(survey.audio_files) == 1
     assert survey.audio_files[0].path == data["audio_files"][0]["path"]
+
+
+def test_survey_data_w_alias_model_initialization():
+    data = {
+        "id": str(uuid4()),
+        "path": "/surveys/2025/sample_data.json",
+        "collection_date": "2025-12-01",
+        "trial_properties": {
+            "name": "maize_variety_survey_2025"
+        },
+        "protocol_properties": {
+            "name": "crop_survey_v2.0",
+        },
+        "location_properties": {
+            "admin_level_0": "Kenya",
+            "site": "Example Site",
+            "field": "Field_1B",
+            "location": ""
+        },
+        "agronomic_properties": {
+            "crop_type": "corn",
+        },
+        "answers": {
+            "Q1": {"question": "What is the yield?", "answer": "20 tons/ha"}
+        },
+        "followups": {
+            "Q1": {"question": "Why so high?", "answer": "Good rains this season."}
+        },
+        "voice_files": [
+            {"file": "voice_clip.mp3", "audio_id": str(uuid4()), "question": ["Q1"], "answer": [""]}
+        ],
+        "image_files": [
+            {"file": "image_20251201.png", "image_id": str(uuid4()), "question": "Q1"}
+        ],
+        "notes": [
+            {"message": "Investigate field conditions further.", "author": "admin"}
+        ]
+    }
+    survey = SurveyDataModel(**data)
+    assert survey.audio_files[0].path == data["voice_files"][0]["file"]
 
 
 def test_invalid_survey_data_model_missing_required_field():
