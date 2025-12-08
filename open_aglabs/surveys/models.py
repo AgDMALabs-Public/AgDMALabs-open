@@ -5,20 +5,22 @@ from open_aglabs.core.base_models import MLOutput, Location, Notes, TrialPropert
     ProtocolProperties
 
 
-class QuestionAnswer(BaseModel):
-    """A model to hold a question and its corresponding answer."""
-    question: str = Field(
-        ...,
-        description="The question text.")
-    answer: str = Field(
-        ...,
-        description="The answer text.")
+class SimpleAssociatedSurveyFile(BaseModel):
+    """A model to represent a voice file and its associated data."""
+    path: Optional[str] = Field(
+        None,
+        validation_alias=AliasChoices('path', 'file'),
+        description="The name of the voice file.")
+    id: Optional[str] = Field(
+        None,
+        validation_alias=AliasChoices('id', 'image_id', 'audio_id'),
+        description="The unique ID for the image file")
     model_config = ConfigDict(
         extra='forbid',
         json_schema_extra={
             "example": {
-                "question": "How much yield do you lose because of fall armyworm? Please think back over the last 3 seasons. (Percent or bags per acre are fine.)",
-                "answer": "Test, test, test, can you hear me?"
+                "path": "voice_20251126_122230.wav",
+                "id": str(uuid4()),
             }
         }
     )
@@ -50,6 +52,32 @@ class AssociatedSurveyFile(BaseModel):
                 "path": "voice_20251126_122230.wav",
                 "id": str(uuid4()),
                 "question": "Q1",
+            }
+        }
+    )
+
+
+class QuestionAnswer(BaseModel):
+    """A model to hold a question and its corresponding answer."""
+    question: str = Field(
+        ...,
+        description="The question text.")
+    answer: str = Field(
+        ...,
+        description="The answer text.")
+    audio: Optional[List[SimpleAssociatedSurveyFile]] = Field(
+        None,
+        description="The audio file associated with the answer.")
+    image: Optional[List[SimpleAssociatedSurveyFile]] = Field(
+        None,
+        description="Any Images associated with the answer.")
+
+    model_config = ConfigDict(
+        extra='forbid',
+        json_schema_extra={
+            "example": {
+                "question": "How much yield do you lose because of fall armyworm? Please think back over the last 3 seasons. (Percent or bags per acre are fine.)",
+                "answer": "Test, test, test, can you hear me?"
             }
         }
     )
@@ -122,7 +150,7 @@ class SurveyDataModel(BaseModel):
                     "admin_level_0": "Kenya",  # required
                     "site": "CIMMYT-Kiboko",  # required
                     "grower": "local_farmer_coop",
-                    "field": "EF-3",  # required
+                    "field": "EF-3",  #
                     "location": ""  # required
                 },
                 "agronomic_properties": {
@@ -137,7 +165,19 @@ class SurveyDataModel(BaseModel):
                 "answers": {
                     "Q1": {
                         "question": "What percentage of yield loss do you attribute to stem borer?",
-                        "answer": "Around 10 percent."
+                        "answer": "Around 10 percent.",
+                        "audio": [
+                            {
+                                "path": "voice_20251118_103000.mp3",
+                                "id": str(uuid4())
+                            }
+                        ],
+                        "image": [
+                            {
+                                "path": "stem_borer_damage.jpg",
+                                "id": str(uuid4())
+                            }
+                        ]
                     },
                     "Q2": {
                         "question": "What are the most important traits for a new maize variety?",
@@ -147,24 +187,15 @@ class SurveyDataModel(BaseModel):
                 "followups": {
                     "Q2": {
                         "question": "Why is drought tolerance so critical in this area?",
-                        "answer": "The rains have become less predictable over the last five years."
+                        "answer": "The rains have become less predictable over the last five years.",
+                        "audio": [
+                            {
+                                "path": "followup_q2_voice.mp3",
+                                "id": str(uuid4())
+                            }
+                        ]
                     }
                 },
-                "audio_files": [
-                    {
-                        "path": "voice_20251118_103000.mp3",
-                        "id": str(uuid4()),
-                        "question": ["Q1"],
-                        "answer": [""]
-                    }
-                ],
-                "image_files": [
-                    {
-                        "path": "voice_20251118_103000.jpg",
-                        "id": str(uuid4()),
-                        "question": ["Q1"]
-                    }
-                ],
                 "notes": [
                     {
                         "message": "The farmer was interrupted multiple times during the survey.",

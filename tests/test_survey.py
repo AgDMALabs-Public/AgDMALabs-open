@@ -28,11 +28,16 @@ def test_survey_data_model_initialization():
         },
         "answers": {
             "Q1": {"question": "What is the yield?",
-                   "answer": "20 tons/ha"}
+                   "answer": "20 tons/ha",
+                   "audio": [{"path": "voice_clip.mp3", "id": str(uuid4())}],
+                   "image": [{"path": "image_20251201.png", "id": str(uuid4())}]
+                   }
         },
         "followups": {
             "Q1": {"question": "Why so high?",
-                   "answer": "Good rains this season."}
+                   "answer": "Good rains this season.",
+                   "audio": None,
+                   "image": None}
         },
         "audio_files": [
             {"path": "voice_clip.mp3",
