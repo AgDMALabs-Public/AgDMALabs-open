@@ -29,10 +29,10 @@ def test_valid_drone_flight():
             name="Fungicide Efficacy Trial 2025"
         ),
         "drone_acquisition_properties": DroneAcquisitionProperties(
-            droneMake="Quantum-Systems",
-            droneModel="Trinity F90+",
-            cameraMake="Sony",
-            cameraModel="UCM-R",
+            drone_make="Quantum-Systems",
+            drone_model="Trinity F90+",
+            camera_make="Sony",
+            camera_model="UCM-R",
             groundControlPoints=True,
             reflectancePanels=True,
             reflectancePanelType='Micasense',
@@ -87,10 +87,10 @@ def test_drone_flight_missing_required_field():
             location="Section B"
         ),
         "drone_acquisition_properties": DroneAcquisitionProperties(
-            droneMake="Quantum-Systems",
-            droneModel="Trinity F90+",
-            cameraMake="Sony",
-            cameraModel="UCM-R",
+            drone_make="Quantum-Systems",
+            drone_model="Trinity F90+",
+            camera_make="Sony",
+            camera_model="UCM-R",
             groundControlPoints=True,
             reflectancePanels=True,
             reflectancePanelType='Micasense',
