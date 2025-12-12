@@ -18,33 +18,29 @@ class DroneAcquisitionProperties(BaseModel):
     )
     drone_make: str = Field(
         ...,
-        alias="droneMake",
         description="Make of the drone")
     drone_model: str = Field(
         ...,
-        alias="droneModel",
         description="Model of the drone")
     camera_make: str = Field(
         ...,
-        alias="cameraMake",
         description="Make of the camera")
     camera_model: str = Field(
         ...,
-        alias="cameraModel",
         description="Model of the camera")
     ground_control_points: bool = Field(
         ...,
         alias="groundControlPoints",
         description="Indicates if ground control points were used during the flight")
-    reflectance_panels: bool = Field(...,
-                                     alias="reflectancePanels",
-                                     description="Indicates if reflectance panels were used for radiometric calibration")
-    reflectance_panel_type: Optional[Literal["Micasense", "Thermal", "Parrot", "Other"]] = Field(
+    reflectance_panels: bool = Field(
+        ...,
+        alias="reflectancePanels",
+        description="Indicates if reflectance panels were used for radiometric calibration")
+    reflectance_panel_type: Optional[Literal["Micasense", "Thermal", "Parrot", "Other", None]] = Field(
         None,
         alias="reflectancePanelType",
         description="The type of reflectance panels used. Must be one of 'Micasense', 'Thermal', 'Parrot', or 'Other'."
     )
-
     flight_height_m: float = Field(
         ...,
         alias="flightHeight",
@@ -57,8 +53,8 @@ class DroneAcquisitionProperties(BaseModel):
         ...,
         alias="verticalOverlapPercentage",
         description="Image vertical overlap percentage as a float (e.g., 75.0 for 75%)")
-    gps_quality: str = Field(
-        ...,
+    gps_quality: Optional[str] = Field(
+        None,
         alias="gpsQuality",
         description="The quality of the GPS data (e.g., RTK, DGPS, etc.)")
     multispec_channels: Optional[List[str]] = Field(
@@ -97,10 +93,9 @@ class DroneFlight(BaseModel):
         None,
         alias="agronomicProperties",
         description="Dictionary containing agronomic properties of the drone flight.")
-    images: List[str] = Field(
-        ...,
+    images: Optional[List[str]] = Field(
+        None,
         description="List of images associated with the flight")
-
     model_config = ConfigDict(
         extra="forbid",
         populate_by_name=True,
@@ -140,8 +135,7 @@ class DroneFlight(BaseModel):
                         "Green",
                         "Blue",
                         "NIR"
-                    ],
-                    "directory": "/path/to/flight/data/west_field_03"
+                    ]
                 },
                 "agronomicProperties": {
                     "crop_type": "corn",
