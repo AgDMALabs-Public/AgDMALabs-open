@@ -80,6 +80,10 @@ class Location(BaseModel):
         None,
         description="The name of the location"
     )
+    plot_id: Optional[str] = Field(
+        None,
+        description="The plot ID to match back to the plot map"
+    )
     latitude: Optional[float] = Field(
         None,
         ge=-90.0,
@@ -196,6 +200,14 @@ class AgronomicProperties(BaseModel):
     """
     Pydantic model representing approved values to be captured about images of agricultural data.
     """
+    planting_date: Optional[str] = Field(
+        None,
+        description="The date the crop was planted, or is intended to be planted."
+    )
+    season_code: Optional[str] = Field(
+        None,
+        description="The season code for the crop in YYYY:Country:Crop:time_of_year, where time of year can be spring, summer ... or the month."
+    )
     crop_type: Optional[Literal[*CROP_LIST]] = Field(
         None,
         description="The type of crop present in the image."
