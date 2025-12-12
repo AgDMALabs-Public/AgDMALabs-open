@@ -106,32 +106,59 @@ class DroneFlight(BaseModel):
         populate_by_name=True,
         json_schema_extra={
             "example": {
-                "id": "drone-flight-uuid-67890",
+                "id": "drone-flight-uuid-98765",
+                "name": "Corn Health Assessment Flight",
+                "task": "canopy_analysis",
                 "location": {
-                    "id": "loc-uuid-12345",
-                    "name": "Field 12 Drone Flight",
-                    "latitude": 34.0522,
-                    "longitude": -118.2437,
-                    "elevation_m": 100.0,
+                    "id": "loc-uuid-54321",
+                    "name": "West Field Drone Flight",
+                    "latitude": 35.1234,
+                    "longitude": -119.5678,
+                    "elevation_m": 120.0,
                     "crs": "EPSG:4326",
-                    "site": "AgTech Research Farm",
-                    "field": "Field_12",
-                    "location": "Central part of Field 12"
+                    "site": "AgriCore Research Facility",
+                    "field": "West_Field_03",
+                    "location": "Section B"
                 },
-                "droneMake": "DJI",
-                "droneModel": "Mavic 3 Multispectral",
-                "cameraMake": "Micasense",
-                "cameraModel": "Altum",
-                "groundControlPoints": True,
-                "reflectancePanels": False,
-                "reflectancePanelType": "Micasense",
-                "flightHeight": 80.0,
-                "horizontalOverlapPercentage": 70.0,
-                "verticalOverlapPercentage": 70.0,
-                "gpsQuality": "RTK",
-                "multispecChannels": ["Green", "Red", "Red Edge", "NIR"],
-                "directory": "/path/to/flight/data",
-                "images": ['1234564565_1.tif', '1234564565_2.tif', '1234564565_3.tif', '1234564565_4.tif']
+                "trialProperties": {
+                    "name": "Fungicide Efficacy Trial 2025"
+                },
+                "drone_acquisition_properties": {
+                    "droneMake": "Quantum-Systems",
+                    "droneModel": "Trinity F90+",
+                    "cameraMake": "Sony",
+                    "cameraModel": "UCM-R",
+                    "groundControlPoints": True,
+                    "reflectancePanels": True,
+                    "reflectancePanelType": "Standard",
+                    "flightHeight": 90.0,
+                    "horizontalOverlapPercentage": 75.0,
+                    "verticalOverlapPercentage": 75.0,
+                    "gpsQuality": "RTK",
+                    "multispecChannels": [
+                        "Red",
+                        "Green",
+                        "Blue",
+                        "NIR"
+                    ],
+                    "directory": "/path/to/flight/data/west_field_03"
+                },
+                "agronomicProperties": {
+                    "crop_type": "corn",
+                    "growth_stage": "VT",
+                    "soil_color": "light brown",
+                    "weed_pressure": "low",
+                    "irrigation_level": "high",
+                    "tillage_type": "conventional",
+                    "fertilizer_level": "high"
+                },
+                "images": [
+                    "flight_98765_img_001.tif",
+                    "flight_98765_img_002.tif",
+                    "flight_98765_img_003.tif",
+                    "flight_98765_img_004.tif",
+                    "flight_98765_img_005.tif"
+                ]
             }
         }
     )

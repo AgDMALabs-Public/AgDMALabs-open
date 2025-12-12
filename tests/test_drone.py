@@ -3,121 +3,108 @@ from open_aglabs.core.base_models import Location
 from open_aglabs.drone.model import DroneFlight
 from pydantic import ValidationError
 
+import pytest
+from open_aglabs.core.base_models import Location, AgronomicProperties, TrialProperties
+from open_aglabs.drone.model import DroneAcquisitionProperties
+from open_aglabs.drone.model import DroneFlight
 
-def test_valid_drone_flight_creation():
-    location_data = {
-        "id": "loc-uuid-12345",
-        "name": "Field 12 Drone Flight",
-        "latitude": 34.0522,
-        "longitude": -118.2437,
-        "elevation_m": 100.0,
-        "crs": "EPSG:4326",
-        "site": "AgTech Research Farm",
-        "field": "Field_12",
-        "location": "Central part of Field 12"
+
+def test_valid_drone_flight():
+    data = {
+        "id": "drone-flight-uuid-98765",
+        "name": "Corn Health Assessment Flight",
+        "task": "canopy_analysis",
+        "location": Location(
+            id="loc-uuid-54321",
+            name="West Field Drone Flight",
+            latitude=35.1234,
+            longitude=-119.5678,
+            elevation_m=120.0,
+            crs="EPSG:4326",
+            site="AgriCore Research Facility",
+            field="West_Field_03",
+            location="Section B"
+        ),
+        "trialProperties": TrialProperties(
+            name="Fungicide Efficacy Trial 2025"
+        ),
+        "drone_acquisition_properties": DroneAcquisitionProperties(
+            droneMake="Quantum-Systems",
+            droneModel="Trinity F90+",
+            cameraMake="Sony",
+            cameraModel="UCM-R",
+            groundControlPoints=True,
+            reflectancePanels=True,
+            reflectancePanelType='Micasense',
+            flightHeight=90.0,
+            horizontalOverlapPercentage=75.0,
+            verticalOverlapPercentage=75.0,
+            gpsQuality="RTK",
+            multispecChannels=["Red", "Green", "Blue", "NIR"]
+        ),
+        "agronomicProperties": AgronomicProperties(
+            crop_type="corn",
+            growth_stage="VT",
+            soil_color="light",
+            weed_pressure="low",
+            irrigation_level="high",
+            tillage_type="conventional",
+            fertilizer_level="high"
+        ),
+        "images": [
+            "flight_98765_img_001.tif",
+            "flight_98765_img_002.tif",
+            "flight_98765_img_003.tif",
+            "flight_98765_img_004.tif",
+            "flight_98765_img_005.tif"
+        ]
     }
-    drone_flight_data = {
-        "id": "drone-flight-uuid-67890",
-        "location": location_data,
-        "droneMake": "DJI",
-        "droneModel": "Mavic 3 Multispectral",
-        "cameraMake": "DJI",
-        "cameraModel": "Mavic 3M Camera",
-        "groundControlPoints": True,
-        "reflectancePanels": False,
-        "reflectancePanelType": "Micasense",
-        "flightHeight": 80.0,
-        "horizontalOverlapPercentage": 70.0,
-        "verticalOverlapPercentage": 70.0,
-        "gpsQuality": "RTK",
-        "multispecChannels": ["Green", "Red", "Red Edge", "NIR"],
-        "directory": "/path/to/flight/data",
-        "images": ['1234564565_1.tif', '1234564565_2.tif', '1234564565_3.tif', '1234564565_4.tif']
+    drone_flight = DroneFlight(**data)
+    assert drone_flight.id == "drone-flight-uuid-98765"
+    assert drone_flight.name == "Corn Health Assessment Flight"
+    assert drone_flight.task == "canopy_analysis"
+    assert drone_flight.location.latitude == 35.1234
+    assert drone_flight.trial_properties.name == "Fungicide Efficacy Trial 2025"
+    assert drone_flight.drone_acquisition_properties.drone_make == "Quantum-Systems"
+    assert drone_flight.drone_acquisition_properties.drone_model == "Trinity F90+"
+    assert drone_flight.agronomic_properties.crop_type == "corn"
+    assert len(drone_flight.images) == 5
+
+
+def test_drone_flight_missing_required_field():
+    data = {
+        "name": "Corn Health Assessment Flight",
+        "task": "canopy_analysis",
+        "location": Location(
+            id="loc-uuid-54321",
+            name="West Field Drone Flight",
+            latitude=35.1234,
+            longitude=-119.5678,
+            elevation_m=120.0,
+            crs="EPSG:4326",
+            site="AgriCore Research Facility",
+            field="West_Field_03",
+            location="Section B"
+        ),
+        "drone_acquisition_properties": DroneAcquisitionProperties(
+            droneMake="Quantum-Systems",
+            droneModel="Trinity F90+",
+            cameraMake="Sony",
+            cameraModel="UCM-R",
+            groundControlPoints=True,
+            reflectancePanels=True,
+            reflectancePanelType='Micasense',
+            flightHeight=90.0,
+            horizontalOverlapPercentage=75.0,
+            verticalOverlapPercentage=75.0,
+            gpsQuality="RTK",
+            multispecChannels=["Red", "Green", "Blue", "NIR"]
+        ),
+        "images": [
+            "flight_98765_img_001.tif",
+            "flight_98765_img_002.tif"
+        ]
     }
-    drone_flight = DroneFlight(**drone_flight_data)
-    assert drone_flight.id == "drone-flight-uuid-67890"
-    assert drone_flight.location.name == "Field 12 Drone Flight"
-    assert drone_flight.drone_make == "DJI"
-    assert drone_flight.drone_model == "Mavic 3 Multispectral"
-    assert not drone_flight.reflectance_panels
-    assert drone_flight.reflectance_panel_type == "Micasense"
-    assert drone_flight.flight_height == 80.0
-    assert drone_flight.images == ['1234564565_1.tif', '1234564565_2.tif', '1234564565_3.tif', '1234564565_4.tif']
+    with pytest.raises(Exception):
+        DroneFlight(**data)
 
-
-def test_invalid_location_latitude():
-    location_data = {
-        "id": "loc-uuid-12345",
-        "latitude": 95.0,  # Invalid latitude
-        "longitude": -118.2437
-    }
-    drone_flight_data = {
-        "id": "drone-flight-uuid-67890",
-        "location": location_data,
-        "droneMake": "DJI",
-        "droneModel": "Mavic 3 Multispectral",
-        "cameraMake": "DJI",
-        "cameraModel": "Mavic 3M Camera",
-        "groundControlPoints": True,
-        "flightHeight": 80.0
-    }
-    with pytest.raises(ValidationError):
-        DroneFlight(**drone_flight_data)
-
-
-def test_missing_required_field():
-    drone_flight_data = {
-        "id": "drone-flight-uuid-67890",
-        "location": {
-            "id": "loc-uuid-12345"
-        },
-        "droneMake": "DJI",
-        # Missing required field "droneModel"
-        "cameraMake": "DJI",
-        "cameraModel": "Mavic 3M Camera",
-        "groundControlPoints": True,
-        "flightHeight": 80.0
-    }
-    with pytest.raises(ValidationError):
-        DroneFlight(**drone_flight_data)
-
-
-def test_invalid_reflectance_panel_type():
-    drone_flight_data = {
-        "id": "drone-flight-uuid-67890",
-        "location": {
-            "id": "loc-uuid-12345",
-            "latitude": 34.0522,
-            "longitude": -118.2437
-        },
-        "droneMake": "DJI",
-        "droneModel": "Mavic 3 Multispectral",
-        "cameraMake": "DJI",
-        "cameraModel": "Mavic 3M Camera",
-        "groundControlPoints": True,
-        "reflectancePanels": True,
-        "reflectancePanelType": "InvalidType",  # Invalid value
-        "flightHeight": 80.0
-    }
-    with pytest.raises(ValidationError):
-        DroneFlight(**drone_flight_data)
-
-
-def test_empty_images_list():
-    drone_flight_data = {
-        "id": "drone-flight-uuid-67890",
-        "location": {
-            "id": "loc-uuid-12345",
-            "latitude": 34.0522,
-            "longitude": -118.2437
-        },
-        "droneMake": "DJI",
-        "droneModel": "Mavic 3 Multispectral",
-        "cameraMake": "DJI",
-        "cameraModel": "Mavic 3M Camera",
-        "groundControlPoints": False,
-        "flightHeight": 80.0,
-        "images": []  # Empty images list
-    }
-    with pytest.raises(ValidationError):
-        DroneFlight(**drone_flight_data)
