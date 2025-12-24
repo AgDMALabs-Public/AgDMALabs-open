@@ -9,8 +9,9 @@ ORIENTATION_LIST = ['landscape', 'portrait']
 DEVICE_LIST = ['mobile', 'auxiliary_camera', 'drone', 'amiga', 'rafiki', 'truckee', 'unknown']
 
 CROP_LIST = ["barley", "maize", "pearl_millet", "finger_millet", "rice", "sorghum", "wheat", "bush_bean",
-             "climbing_bean", "chickpea", 'cowpea', "faba_bean", "grass_pea", "ground_nut", "lentil", "pigeonpea",
-             "soybean", "banana", "cassava", "potato", "sweet_potato", "yam", "taro", "corn", "sugarcane", 'unknown']
+             "climbing_bean", "common_bean", "chickpea", 'cowpea', "faba_bean", "grass_pea",
+             "groundnut", "lentil", "pigeonpea", "soybean", "banana", "cassava", "potato",
+             "sweet_potato", "yam", "taro", "corn", "sugarcane", 'unknown']
 
 YEAR_LIST = np.arange(1900, 2050, 1)
 
