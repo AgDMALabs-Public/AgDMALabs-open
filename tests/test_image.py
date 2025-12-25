@@ -13,7 +13,7 @@ def test_valid_image():
         "type": "original",
         "camera_properties": {
             "model": "DJI Mavic 2 Pro",
-            "make": 1.0,
+            "make": 'a1234',
             "iso": 100.0,
             "magnification": 1.0
         },
