@@ -10,9 +10,9 @@ class CameraProperties(BaseModel):
     """
     Values to support the proper documentation of camera, if you add information to this json please update this doc. https://docs.google.com/spreadsheets/d/1zljGA5xtwtLNXqjohfXeJzh6SFwdObAjmb5gHflQfIA/edit?gid=1769639569#gid=1769639569
     """
-    make: Optional[float] = Field(
+    make: Optional[str] = Field(
         None,
-        description="The make (manufacturer) of the camera, represented as a number."
+        description="The make (manufacturer) of the camera, represented as a str."
     )
     model: Optional[str] = Field(
         None,
@@ -52,6 +52,21 @@ class AcquisitionProperties(BaseModel):
         None,
         ge=0,
         description="The angle of the camera when the photo was taken"
+    )
+    azimuth: Optional[float] = Field(
+        None,
+        ge=0,
+        description=""
+    )
+    pitch: Optional[float] = Field(
+        None,
+        ge=0,
+        description=""
+    )
+    roll: Optional[float] = Field(
+        None,
+        ge=0,
+        description=""
     )
     object_resolution: Optional[str] = Field(
         None,
