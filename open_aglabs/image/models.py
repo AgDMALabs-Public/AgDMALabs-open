@@ -50,22 +50,26 @@ class AcquisitionProperties(BaseModel):
     )
     camera_angle_deg: Optional[float] = Field(
         None,
-        ge=0,
+        ge=-180,
+        le=180,
         description="The angle of the camera when the photo was taken"
     )
     azimuth: Optional[float] = Field(
         None,
-        ge=0,
+        ge=-180,
+        le=180,
         description=""
     )
     pitch: Optional[float] = Field(
         None,
-        ge=0,
+        ge=-180,
+        le=180,
         description=""
     )
     roll: Optional[float] = Field(
         None,
-        ge=0,
+        ge=-180,
+        le=180,
         description=""
     )
     object_resolution: Optional[str] = Field(
