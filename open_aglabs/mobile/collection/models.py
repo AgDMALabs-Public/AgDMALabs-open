@@ -6,18 +6,6 @@ class SoP(BaseModel):
     Pydantic model representing a Standard Operating Procedure for Image Capture.
     Mapped from image.ImageProtocol.SoP.*
     """
-    hardware_name: Optional[str] = Field(
-        None,
-        description="The hardware used for image collection."
-    )
-    hardware_version: Optional[str] = Field(
-        None,
-        description="Hardware version for the given hardware used."
-    )
-    sop_name: Optional[str] = Field(
-        None,
-        description="SOP name as defined for image capture SOPs."
-    )
     phone_orientation: Optional[str] = Field(
         None,
         description="Phone orientation used to capture the image."
@@ -55,6 +43,14 @@ class SoP(BaseModel):
     protocol_naming:Optional[str] = Field(
         None,
         description="Local Reference protocol name for Data collection."
+    )
+    protocol_description:Optional[str] = Field(
+        None,
+        description="A detailed description of how the data needs to be collected."
+    )
+    protocol_reference_media:Optional[str] = Field(
+        None,
+        description="A URL of Media(Jpeg/GIFs) depicting, how the data needs to be collected."
     )
     dataType:Optional[str] = Field(
         None,
