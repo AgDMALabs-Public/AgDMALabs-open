@@ -97,7 +97,7 @@ class DroneFlight(BaseModel):
         None,
         description="List of images associated with the flight")
     model_config = ConfigDict(
-        extra="forbid",
+        extra="allow",
         populate_by_name=True,
         json_schema_extra={
             "example": {
