@@ -14,43 +14,43 @@ def test_valid_drone_flight():
         "id": "drone-flight-uuid-98765",
         "name": "Corn Health Assessment Flight",
         "task": "canopy_analysis",
-        "location": Location(
-            id="loc-uuid-54321",
-            name="West Field Drone Flight",
-            latitude=35.1234,
-            longitude=-119.5678,
-            elevation_m=120.0,
-            crs="EPSG:4326",
-            site="AgriCore Research Facility",
-            field="West_Field_03",
-            location="Section B"
-        ),
-        "trialProperties": TrialProperties(
-            name="Fungicide Efficacy Trial 2025"
-        ),
-        "drone_acquisition_properties": DroneAcquisitionProperties(
-            drone_make="Quantum-Systems",
-            drone_model="Trinity F90+",
-            camera_make="Sony",
-            camera_model="UCM-R",
-            groundControlPoints=True,
-            reflectancePanels=True,
-            reflectancePanelType='Micasense',
-            flightHeight=90.0,
-            horizontalOverlapPercentage=75.0,
-            verticalOverlapPercentage=75.0,
-            gpsQuality="RTK",
-            multispecChannels=["Red", "Green", "Blue", "NIR"]
-        ),
-        "agronomicProperties": AgronomicProperties(
-            crop_type="corn",
-            growth_stage="VT",
-            soil_color="light",
-            weed_pressure="low",
-            irrigation_level="high",
-            tillage_type="conventional",
-            fertilizer_level="high"
-        ),
+        "location": {
+            'id': "loc-uuid-54321",
+            'name': "West Field Drone Flight",
+            'latitude': 35.1234,
+            'longitude': -119.5678,
+            'elevation_m': 120.0,
+            'crs': "EPSG:4326",
+            'site': "AgriCore Research Facility",
+            'field': "West_Field_03",
+            'location': "Section B"
+        },
+        "trialProperties": {
+            'name': "Fungicide Efficacy Trial 2025"
+    },
+        "drone_acquisition_properties": {
+            'drone_make': "Quantum-Systems",
+            'drone_model': "Trinity F90+",
+            'camera_make': "Sony",
+            'camera_model': "UCM-R",
+            'groundControlPoints': True,
+            'reflectancePanels': True,
+            'reflectancePanelType': 'Micasense',
+            'flightHeight': 90.0,
+            'horizontalOverlapPercentage': 75.0,
+            'verticalOverlapPercentage': 75.0,
+            'gpsQuality': "RTK",
+            'multispecChannels': ["Red", "Green", "Blue", "NIR"]
+        },
+        "agronomicProperties": {
+            'crop_type': "corn",
+            'growth_stage': "VT",
+            'soil_color': "light",
+            'weed_pressure': "low",
+            'irrigation_level': "high",
+            'tillage_type': "conventional",
+            'fertilizer_level': "high"
+    },
         "images": [
             "flight_98765_img_001.tif",
             "flight_98765_img_002.tif",
