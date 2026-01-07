@@ -7,17 +7,6 @@ class SoP(BaseModel):
     Mapped from image.ImageProtocol.SoP.*
     """
 
-    # DEPRECATED AS ITS COVERED IN ONA SPECIFIC VARS
-    # image_collection_method: Optional[str] = Field(
-    #     None,
-    #     description="Image collection method."
-    # )
-    # target_trait: Optional[str] = Field(
-    #     None,
-    #     description="The trait targeted in the image."
-    # )
-
-
     """
     ONA Specific Vars
     """

@@ -144,18 +144,6 @@ class AcquisitionProperties(BaseModel):
         None,
         description="The time the image was taken"
     )
-    hardware_name: Optional[str] = Field(
-        None,
-        description="The hardware used for image collection."
-    )
-    hardware_version: Optional[str] = Field(
-        None,
-        description="Hardware version for the given hardware used."
-    )
-    phone_orientation: Optional[str] = Field(
-        None,
-        description="Phone orientation used to capture the image."
-    )
     camera_height_m: Optional[float] = Field(
         None,
         description="The height of the camera in meters",
