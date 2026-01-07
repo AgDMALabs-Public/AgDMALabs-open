@@ -122,7 +122,7 @@ class CameraProperties(BaseModel):
         validation_alias=AliasChoices('deviceID', 'device_id'),
         description="Unique persistent CPU ID or collection ID."
     )
-    model_specification: Optional[str] = Field(
+    device_specification: Optional[str] = Field(
         None,
         description="Phone model question/specification string (e.g., Manufacturer=samsung, Model=SM-A556E). IF Device is Mobile"
     )
@@ -143,6 +143,18 @@ class AcquisitionProperties(BaseModel):
     time: Optional[str] = Field(
         None,
         description="The time the image was taken"
+    )
+    hardware_name: Optional[str] = Field(
+        None,
+        description="The hardware used for image collection."
+    )
+    hardware_version: Optional[str] = Field(
+        None,
+        description="Hardware version for the given hardware used."
+    )
+    phone_orientation: Optional[str] = Field(
+        None,
+        description="Phone orientation used to capture the image."
     )
     camera_height_m: Optional[float] = Field(
         None,
@@ -316,10 +328,6 @@ class Image(BaseModel):
     )
     agronomic_properties: Optional[AgronomicProperties] = Field(
         None
-    )
-    trial_properties: Optional[Trial] = Field(
-        None,
-        description="Trial and plot layout information."
     )
     collection_properties: Optional[Collection] = Field(
         None,
