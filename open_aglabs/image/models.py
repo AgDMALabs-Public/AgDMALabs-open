@@ -2,7 +2,8 @@ from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from typing import Optional, Literal, List
 from uuid import uuid4
 
-from open_aglabs.core.base_models import MLOutput, Location, Notes, AgronomicProperties, TrialProperties, ProtocolProperties
+from open_aglabs.core.base_models import MLOutput, Location, Notes, AgronomicProperties, TrialProperties, \
+    ProtocolProperties
 from open_aglabs.core.constants import CROP_LIST, SOIL_COLOR, IMAGE_TYPE_LIST, ORIENTATION_LIST
 
 
