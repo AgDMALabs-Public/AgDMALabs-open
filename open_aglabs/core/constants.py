@@ -11,7 +11,7 @@ DEVICE_LIST = ['mobile', 'auxiliary_camera', 'drone', 'amiga', 'rafiki', 'trucke
 CROP_LIST = ["barley", "maize", "pearl_millet", "finger_millet", "rice", "sorghum", "wheat", "bush_bean",
              "climbing_bean", "common_bean", "chickpea", 'cowpea', "faba_bean", "grass_pea",
              "groundnut", "lentil", "pigeonpea", "soybean", "banana", "cassava", "potato",
-             "sweet_potato", "yam", "taro", "corn", "sugarcane", 'unknown']
+             "sweet_potato", "yam", "taro", "corn", "sugarcane", 'unknown', 'legumes']
 
 YEAR_LIST = np.arange(1900, 2050, 1)
 
