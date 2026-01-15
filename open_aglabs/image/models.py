@@ -417,10 +417,6 @@ class Image(BaseModel):
                     "seed": 12345,
                     "noise": 0.01,
                 },
-                "trial_properties": {
-                    "trial_name": "Trial-2025-A",
-                    "plot_number": "101"
-                }
             }
         }
     )

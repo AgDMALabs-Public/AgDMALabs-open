@@ -18,29 +18,26 @@ class Genotype(BaseModel):
         None,
         description="The growth stage of the plant when imaged."
     )
-    land_varieties: Optional[str] = Field(
-        None,
-        description="The land variety that was imaged."
-    )
     model_config = ConfigDict(extra='forbid')
 
 class PlotMetadata(BaseModel):
     """
     Pydantic model representing Trial and Plot layout information.
     The Trial model is a representation of additional metadata for a particular trial layout.
+    Plotbook contains the structure of the plot itself. while plotmetadata tracks the evolution of the plant's genotype and user metrics over different growthstages.
     """
     # Plot properties
-    plot_id: Optional[str] = Field(None, description="Unique Plot ID under a collection.")
+    plot_id: Optional[str] = Field(None, description="Unique Plot ID under a collection instance.")
+    plot_book_entry_ID: Optional[str] = Field(None, description="Unique Plot entry ID from plotbook source.")
+    plot_book_ID: Optional[str] = Field(None, description="A unique identifier for the entire plotbook collection.")
     barcode_plotnumber: Optional[str] = Field(None, description="The plot number extracted from barcode.")
     block_name: Optional[str] = Field(None, description="Plot property: the block name.")
     manual_plotnumber: Optional[str] = Field(None, description="The plot number as selected from the data collector.")
     plot_barcode: Optional[str] = Field(None, description="The plot barcode.")
     plot_number: Optional[str] = Field(None, description="Plot number.")
-    rownumber_genotype: Optional[str] = Field(None, description="The row number and genotype for the trials that have genotype and spacing diversity.")
+    # Available in plotbook
+    # rownumber_genotype: Optional[str] = Field(None, description="The row number and genotype for the trials that have genotype and spacing diversity.")
 
-    trial: Optional[str] = Field(None, validation_alias='trial_name', description="The trial name.")
-    trial_details: Optional[dict] = Field(None, description="The trial details.")
-    trial_source_url: Optional[str] = Field(None, description="The source url of the trial layout.")
 
     collection_id:  Optional[str] = Field(None, description="Collection ID. A unique identifier for the collection. To Track all entities that are part of this collection")
 

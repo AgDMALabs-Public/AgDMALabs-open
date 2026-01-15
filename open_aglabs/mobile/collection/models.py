@@ -80,10 +80,5 @@ class Collection(BaseModel):
 
     # update: Optional[str] = Field(None, description="Update status/info.") DEPRECATED
 
-    trial: Optional[str] = Field(None, validation_alias='trial_name', description="The trial name.")
-    trial_details: Optional[dict] = Field(None, description="The trial details.")
-    trial_source_url: Optional[str] = Field(None, description="The source url of the trial layout.")
-
-
-
+    trial_id: Optional[str] = Field(None, validation_alias='trial_id', description="The unique ID assigned to a trial.")
     model_config = ConfigDict(extra='forbid')

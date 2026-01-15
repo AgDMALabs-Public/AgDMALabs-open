@@ -17,6 +17,7 @@ class Trial(BaseModel):
     spacing_between_rows: Optional[str] = Field(None, description="Plot level metadata for the spacing between rows.")
 
     trial: Optional[str] = Field(None, validation_alias='trial_name', description="The trial name.")
+    trial_id: Optional[str] = Field(None, validation_alias='trial_id', description="The unique ID assigned to a trial.")
     trial_details: Optional[dict] = Field(None, description="The trial details.")
     trial_source_url: Optional[str] = Field(None, description="The source url of the trial layout.")
 
