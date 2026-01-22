@@ -84,6 +84,10 @@ class Location(BaseModel):
         None,
         description="The plot ID to match back to the plot map"
     )
+    plotbook_id: Optional[str] = Field(
+        None,
+        description="The plotbook ID to match back to the plot map"
+    )
     latitude: Optional[float] = Field(
         None,
         ge=-90.0,
@@ -185,6 +189,14 @@ class TrialProperties(BaseModel):
         None,
         description="The name of the location"
     )
+    url: Optional[str] = Field(
+        None,
+        description="The path to the protocol documentation."
+    )
+    details: Optional[str] = Field(
+        None,
+        description="The path to the protocol documentation."
+    )
     model_config = ConfigDict(
         extra='forbid',
         json_schema_extra={
@@ -194,6 +206,27 @@ class TrialProperties(BaseModel):
             }
         }
     )
+
+
+class PlantHealth(BaseModel):
+    """
+    Pydantic model representing plant health stressors and diseases.
+    Mapped from image.agronomic_properties.planthealth.*
+    """
+    other_disease: Optional[str] = Field(
+        None,
+        description="Presence of disease on imaged plant for disease outside of drop down list."
+    )
+    ranked_stressors: Optional[str] = Field(
+        None,
+        description="Ranking the diseases and other stressors present in the imaged plant."
+    )
+    stressors: Optional[str] = Field(
+        None,
+        description="Presence of stressor on imaged plant from drop down list."
+    )
+
+    model_config = ConfigDict(extra='forbid')
 
 
 class AgronomicProperties(BaseModel):
@@ -236,6 +269,10 @@ class AgronomicProperties(BaseModel):
         None,
         description="The observed fertilizer level."
     )
+    plant_health: Optional[PlantHealth] = Field(
+        None,
+        description="Details regarding plant health, diseases, and stressors."
+    )
     model_config = ConfigDict(
         extra='forbid'
     )
@@ -257,3 +294,37 @@ class ProtocolProperties(BaseModel):
     model_config = ConfigDict(
         extra='forbid'
     )
+
+
+class CollectionProperties(BaseModel):
+    """
+    Pydantic model representing Collection-level metadata.
+    In Ona App The collection model is referred to as Session.
+    A collection is an instance of data collected for a Individual trait or a group of traits that belong to a particular trial.
+    """
+    id: Optional[str] = Field(
+        None,
+        description="Collection ID. A unique identifier for the collection. To Track all plot and image entities that are part of this collection")
+    num_images: Optional[str] = Field(
+        None,
+        description="The number of images captured for a given collection.")
+    num_plots: Optional[str] = Field(
+        None,
+        description="Number of plots collected for a given collection.")
+    start_datetime: Optional[str] = Field(
+        None,
+        description="Start date time as unique collection start time.")
+    end_datetime: Optional[str] = Field(
+        None,
+        description="End date time as unique collection end time.")
+    username: Optional[str] = Field(
+        None,
+        description="Username of data collector.")
+    user_details: Optional[dict] = Field(
+        None,
+        description="User details. For Future scope of Expansion")
+    runtime_environment: Optional[dict] = Field(
+        None,
+        description="The software enviroment that was used to capture the data. EX: Sandbox of Prod")
+    model_config = ConfigDict(
+        extra='forbid')
