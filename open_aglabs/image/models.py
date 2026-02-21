@@ -1,6 +1,5 @@
 from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from typing import Optional, Literal, List
-from uuid import uuid4
 
 from open_aglabs.core.base_models import MLOutput, Location, Notes, AgronomicProperties, TrialProperties, \
     ProtocolProperties, CollectionProperties
@@ -125,7 +124,7 @@ class ImageQuality(BaseModel):
     exposure: Optional[float] = Field(
         None,
         description="The exposure of the image.",
-        ge=1,
+        ge=0,
         le=100
     )
     aperture: Optional[str] = Field(
