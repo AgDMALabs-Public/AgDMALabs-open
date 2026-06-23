@@ -156,7 +156,7 @@ class ImageQuality(BaseModel):
     )
     orientation: Optional[Literal[*ORIENTATION_LIST]] = Field(
         None,
-        description="The orientation of the image.",
+        description="The orientation of the image."
     )
     channels: Optional[float] = Field(
         None,

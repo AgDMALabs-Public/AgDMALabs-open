@@ -91,6 +91,11 @@ class SoilAnalysis(BaseModel):
         alias="cationExchangeCapacity",
         description="Cation Exchange Capacity (CEC) in meq/100g."
     )
+    electrical_conductivity: Optional[float] = Field(
+        None,
+        alias="electricalConductivity",
+        description="Electrical Conductivity (S/m) in S/m."
+    )
 
 
 class SoilSample(BaseModel):
