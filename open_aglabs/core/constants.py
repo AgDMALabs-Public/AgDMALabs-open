@@ -17,7 +17,7 @@ CROP_LIST = ["barley", "maize", "pearl_millet", "finger_millet", "rice", "sorghu
 YEAR_LIST = np.arange(1900, 2050, 1)
 
 TIME_OF_YEAR_LIST = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'fall', 'winter', 'spring',
-                     'summer', 'short_rains', 'long_rains', 'unknown']
+                     'summer', 'short_rains', 'long_rains', 'unknown', 'wet', 'dry']
 
 SOIL_COLOR = ["light", "dark", "red"]
 
