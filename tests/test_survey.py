@@ -28,12 +28,34 @@ def test_survey_data_model_initialization():
         "answers": {
             "Q1": {"question": "What is the yield?",
                    "answer": "20 tons/ha",
-                   "audio": [{"path": "voice_clip.mp3", "id": str(uuid4())}],
-                   "image": [{"path": "image_20251201.png", "id": str(uuid4())}]
+                   'question_key': None,
+                   "audio": [{"path": "voice_clip.mp3",
+                              'media_type': 'audio',
+                              "id": str(uuid4()),
+                              'processing_metrics': {
+                                  "model": "voice-v1",
+                                  "confidence": 0.95,
+                                  "status": "completed",
+                                  "attempts": 1,
+                                  "errors": []
+                              }
+                              }],
+                   "image": [{"path": "image_20251201.png",
+                              'media_type': 'image',
+                              "id": str(uuid4()),
+                              'processing_metrics': {
+                                  "model": "object-detection-v1",
+                                  "confidence": 0.95,
+                                  "status": "completed",
+                                  "attempts": 1,
+                                  "errors": []
+                              }
+                              }]
                    }
         },
         "followups": {
             "Q1": {"question": "Why so high?",
+                   'question_key': None,
                    "answer": "Good rains this season.",
                    "audio": None,
                    "image": None}
@@ -41,12 +63,14 @@ def test_survey_data_model_initialization():
         "audio_files": [
             {"path": "voice_clip.mp3",
              "id": str(uuid4()),
+             "media_type": 'audio',
              "question_id": ["Q1"],
              "question": ["Q1"],
              "answer": [""]}
         ],
         "image_files": [
             {"path": "image_20251201.png",
+             "media_type": 'image',
              "id": str(uuid4()),
              "question": ["Q1"]}
         ],
