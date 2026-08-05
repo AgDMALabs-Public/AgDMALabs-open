@@ -2,6 +2,8 @@ import numpy as np
 
 ANNOTATION_TYPE_LIST = ['object_detection', 'instance_segmentation', 'classification', 'semantic_segmentation']
 
+MEDIA_TYPE_LIST = ['image', 'audio', 'text']
+
 IMAGE_TYPE_LIST = ['original', 'annotation', 'augmented', 'synthetic']
 
 ORIENTATION_LIST = ['landscape', 'portrait']

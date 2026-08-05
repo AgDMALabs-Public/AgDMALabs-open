@@ -1,8 +1,40 @@
 from uuid import uuid4
 from pydantic import BaseModel, Field, ConfigDict, AliasChoices
-from typing import List, Dict, Optional, Union
+from typing import List, Dict, Optional, Union, Literal
+
 from open_aglabs.core.base_models import MLOutput, Location, Notes, TrialProperties, AgronomicProperties, \
     ProtocolProperties
+from open_aglabs.core.constants import MEDIA_TYPE_LIST
+
+
+class ProcessingMetrics(BaseModel):
+    """
+    A model to track the metrics of an automated processing task.
+    """
+    model: Optional[str] = Field(
+        None,
+        description="The identifier of the model used for processing."
+    )
+    confidence: Optional[float] = Field(
+        None,
+        description="The confidence score of the processing result."
+    )
+    status: Optional[str] = Field(
+        None,
+        description="The current status of the processing task (e.g., 'pending', 'completed', 'failed')."
+    )
+    attempts: Optional[int] = Field(
+        None,
+        description="The number of attempts made to process the task."
+    )
+    errors: Optional[List[str]] = Field(
+        None,
+        description="A list of error messages encountered during processing."
+    )
+
+    model_config = ConfigDict(
+        extra='forbid'
+    )
 
 
 class SimpleAssociatedSurveyFile(BaseModel):
@@ -15,27 +47,35 @@ class SimpleAssociatedSurveyFile(BaseModel):
         None,
         validation_alias=AliasChoices('id', 'image_id', 'audio_id'),
         description="The unique ID for the image file")
+    media_type: Optional[Literal[*MEDIA_TYPE_LIST]] = Field(
+        None,
+        description="The type of media being attached"
+    )
+    processing_metrics: Optional[ProcessingMetrics] = Field(
+        None,
+        description="The processing metrics for the media"
+    )
     model_config = ConfigDict(
         extra='forbid',
         json_schema_extra={
             "example": {
                 "path": "voice_20251126_122230.wav",
-                "id": str(uuid4()),
+                "id": "550e8400-e29b-41d4-a716-446655440000",
+                "media_type": "audio",
+                "processing_metrics": {
+                    "model": "transcription-model-v2",
+                    "confidence": 0.985,
+                    "status": "completed",
+                    "attempts": 1,
+                    "errors": []
+                }
             }
         }
     )
 
 
-class AssociatedSurveyFile(BaseModel):
+class AssociatedSurveyFile(SimpleAssociatedSurveyFile):
     """A model to represent a voice file and its associated data."""
-    path: str = Field(
-        ...,
-        validation_alias=AliasChoices('path', 'file'),
-        description="The name of the voice file.")
-    id: str = Field(
-        ...,
-        validation_alias=AliasChoices('id', 'image_id', 'audio_id'),
-        description="The unique ID for the image file")
     question_id: Optional[Union[List[str], str]] = Field(
         None,
         description="The question(s) ID's associated with the voice file.")
@@ -51,7 +91,17 @@ class AssociatedSurveyFile(BaseModel):
             "example": {
                 "path": "voice_20251126_122230.wav",
                 "id": str(uuid4()),
-                "question": "Q1",
+                "media_type": "audio",
+                "processing_metrics": {
+                    "model": "transcription-model-v2",
+                    "confidence": 0.985,
+                    "status": "completed",
+                    "attempts": 1,
+                    "errors": []
+                },
+                "question_id": "Q1",
+                "question": "What is the yield?",
+                "answer": "100 bushels"
             }
         }
     )
@@ -65,6 +115,10 @@ class QuestionAnswer(BaseModel):
     answer: str = Field(
         ...,
         description="The answer text.")
+    question_key: Optional[str] = Field(
+        None,
+        description="A standardized key associated with the questions. EX: if the question is about the fertilizer plan"
+                    ", the the key could be fertilizer_management.")
     audio: Optional[List[SimpleAssociatedSurveyFile]] = Field(
         None,
         description="The audio file associated with the answer.")
@@ -77,7 +131,36 @@ class QuestionAnswer(BaseModel):
         json_schema_extra={
             "example": {
                 "question": "How much yield do you lose because of fall armyworm? Please think back over the last 3 seasons. (Percent or bags per acre are fine.)",
-                "answer": "Test, test, test, can you hear me?"
+                "answer": "Test, test, test, can you hear me?",
+                "question_key": "fall_armyworm_yield_loss",
+                "audio": [
+                    {
+                        "path": "voice_20251126_122230.wav",
+                        "id": "550e8400-e29b-41d4-a716-446655440000",
+                        "media_type": "audio",
+                        "processing_metrics": {
+                            "model": "transcription-model-v2",
+                            "confidence": 0.985,
+                            "status": "completed",
+                            "attempts": 1,
+                            "errors": []
+                        }
+                    }
+                ],
+                "image": [
+                    {
+                        "path": "survey_image_20251126.jpg",
+                        "id": "550e8400-e29b-41d4-a716-446655440001",
+                        "media_type": "image",
+                        "processing_metrics": {
+                            "model": "object-detection-v1",
+                            "confidence": 0.95,
+                            "status": "completed",
+                            "attempts": 1,
+                            "errors": []
+                        }
+                    }
+                ]
             }
         }
     )

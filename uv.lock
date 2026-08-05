@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version >= '3.14'",
@@ -1302,16 +1302,18 @@ dependencies = [
     { name = "pydantic" },
     { name = "pytest" },
     { name = "shapely" },
+    { name = "typing-extensions" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "geopandas", specifier = ">=1.1.1" },
+    { name = "geopandas", specifier = ">=1.0.0" },
     { name = "jupyter", specifier = ">=1.1.1" },
-    { name = "pandas", specifier = ">=2.3.2" },
+    { name = "pandas", specifier = ">=2.0.0" },
     { name = "pydantic", specifier = ">=2.11.9" },
     { name = "pytest", specifier = ">=8.4.2" },
-    { name = "shapely", specifier = ">=2.1.1" },
+    { name = "shapely", specifier = ">=2.0.0" },
+    { name = "typing-extensions", specifier = ">=4.10.0" },
 ]
 
 [[package]]
