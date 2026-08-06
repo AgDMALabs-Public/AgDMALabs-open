@@ -106,6 +106,11 @@ class Location(BaseModel):
         le=10000,
         description="The elevation of where the data came from"
     )
+    accuracy_m: Optional[float] = Field(
+        None,
+        ge=0,
+        description="The horizontal accuracy of the position fix, in metres."
+    )
     crs: Optional[str] = Field(
         None,
         description="The crs of the GPS data"
@@ -291,6 +296,10 @@ class ProtocolProperties(BaseModel):
     url: Optional[str] = Field(
         None,
         description="The path to the protocol documentation.")
+    version: Optional[str] = Field(
+        None,
+        description="The version of the protocol or questionnaire used. EX: 2.1.0"
+    )
     model_config = ConfigDict(
         extra='forbid'
     )
