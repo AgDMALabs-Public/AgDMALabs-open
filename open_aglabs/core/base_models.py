@@ -123,6 +123,10 @@ class Location(BaseModel):
         None,
         description="The plotbook ID to match back to the plot map"
     )
+    raw_string: Optional[str] = Field(
+        None,
+        description="The raw GPS string from the GPS source."
+    )
     latitude: Optional[float] = Field(
         None,
         ge=-90.0,
