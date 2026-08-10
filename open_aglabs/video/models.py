@@ -5,7 +5,7 @@ from open_aglabs.core.base_models import Location, Notes, AgronomicProperties, T
     ProtocolProperties, CollectionProperties
 from open_aglabs.image.models import CameraProperties, AcquisitionProperties
 
-from open_aglabs.core.constants import IMAGE_TYPE_LIST
+from open_aglabs.core.constants import IMAGE_TYPE_LIST, ORIENTATION_LIST
 
 
 class VideoQuality(BaseModel):
