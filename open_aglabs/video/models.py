@@ -24,10 +24,31 @@ class VideoQuality(BaseModel):
         ge=0,
         le=100000
     )
+    frame_rate: Optional[float] = Field(
+        None,
+        description="The frame rate in frames per second.",
+        ge=1,
+    )
     channels: Optional[float] = Field(
         None,
         description="The number of channels in the image.",
         ge=1,
+    )
+    orientation: Optional[Literal[*ORIENTATION_LIST]] = Field(
+        None,
+        description="The orientation of the image."
+    )
+    rotation: Optional[float] = Field(
+        None,
+        description="The camera rotation."
+    )
+    duration: Optional[float] = Field(
+        None,
+        description="The duration of the video."
+    )
+    frames: Optional[float] = Field(
+        None,
+        description="The number of frames in the video."
     )
     model_config = ConfigDict(
         extra='forbid'
