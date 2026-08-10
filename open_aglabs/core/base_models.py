@@ -23,6 +23,41 @@ class Notes(BaseModel):
     )
 
 
+class OntologyTerm(BaseModel):
+    """
+    A reference to a term in an external ontology or controlled vocabulary.
+    """
+    common_name: Optional[str] = Field(
+        None,
+        description="The common name of the term."
+    )
+    ontology_source: Optional[str] = Field(
+        None,
+        description="The ontology the term belongs to, ideally a resolvable URL. "
+                    "EX: https://cropontology.org"
+    )
+    ontology_name: Optional[str] = Field(
+        None,
+        description="The scientific or canonical name of the term within the ontology."
+    )
+    ontology_id: Optional[str] = Field(
+        None,
+        description="The identifier of the term within the ontology. EX: CO_335:0000123"
+    )
+    model_config = ConfigDict(
+        extra='forbid',
+        validate_by_name=True,
+        json_schema_extra={
+            "example": {
+                "common_name": "drought tolerance",
+                "ontology_source": "https://cropontology.org",
+                "ontology_name": "drought tolerance",
+                "ontology_id": "CO_335:0000123"
+            }
+        }
+    )
+
+
 class MLOutput(BaseModel):
     pred: Optional[Union[str, float, int]] = Field(
         None,

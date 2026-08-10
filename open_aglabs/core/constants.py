@@ -4,6 +4,11 @@ ANNOTATION_TYPE_LIST = ['object_detection', 'instance_segmentation', 'classifica
 
 MEDIA_TYPE_LIST = ['image', 'audio', 'text']
 
+# Recommended values for SurveyAnnotation.annotation_type. Not enforced --
+# annotation_type is free text so each domain can extend it.
+SURVEY_ANNOTATION_TYPE_LIST = ['trait', 'topic', 'constraint', 'practice',
+                               'product', 'organism', 'location', 'other']
+
 IMAGE_TYPE_LIST = ['original', 'annotation', 'augmented', 'synthetic']
 
 ORIENTATION_LIST = ['landscape', 'portrait']
