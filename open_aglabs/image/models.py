@@ -225,6 +225,10 @@ class AgImageModel(BaseModel):
         None,
         description="The type of image it is: original, augmented, synthetic."
     )
+    source: Optional[str] = Field(
+        None,
+        description="The path to the file the img was generated from, if there was one."
+    )
     protocol_properties: Optional[ProtocolProperties] = Field(
         None
     )
