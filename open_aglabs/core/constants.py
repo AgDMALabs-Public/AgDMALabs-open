@@ -2,7 +2,9 @@ import numpy as np
 
 ANNOTATION_TYPE_LIST = ['object_detection', 'instance_segmentation', 'classification', 'semantic_segmentation']
 
-MEDIA_TYPE_LIST = ['image', 'audio', 'text']
+MEDIA_TYPE_LIST = ['image', 'audio', 'video', 'text']
+
+ANSWER_STATUS_LIST = ['answered', 'skipped', 'refused', 'blank', 'not_asked']
 
 # Recommended values for SurveyAnnotation.annotation_type. Not enforced --
 # annotation_type is free text so each domain can extend it.
