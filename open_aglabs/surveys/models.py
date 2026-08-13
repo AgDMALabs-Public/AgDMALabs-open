@@ -51,11 +51,11 @@ class SimpleAssociatedSurveyFile(BaseModel):
     path: Optional[str] = Field(
         None,
         validation_alias=AliasChoices('path', 'file'),
-        description="The name of the voice file.")
+        description="The name of the media file.")
     id: Optional[str] = Field(
         None,
         validation_alias=AliasChoices('id', 'image_id', 'audio_id'),
-        description="The unique ID for the image file")
+        description="The unique ID for the media file")
     media_type: Optional[Literal[*MEDIA_TYPE_LIST]] = Field(
         None,
         description="The type of media being attached"
@@ -117,11 +117,11 @@ class AssociatedSurveyFile(SimpleAssociatedSurveyFile):
     path: str = Field(
         ...,
         validation_alias=AliasChoices('path', 'file'),
-        description="The name of the voice file.")
+        description="The name of the media file.")
     id: str = Field(
         ...,
         validation_alias=AliasChoices('id', 'image_id', 'audio_id'),
-        description="The unique ID for the image file")
+        description="The unique ID for the media file")
     question_id: Optional[Union[List[str], str]] = Field(
         None,
         description="The question(s) ID's associated with the voice file.")
