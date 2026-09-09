@@ -3,8 +3,8 @@ from pydantic import BaseModel, Field, ConfigDict, AliasChoices
 from typing import List, Dict, Optional, Union, Literal
 
 from open_aglabs.core.base_models import MLOutput, Location, Notes, TrialProperties, AgronomicProperties, \
-    ProtocolProperties
-from open_aglabs.core.constants import MEDIA_TYPE_LIST
+    ProtocolProperties, CollectionProperties
+from open_aglabs.core.constants import MEDIA_TYPE_LIST, ANSWER_STATUS_LIST
 
 
 class ProcessingMetrics(BaseModel):
@@ -31,6 +31,15 @@ class ProcessingMetrics(BaseModel):
         None,
         description="A list of error messages encountered during processing."
     )
+    model_version: Optional[Union[str, float, int]] = Field(
+        None,
+        description="The version of the model used for processing."
+    )
+    language: Optional[str] = Field(
+        None,
+        description="The language of the processing output, as a BCP-47 tag. "
+                    "EX: the language a voice file was transcribed into."
+    )
 
     model_config = ConfigDict(
         extra='forbid'
@@ -42,11 +51,11 @@ class SimpleAssociatedSurveyFile(BaseModel):
     path: Optional[str] = Field(
         None,
         validation_alias=AliasChoices('path', 'file'),
-        description="The name of the voice file.")
+        description="The name of the media file.")
     id: Optional[str] = Field(
         None,
         validation_alias=AliasChoices('id', 'image_id', 'audio_id'),
-        description="The unique ID for the image file")
+        description="The unique ID for the media file")
     media_type: Optional[Literal[*MEDIA_TYPE_LIST]] = Field(
         None,
         description="The type of media being attached"
@@ -55,6 +64,28 @@ class SimpleAssociatedSurveyFile(BaseModel):
         None,
         description="The processing metrics for the media"
     )
+    answer: Optional[str] = Field(
+        None,
+        description="The text derived from this file. EX: the transcribed answer from a voice file."
+    )
+    mime_type: Optional[str] = Field(
+        None,
+        description="The IANA media type of the file. EX: audio/wav, video/mp4, image/jpeg."
+    )
+    duration_s: Optional[float] = Field(
+        None,
+        ge=0,
+        description="The duration of the file in seconds, for time-based media."
+    )
+    file_size: Optional[int] = Field(
+        None,
+        ge=0,
+        description="The size of the file in bytes."
+    )
+    original_filename: Optional[str] = Field(
+        None,
+        description="The filename as supplied by the capturing device."
+    )
     model_config = ConfigDict(
         extra='forbid',
         json_schema_extra={
@@ -62,12 +93,19 @@ class SimpleAssociatedSurveyFile(BaseModel):
                 "path": "voice_20251126_122230.wav",
                 "id": "550e8400-e29b-41d4-a716-446655440000",
                 "media_type": "audio",
+                "mime_type": "audio/wav",
+                "duration_s": 42.5,
+                "file_size": 680000,
+                "original_filename": "voice_20251126_122230.wav",
+                "answer": "Around 10 percent.",
                 "processing_metrics": {
                     "model": "transcription-model-v2",
+                    "model_version": "2.1.0",
                     "confidence": 0.985,
                     "status": "completed",
                     "attempts": 1,
-                    "errors": []
+                    "errors": [],
+                    "language": "sw"
                 }
             }
         }
@@ -76,6 +114,14 @@ class SimpleAssociatedSurveyFile(BaseModel):
 
 class AssociatedSurveyFile(SimpleAssociatedSurveyFile):
     """A model to represent a voice file and its associated data."""
+    path: str = Field(
+        ...,
+        validation_alias=AliasChoices('path', 'file'),
+        description="The name of the media file.")
+    id: str = Field(
+        ...,
+        validation_alias=AliasChoices('id', 'image_id', 'audio_id'),
+        description="The unique ID for the media file")
     question_id: Optional[Union[List[str], str]] = Field(
         None,
         description="The question(s) ID's associated with the voice file.")
@@ -112,13 +158,21 @@ class QuestionAnswer(BaseModel):
     question: str = Field(
         ...,
         description="The question text.")
-    answer: str = Field(
-        ...,
-        description="The answer text.")
+    answer: Optional[str] = Field(
+        None,
+        description="The answer text. May be absent when the question was not answered; see status.")
     question_key: Optional[str] = Field(
         None,
         description="A standardized key associated with the questions. EX: if the question is about the fertilizer plan"
                     ", the the key could be fertilizer_management.")
+    status: Optional[Literal[*ANSWER_STATUS_LIST]] = Field(
+        None,
+        description="Why an answer is present or absent. Omit when an answer is given and no "
+                    "distinction is needed.")
+    language: Optional[str] = Field(
+        None,
+        description="The language of this question and answer, as a BCP-47 tag, if it differs "
+                    "from the record.")
     audio: Optional[List[SimpleAssociatedSurveyFile]] = Field(
         None,
         description="The audio file associated with the answer.")
@@ -133,6 +187,8 @@ class QuestionAnswer(BaseModel):
                 "question": "How much yield do you lose because of fall armyworm? Please think back over the last 3 seasons. (Percent or bags per acre are fine.)",
                 "answer": "Test, test, test, can you hear me?",
                 "question_key": "fall_armyworm_yield_loss",
+                "status": "answered",
+                "language": "en",
                 "audio": [
                     {
                         "path": "voice_20251126_122230.wav",
@@ -193,6 +249,18 @@ class SurveyDataModel(BaseModel):
     agronomic_properties: Optional[AgronomicProperties] = Field(
         None
     )
+    collection_properties: Optional[CollectionProperties] = Field(
+        None,
+        description="Collection level information for the survey session."
+    )
+    language: Optional[str] = Field(
+        None,
+        description="The primary language of the survey content, as a BCP-47 tag. EX: en, sw, fr-CA."
+    )
+    complete: Optional[bool] = Field(
+        None,
+        description="Whether the survey was completed. False when it was abandoned part way."
+    )
     answers: Dict[str, QuestionAnswer] = Field(
         ...,
         description="A dictionary of questions and answers.")
@@ -217,6 +285,8 @@ class SurveyDataModel(BaseModel):
                 "id": str(uuid4()),  # required
                 "path": "/surveys/2025/kenya_field_xyz.json",
                 "collection_date": "2025-11-18",  # required
+                "language": "en",
+                "complete": True,
                 "trial_properties": {
                     "name": "maize_variety_survey_2025"  # required
                 },
