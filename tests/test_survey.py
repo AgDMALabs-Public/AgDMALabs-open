@@ -2,7 +2,7 @@ from uuid import uuid4
 
 import pytest
 from open_aglabs.surveys.models import SurveyDataModel, QuestionAnswer, \
-    AssociatedSurveyFile, SimpleAssociatedSurveyFile
+    AssociatedSurveyFile
 from pydantic import ValidationError
 
 
@@ -48,7 +48,9 @@ def test_survey_data_model_initialization():
                               'mime_type': None,
                               'duration_s': None,
                               'file_size': None,
-                              'original_filename': None
+                              'original_filename': None,
+                              'question_id': None,
+                              'question': None
                               }],
                    "image": [{"path": "image_20251201.png",
                               'media_type': 'image',
@@ -66,7 +68,9 @@ def test_survey_data_model_initialization():
                               'mime_type': None,
                               'duration_s': None,
                               'file_size': None,
-                              'original_filename': None
+                              'original_filename': None,
+                              'question_id': None,
+                              'question': None
                               }]
                    }
         },
@@ -240,7 +244,7 @@ def test_survey_media_record_fields():
 
 def test_survey_video_media_type():
     """Video is a first-class capture type and needs a media_type value."""
-    file = SimpleAssociatedSurveyFile(
+    file = AssociatedSurveyFile(
         path="clip.mp4", id=str(uuid4()), media_type="video", mime_type="video/mp4")
     assert file.media_type == "video"
 
@@ -258,7 +262,7 @@ def test_survey_invalid_answer_status():
 
 
 def test_associated_survey_file_requires_path_and_id():
-    """A record-level file entry must identify a file."""
+    """A file entry must identify a file."""
     with pytest.raises(ValidationError):
         AssociatedSurveyFile(question="What is the yield?", answer="20 t/ha")
 

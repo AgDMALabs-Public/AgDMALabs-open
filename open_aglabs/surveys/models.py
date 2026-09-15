@@ -46,14 +46,14 @@ class ProcessingMetrics(BaseModel):
     )
 
 
-class SimpleAssociatedSurveyFile(BaseModel):
+class AssociatedSurveyFile(BaseModel):
     """A model to represent a voice file and its associated data."""
-    path: Optional[str] = Field(
-        None,
+    path: str = Field(
+        ...,
         validation_alias=AliasChoices('path', 'file'),
         description="The name of the media file.")
-    id: Optional[str] = Field(
-        None,
+    id: str = Field(
+        ...,
         validation_alias=AliasChoices('id', 'image_id', 'audio_id'),
         description="The unique ID for the media file")
     media_type: Optional[Literal[*MEDIA_TYPE_LIST]] = Field(
@@ -64,7 +64,7 @@ class SimpleAssociatedSurveyFile(BaseModel):
         None,
         description="The processing metrics for the media"
     )
-    answer: Optional[str] = Field(
+    answer: Optional[Union[List[str], str]] = Field(
         None,
         description="The text derived from this file. EX: the transcribed answer from a voice file."
     )
@@ -86,6 +86,12 @@ class SimpleAssociatedSurveyFile(BaseModel):
         None,
         description="The filename as supplied by the capturing device."
     )
+    question_id: Optional[Union[List[str], str]] = Field(
+        None,
+        description="The question(s) ID's associated with the media file.")
+    question: Optional[Union[List[str], str]] = Field(
+        None,
+        description="The question associated with the media file")
     model_config = ConfigDict(
         extra='forbid',
         json_schema_extra={
@@ -97,6 +103,8 @@ class SimpleAssociatedSurveyFile(BaseModel):
                 "duration_s": 42.5,
                 "file_size": 680000,
                 "original_filename": "voice_20251126_122230.wav",
+                "question_id": "Q1",
+                "question": "How much yield do you lose because of fall armyworm?",
                 "answer": "Around 10 percent.",
                 "processing_metrics": {
                     "model": "transcription-model-v2",
@@ -107,47 +115,6 @@ class SimpleAssociatedSurveyFile(BaseModel):
                     "errors": [],
                     "language": "sw"
                 }
-            }
-        }
-    )
-
-
-class AssociatedSurveyFile(SimpleAssociatedSurveyFile):
-    """A model to represent a voice file and its associated data."""
-    path: str = Field(
-        ...,
-        validation_alias=AliasChoices('path', 'file'),
-        description="The name of the media file.")
-    id: str = Field(
-        ...,
-        validation_alias=AliasChoices('id', 'image_id', 'audio_id'),
-        description="The unique ID for the media file")
-    question_id: Optional[Union[List[str], str]] = Field(
-        None,
-        description="The question(s) ID's associated with the voice file.")
-    question: Optional[Union[List[str], str]] = Field(
-        None,
-        description="The question associated with the image")
-    answer: Optional[Union[List[str], str]] = Field(
-        None,
-        description="The transcribed answer from the voice file.")
-    model_config = ConfigDict(
-        extra='forbid',
-        json_schema_extra={
-            "example": {
-                "path": "voice_20251126_122230.wav",
-                "id": str(uuid4()),
-                "media_type": "audio",
-                "processing_metrics": {
-                    "model": "transcription-model-v2",
-                    "confidence": 0.985,
-                    "status": "completed",
-                    "attempts": 1,
-                    "errors": []
-                },
-                "question_id": "Q1",
-                "question": "What is the yield?",
-                "answer": "100 bushels"
             }
         }
     )
@@ -173,10 +140,10 @@ class QuestionAnswer(BaseModel):
         None,
         description="The language of this question and answer, as a BCP-47 tag, if it differs "
                     "from the record.")
-    audio: Optional[List[SimpleAssociatedSurveyFile]] = Field(
+    audio: Optional[List[AssociatedSurveyFile]] = Field(
         None,
         description="The audio file associated with the answer.")
-    image: Optional[List[SimpleAssociatedSurveyFile]] = Field(
+    image: Optional[List[AssociatedSurveyFile]] = Field(
         None,
         description="Any Images associated with the answer.")
 
